@@ -7,7 +7,7 @@ import at.mareg.ebi43creator.display.form.BillerPane;
 import at.mareg.ebi43creator.display.form.FormTabs;
 import at.mareg.ebi43creator.display.main.EBI43CreatorMain;
 import at.mareg.ebi43creator.display.utilities.HelpArea;
-import at.mareg.ebi43creator.display.utilities.MethodMapper;
+import at.mareg.ebi43creator.display.utilities.SaveMethodMapper;
 import at.mareg.ebi43creator.invoicedata.InvoiceData;
 import javafx.scene.control.Tab;
 
@@ -34,13 +34,13 @@ public class ResourceManager
 	public ResourceManager (final EBI43CreatorMain display)
 	{
 
+		this.helpArea = new HelpArea ();
 		this.invoiceDateManager = new InvoiceDateManager ();
 
 		this.invoiceData = new InvoiceData ();
-		MethodMapper.setInvoiceData (invoiceData);
+		SaveMethodMapper.setInvoiceData (invoiceData);
 
 		this.billerPane = new BillerPane (this);
-		this.helpArea = new HelpArea ();
 		this.form = new FormTabs (billerPane, helpArea);
 		this.tabActive = new TreeMap<> ();
 		setTabActiveStartValues ();

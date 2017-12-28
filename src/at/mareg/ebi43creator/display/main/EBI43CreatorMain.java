@@ -5,7 +5,7 @@ import java.nio.file.Paths;
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.display.utilities.HelpArea;
-import at.mareg.ebi43creator.display.utilities.MethodMapper;
+import at.mareg.ebi43creator.display.utilities.SaveMethodMapper;
 import javafx.application.Application;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -45,7 +45,7 @@ public class EBI43CreatorMain extends Application
 				if (oldValue.getClass () == TextField.class && !((TextField) oldValue).getText ().isEmpty ())
 				{
 
-					MethodMapper.callMethodFor (oldValue.getId (), ((TextField) oldValue).getText ());
+					SaveMethodMapper.callMethodFor (oldValue.getId (), ((TextField) oldValue).getText ());
 
 				}
 

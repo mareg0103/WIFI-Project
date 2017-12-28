@@ -2,7 +2,8 @@ package at.mareg.ebi43creator.display.form;
 
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
-import at.mareg.ebi43creator.display.utilities.VBoxStructurer;
+import at.mareg.ebi43creator.display.utilities.FormElementCreator;
+import at.mareg.ebi43creator.display.utilities.VBoxHelper;
 import at.mareg.ebi43creator.invoicedata.enums.EBiller;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
@@ -43,12 +44,11 @@ public class BillerPane extends BasePane
 			Label l = new Label (eb.getLabelText ());
 			v.getChildren ().add (l);
 
-			TextField t = new TextField ();
-			t.setId (eb.getID ());
+			TextField t = FormElementCreator.getStandardTextField (eb.getID ());
 			v.getChildren ().add (t);
 
 			grid.add (v, col, row);
-			VBoxStructurer.structureVBox (v);
+			VBoxHelper.structureVBox (v);
 
 			incrementCol ();
 

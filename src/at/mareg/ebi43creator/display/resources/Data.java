@@ -23,6 +23,9 @@ public final class Data
 	public static final String FURTERIDENTIFICATION_TYPE_FS = "FS";
 	public static final String FURTERIDENTIFICATION_TYPE_FBG = "FBG";
 
+	// Default component settings
+	public static final double DEFAULT_COMPONENT_WIDTH = 250d;
+
 	// HelpText settings
 	public static final double HELPTEXTAREA_WIDTH = 300d;
 	public static final double HELPTEXTAREA_HEIGHT = 400d;

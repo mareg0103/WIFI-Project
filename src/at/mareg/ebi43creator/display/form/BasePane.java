@@ -2,7 +2,7 @@ package at.mareg.ebi43creator.display.form;
 
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
-import at.mareg.ebi43creator.display.utilities.VBoxStructurer;
+import at.mareg.ebi43creator.display.utilities.VBoxHelper;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -51,7 +51,7 @@ public abstract class BasePane extends GridPane
 		{
 
 			if (n.getClass () == VBox.class)
-				VBoxStructurer.structureVBox ((VBox) n);
+				VBoxHelper.structureVBox ((VBox) n);
 
 		}
 
