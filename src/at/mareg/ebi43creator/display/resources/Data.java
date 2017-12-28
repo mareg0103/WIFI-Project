@@ -13,38 +13,62 @@ public final class Data
 	// Application name
 	public static final String APPLICATION_NAME = "ebInterface 4.3 XML Creator for government";
 
-	// XML root element attributes
+	/*
+	 * XML root element attributes
+	 */
 	public static final String DEFAULT_NAMESPACE = "http://www.ebinterface.at/schema/4p3/";
 	public static final String GENERATING_SYSTEM = "Mareg ebi4.3 document creator";
 	public static final String INVOICE_LANGUAGE = "ger";
 
+	//
 	// Temporary at this place as long as the necessary part is not created
+	//
 	public static final String FURTERIDENTIFICATION_TYPE_FN = "FN";
 	public static final String FURTERIDENTIFICATION_TYPE_FS = "FS";
 	public static final String FURTERIDENTIFICATION_TYPE_FBG = "FBG";
 
-	// Default component settings
+	/*
+	 * Default component settings
+	 */
 	public static final double DEFAULT_COMPONENT_WIDTH = 250d;
 
-	// HelpText settings
+	/*
+	 * Element type strings
+	 */
+	public static final String ELEMENT_TEXT_FIELD = "TextField";
+	public static final String ELEMENT_TEXT_AREA = "TextArea";
+	public static final String ELEMENT_DATE_PICKER = "DatePicker";
+	public static final String ELEMENT_CHECK_BOX = "CheckBox";
+
+	/*
+	 * HelpText settings
+	 */
 	public static final double HELPTEXTAREA_WIDTH = 300d;
 	public static final double HELPTEXTAREA_HEIGHT = 400d;
 	public static final Color HELPTEXTAREA_BACKGROUNDCOLOR = Color.LIGHTGRAY;
 	public static final String HELPTEXTAREA_FOREGROUNDCOLORASHEX = "#ff0000";
 	public static final Insets HELPTEXTAREA_PADDING = new Insets (5, 5, 5, 5);
 
-	// BasePane settings
+	/*
+	 * BasePane settings
+	 */
 	public static final Insets BASEPANE_PADDING = new Insets (5, 5, 5, 5);
 	public static final double BASEPANE_HVGAP = 10d;
 
-	// VBox settings
+	/*
+	 * VBox settings
+	 */
 	public static final double VBOX_COMPONENT_WIDTH = 400d;
 	public static final Insets VBOX_LABEL_INSETS = new Insets (0, 0, 3, 0);
 
-	// Form settings
+	/*
+	 * Form settings
+	 */
 	public static final int COLUMN_COUNT_PER_ROW = 2;
 
-	// Tab names for form
+	/*
+	 * Tab names for form
+	 */
 	public static final String TAB_BILLER_NAME = "Rechnungssteller";
 
 }
