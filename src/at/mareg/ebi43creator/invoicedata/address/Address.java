@@ -18,8 +18,8 @@ public class Address
   private String phone;
   private String email;
   private String contact;
-  
-  protected Address () 
+
+  public Address ()
   {}
 
   public Address (final String salut,

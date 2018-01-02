@@ -1,29 +1,66 @@
 package at.mareg.ebi43creator.display.utilities;
 
 import at.mareg.ebi43creator.invoicedata.InvoiceData;
+import at.mareg.ebi43creator.invoicedata.enums.EFormFields;
 
 public final class SaveMethodMapper
 {
 
-	private static InvoiceData invoiceData = null;
+  private static InvoiceData invoiceData = null;
 
-	private SaveMethodMapper ()
-	{
-	}
+  private SaveMethodMapper ()
+  {}
 
-	public static final void callMethodFor (final String field, final String value)
-	{
-		switch (field)
-		{
+  public static final void callMethodFor (final EFormFields field, final String value)
+  {
+    switch (field)
+    {
 
-			default:
-				System.out.println ("Keine Methode für Feld '" + field + "' vorhanden!");
-		}
-	}
+      case BILLER_NAME:
+        invoiceData.getBiller ().getAddress ().setName (value);
+        break;
 
-	public static void setInvoiceData (final InvoiceData data)
-	{
-		invoiceData = data;
-	}
+      case BILLER_STREET:
+        invoiceData.getBiller ().getAddress ().setStreet (value);
+        break;
+
+      case BILLER_ZIP:
+        invoiceData.getBiller ().getAddress ().setZip (value);
+        break;
+
+      case BILLER_TOWN:
+        invoiceData.getBiller ().getAddress ().setTown (value);
+        break;
+
+      case BILLER_COUNTRY:
+        invoiceData.getBiller ().getAddress ().setCountry (value);
+        break;
+
+      case BILLER_EMAIL:
+        invoiceData.getBiller ().getAddress ().setEmail (value);
+        break;
+
+      case BILLER_PHONE:
+        invoiceData.getBiller ().getAddress ().setPhone (value);
+        break;
+
+      case BILLER_CONTACT:
+        invoiceData.getBiller ().getAddress ().setContact (value);
+        break;
+
+      default:
+        System.out.println ("Keine Methode fÃ¼r Feld '" + field + "' vorhanden!");
+    }
+  }
+
+  public static void setInvoiceData (final InvoiceData data)
+  {
+    invoiceData = data;
+  }
+
+  public static InvoiceData getInvoiceData ()
+  {
+    return invoiceData;
+  }
 
 }

@@ -20,7 +20,7 @@ public class Biller
 
   public Biller ()
   {
-
+    address = new Address ();
   }
 
   @XmlElement (name = "VATIdentificationNumber", namespace = Data.DEFAULT_NAMESPACE)
@@ -106,7 +106,7 @@ public class Biller
                                   "Teststr. 34",
                                   "Wien",
                                   "1234",
-                                  "Österreich",
+                                  "ï¿½sterreich",
                                   "01 / 987 65 43",
                                   "test@ersteller.at",
                                   "Herr Mayer"));

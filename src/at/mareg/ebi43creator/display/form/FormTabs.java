@@ -12,64 +12,75 @@ import javafx.scene.layout.BorderPane;
 public class FormTabs extends BorderPane
 {
 
-	private Scene scene;
-	private BillerPane billerPane;
+  private Scene scene;
+  private final OrderPane orderPane;
+  private final ContactPane billerPane;
 
-	private HelpArea helpArea;
+  private final HelpArea helpArea;
 
-	private TabPane tabs;
+  private TabPane tabs;
 
-	public FormTabs (final BillerPane bp, final HelpArea area)
-	{
-		billerPane = bp;
+  public FormTabs (final OrderPane op, final ContactPane bp, final HelpArea area)
+  {
 
-		helpArea = area;
+    orderPane = op;
+    billerPane = bp;
 
-		init ();
-	}
+    helpArea = area;
 
-	private void init ()
-	{
+    init ();
 
-		this.setRight (helpArea);
+  }
 
-		// UI tabs
-		tabs = new TabPane ();
+  private void init ()
+  {
 
-		Tab biller = new Tab (Data.TAB_BILLER_NAME);
-		biller.setContent (billerPane);
-		biller.setId ("billertab");
+    this.setRight (helpArea);
 
-		tabs.getTabs ().addAll (biller);
+    // UI tabs
+    tabs = new TabPane ();
 
-		this.setCenter (tabs);
+    // Order data
+    final Tab tabOrder = new Tab (Data.TAB_ORDER_DATA);
+    tabOrder.setContent (orderPane);
+    tabOrder.setId ("ordertab");
+    tabOrder.disableProperty ().set (false);
 
-		scene = new Scene (this);
-	}
+    // Contact data
+    final Tab tabContact = new Tab (Data.TAB_CONTACT_DATA);
+    tabContact.setContent (billerPane);
+    tabContact.setId ("billertab");
 
-	public Scene getFormScene ()
-	{
-		return scene;
-	}
+    tabs.getTabs ().addAll (tabOrder, tabContact);
 
-	public List<Tab> getFormTabs ()
-	{
-		return tabs.getTabs ();
-	}
+    this.setCenter (tabs);
 
-	public String getTabName (final Tab tab)
-	{
-		return tab.getText ();
-	}
+    scene = new Scene (this);
+  }
 
-	public void setTabActiveStatus (final String tabName, final boolean status)
-	{
-		for (Tab t : tabs.getTabs ())
-			if (t.getText ().equalsIgnoreCase (tabName))
-			{
-				t.disableProperty ().set (!status);
-				tabs.getSelectionModel ().select (t);
-			}
+  public Scene getFormScene ()
+  {
+    return scene;
+  }
 
-	}
+  public List <Tab> getFormTabs ()
+  {
+    return tabs.getTabs ();
+  }
+
+  public String getTabName (final Tab tab)
+  {
+    return tab.getText ();
+  }
+
+  public void setTabActiveStatus (final String tabName, final boolean status)
+  {
+    for (final Tab t : tabs.getTabs ())
+      if (t.getText ().equalsIgnoreCase (tabName))
+      {
+        t.disableProperty ().set (!status);
+        tabs.getSelectionModel ().select (t);
+      }
+
+  }
 }
