@@ -18,153 +18,156 @@ import javafx.scene.layout.VBox;
 public class OrderPane extends BasePane
 {
 
-  public OrderPane (final ResourceManager resman)
-  {
+	public OrderPane (final ResourceManager resman)
+	{
 
-    super (resman);
+		super (resman);
 
-    init ();
+		init ();
 
-  }
+	}
 
-  @Override
-  protected void init ()
-  {
+	@Override
+	protected void init ()
+	{
 
-    super.init ();
+		super.init ();
 
-    final Accordion ac = new Accordion ();
+		final Accordion ac = new Accordion ();
 
-    final TitledPane tp_Order = new TitledPane ();
+		final TitledPane tp_Order = new TitledPane ();
 
-    final GridPane grid_Order = new GridPane ();
-    grid_Order.setPadding (Data.BASEPANE_PADDING);
-    grid_Order.setHgap (Data.BASEPANE_HVGAP);
-    grid_Order.setVgap (this.getHgap ());
+		final GridPane grid_Order = new GridPane ();
+		grid_Order.setPadding (Data.BASEPANE_PADDING);
+		grid_Order.setHgap (Data.BASEPANE_HVGAP);
+		grid_Order.setVgap (this.getHgap ());
 
-    for (final EFormFields eb : EFormFields.values ())
-    {
+		for (final EFormFields eb : EFormFields.values ())
+		{
 
-      if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_ORDER))
-      {
+			if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_ORDER))
+			{
 
-        final boolean isRequired = eb.isRequired ();
+				final boolean isRequired = eb.isRequired ();
 
-        if (eb.getType () == Data.ELEMENT_TEXT_FIELD)
-        {
+				if (eb.getType () == Data.ELEMENT_TEXT_FIELD)
+				{
 
-          final VBox v = new VBox ();
+					final VBox v = new VBox ();
 
-          final Label l = new Label (eb.getLabelText ());
-          v.getChildren ().add (l);
+					final Label l = new Label (eb.getLabelText ());
+					v.getChildren ().add (l);
 
-          final TextField t = FormElementCreator.getStandardTextField (eb.getID (), isRequired);
-          v.getChildren ().add (t);
+					final TextField t = FormElementCreator.getStandardTextField (eb.getID (), isRequired);
+					v.getChildren ().add (t);
 
-          grid_Order.add (v, col, row);
-          VBoxHelper.structureVBox (v);
+					if (isRequired)
+						RequiredAndErrorHelper.incrementTabCount (eb.getTiteldPaneID ());
 
-          incrementCol ();
+					grid_Order.add (v, col, row);
+					VBoxHelper.structureVBox (v);
 
-        }
+					incrementCol ();
 
-        if (eb.getType () == Data.ELEMENT_TEXT_AREA)
-        {
+				}
 
-          final VBox v = new VBox ();
+				if (eb.getType () == Data.ELEMENT_TEXT_AREA)
+				{
 
-          final Label l = new Label (eb.getLabelText ());
-          v.getChildren ().add (l);
+					final VBox v = new VBox ();
 
-          final TextArea t = FormElementCreator.getStandardTextArea (eb.getID (), isRequired);
-          v.getChildren ().add (t);
+					final Label l = new Label (eb.getLabelText ());
+					v.getChildren ().add (l);
 
-          while (col != 0)
-            incrementCol ();
+					final TextArea t = FormElementCreator.getStandardTextArea (eb.getID (), isRequired);
+					v.getChildren ().add (t);
 
-          grid_Order.add (v, col, row, 2, 3);
-          VBoxHelper.structureVBox (v);
+					if (isRequired)
+						RequiredAndErrorHelper.incrementTabCount (eb.getTiteldPaneID ());
 
-          incrementCol ();
-          incrementCol ();
+					while (col != 0)
+						incrementCol ();
 
-        }
+					grid_Order.add (v, col, row, 2, 3);
+					VBoxHelper.structureVBox (v);
 
-        if (eb.getType () == Data.ELEMENT_DATE_PICKER)
-        {
+					incrementCol ();
+					incrementCol ();
 
-          final VBox v = new VBox ();
+				}
 
-          final Label l = new Label (eb.getLabelText ());
-          v.getChildren ().add (l);
+				if (eb.getType () == Data.ELEMENT_DATE_PICKER)
+				{
 
-          final String id = eb.getID ();
+					final VBox v = new VBox ();
 
-          final DatePicker dp = FormElementCreator.getStandardDatePicker (id, isRequired);
-          v.getChildren ().add (dp);
+					final Label l = new Label (eb.getLabelText ());
+					v.getChildren ().add (l);
 
-          if (id.equals (EFormFields.INVOICE_DATE.getID ()))
-            dp.setDayCellFactory (rm.getInvoiceDateManager ().getDayCellFactoryForInvoiceDate ());
+					final String id = eb.getID ();
 
-          if (id.equals (EFormFields.FROM_DATE.getID ()))
-            while (col != 0)
-              incrementCol ();
+					final DatePicker dp = FormElementCreator.getStandardDatePicker (id, isRequired);
+					v.getChildren ().add (dp);
 
-          if (id.equals (EFormFields.TO_DATE.getID ()))
-            dp.disableProperty ().set (true);
+					if (id.equals (EFormFields.INVOICE_DATE.getID ()))
+						dp.setDayCellFactory (rm.getInvoiceDateManager ().getDayCellFactoryForInvoiceDate ());
 
-          grid_Order.add (v, col, row);
-          VBoxHelper.structureVBox (v);
+					if (id.equals (EFormFields.FROM_DATE.getID ()))
+						while (col != 0)
+							incrementCol ();
 
-          incrementCol ();
+					if (id.equals (EFormFields.TO_DATE.getID ()))
+						dp.disableProperty ().set (true);
 
-        }
+					grid_Order.add (v, col, row);
+					VBoxHelper.structureVBox (v);
 
-        if (isRequired)
-          RequiredAndErrorHelper.incrementTabCount (this.getClass ().getSimpleName ());
+					incrementCol ();
 
-      }
+				}
 
-    }
+			}
 
-    // Add change listener to DatePicker FROM_DATE
-    final DatePicker from = FormElementCreator.getDatePickerWithID (grid_Order, EFormFields.FROM_DATE.getID ());
-    if (from != null)
-    {
+		}
 
-      from.valueProperty ().addListener ( (observable, oldValue, newValue) -> {
+		// Add change listener to DatePicker FROM_DATE
+		final DatePicker from = FormElementCreator.getDatePickerWithID (grid_Order, EFormFields.FROM_DATE.getID ());
+		if (from != null)
+		{
 
-        final DatePicker to = FormElementCreator.getDatePickerWithID (grid_Order, EFormFields.TO_DATE.getID ());
+			from.valueProperty ().addListener ( (observable, oldValue, newValue) -> {
 
-        if (to != null)
-        {
+				final DatePicker to = FormElementCreator.getDatePickerWithID (grid_Order, EFormFields.TO_DATE.getID ());
 
-          to.setDayCellFactory (rm.getInvoiceDateManager ().getDayCellFectoryDisableBefore (from.getValue ()));
-          to.disableProperty ().set (false);
+				if (to != null)
+				{
 
-          if (to.getValue () != null && !to.getValue ().toString ().isEmpty ())
-          {
+					to.setDayCellFactory (
+							rm.getInvoiceDateManager ().getDayCellFectoryDisableBefore (from.getValue ()));
+					to.disableProperty ().set (false);
 
-            if (from.getValue ().isAfter (to.getValue ()))
-              to.setValue (null);
+					if (to.getValue () != null && !to.getValue ().toString ().isEmpty ())
+					{
 
-          }
+						if (from.getValue ().isAfter (to.getValue ()))
+							to.setValue (null);
 
-        }
+					}
 
-      });
+				}
 
-    }
+			});
 
-    tp_Order.setContent (grid_Order);
-    tp_Order.setCollapsible (false);
+		}
 
-    ac.getPanes ().add (tp_Order);
-    ac.setExpandedPane (tp_Order);
+		tp_Order.setContent (grid_Order);
+		tp_Order.setCollapsible (false);
 
-    this.add (ac, 0, 0);
+		ac.getPanes ().add (tp_Order);
+		ac.setExpandedPane (tp_Order);
 
-    RequiredAndErrorHelper.showRequiredMap ();
-  }
+		this.add (ac, 0, 0);
+
+	}
 
 }

@@ -3,6 +3,7 @@ package at.mareg.ebi43creator.display.main;
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.display.utilities.HelpArea;
+import at.mareg.ebi43creator.display.utilities.RequiredAndErrorHelper;
 import at.mareg.ebi43creator.display.utilities.SaveMethodMapper;
 import at.mareg.ebi43creator.invoicedata.enums.EFormFields;
 import javafx.application.Application;
@@ -94,19 +95,17 @@ public class EBI43CreatorMain extends Application
 
 		// Show application
 		primaryStage.show ();
+
+		// Temporary show required list
+		// delete before deployment
+		System.out.println ("Call from Mainclass.init ()");
+		RequiredAndErrorHelper.showRequiredMap ();
+
 	}
 
 	public static void main (final String[] args)
 	{
 		launch (args);
-	}
-
-	@SuppressWarnings ("unused")
-	private <T> String getTopPane (final T obj)
-	{
-		final String topPane = "";
-
-		return topPane;
 	}
 
 }
