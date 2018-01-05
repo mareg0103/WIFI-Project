@@ -8,6 +8,13 @@ import at.mareg.ebi43creator.display.utilities.HelpArea;
 import at.mareg.ebi43creator.display.utilities.SaveMethodMapper;
 import at.mareg.ebi43creator.invoicedata.InvoiceData;
 
+/**
+ * 
+ * Starts and manages all necessary resources
+ * 
+ * @author Martin Regitnig
+ *
+ */
 public class ResourceManager
 {
 

@@ -13,6 +13,26 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * Main display class Shows the form to create an ebInterface 4.3 invoice for
+ * government and other entities
+ * 
+ * Supported entities:
+ * <ul>
+ * <li>Government</li>
+ * <li>Austrian Public Procurement Agency (Bundesbeschaffung GmbH)</li>
+ * <li>Austrian Federal Computing Centre (Bundesrechenzentrum GmbH)</li>
+ * <li>State of Carinthia</li>
+ * <li>State of Upper Austria</li>
+ * <li>Oesterreichische Nationalbank (OeNB)</li>
+ * <li>Oesterreichische Bundesbahnen (ÖBB)</li>
+ * </ul>
+ * 
+ * @author Martin Regitnig
+ * 
+ */
+
 public class EBI43CreatorMain extends Application
 {
 
@@ -83,7 +103,9 @@ public class EBI43CreatorMain extends Application
 
 			}
 
-			if (newValue != null && (newValue.getClass () == TextField.class))
+			Class<?> c = newValue.getClass ();
+
+			if (newValue != null && (c == TextField.class || c == TextArea.class || c == DatePicker.class))
 			{
 
 				if (newValue.isFocused ())

@@ -8,74 +8,84 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * 
+ * Creates standard and extended fields and provides methods for the fields
+ * 
+ * @author Martin Regitnig
+ *
+ */
+
 public final class FormElementCreator
 {
 
-  private FormElementCreator ()
-  {}
+	private FormElementCreator ()
+	{
+	}
 
-  public static TextField getStandardTextField (final String sID, final boolean required)
-  {
-    final TextField t = new TextField ();
+	public static TextField getStandardTextField (final String sID, final boolean required)
+	{
+		final TextField t = new TextField ();
 
-    t.setPrefWidth (Data.DEFAULT_COMPONENT_WIDTH);
-    t.setStyle ("-fx-control-inner-background: #" + (required ? "FFFFE0" : "FFFFFF"));
-    t.setId (sID);
+		t.setPrefWidth (Data.DEFAULT_COMPONENT_WIDTH);
+		t.setStyle ("-fx-control-inner-background: #" + (required ? "FFFFE0" : "FFFFFF"));
+		t.setId (sID);
 
-    return t;
-  }
+		return t;
+	}
 
-  public static TextArea getStandardTextArea (final String sID, final boolean required)
-  {
-    final TextArea t = new TextArea ();
+	public static TextArea getStandardTextArea (final String sID, final boolean required)
+	{
+		final TextArea t = new TextArea ();
 
-    t.setPrefWidth (2 * Data.DEFAULT_COMPONENT_WIDTH);
-    t.setStyle ("-fx-control-inner-background: #" + (required ? "FFFFE0" : "FFFFFF"));
-    t.setId (sID);
+		t.setPrefWidth (2 * Data.DEFAULT_COMPONENT_WIDTH);
+		t.setStyle ("-fx-control-inner-background: #" + (required ? "FFFFE0" : "FFFFFF"));
+		t.setId (sID);
 
-    return t;
-  }
+		return t;
+	}
 
-  public static DatePicker getStandardDatePicker (final String sID, final boolean required)
-  {
-    final DatePicker dp = new DatePicker ();
+	public static DatePicker getStandardDatePicker (final String sID, final boolean required)
+	{
+		final DatePicker dp = new DatePicker ();
 
-    dp.setPrefWidth (Data.DEFAULT_COMPONENT_WIDTH);
-    dp.setStyle ("-fx-control-inner-background: #" + (required ? "FFFFE0" : "FFFFFF"));
-    dp.setId (sID);
+		dp.setPrefWidth (Data.DEFAULT_COMPONENT_WIDTH);
+		dp.setStyle ("-fx-control-inner-background: #" + (required ? "FFFFE0" : "FFFFFF"));
+		dp.setEditable (false);
+		dp.setId (sID);
 
-    return dp;
-  }
+		return dp;
+	}
 
-  public static DatePicker getDatePickerWithID (final GridPane grid, final String id)
-  {
-    for (final Node n : grid.getChildren ())
-    {
+	public static DatePicker getDatePickerWithID (final GridPane grid, final String id)
+	{
+		for (final Node n : grid.getChildren ())
+		{
 
-      if (n.getClass () == VBox.class)
-      {
+			if (n.getClass () == VBox.class)
+			{
 
-        for (final Node vn : ((VBox) n).getChildren ())
-        {
+				for (final Node vn : ((VBox) n).getChildren ())
+				{
 
-          if (vn.getClass () == DatePicker.class)
-          {
+					if (vn.getClass () == DatePicker.class)
+					{
 
-            if (((DatePicker) vn).getId ().equals (id))
-            {
-              return ((DatePicker) vn);
-            }
+						if (((DatePicker) vn).getId ().equals (id))
+						{
+							return ((DatePicker) vn);
+						}
 
-          }
+					}
 
-        }
+				}
 
-      }
+			}
 
-    }
+		}
 
-    return null;
+		return null;
 
-  }
+	}
 
 }

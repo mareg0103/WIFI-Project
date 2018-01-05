@@ -1,5 +1,7 @@
 package at.mareg.ebi43creator.display.form;
 
+import java.time.LocalDate;
+
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.display.utilities.FormElementCreator;
@@ -9,7 +11,6 @@ import at.mareg.ebi43creator.invoicedata.enums.EFormFields;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
@@ -42,6 +43,8 @@ public class OrderPane extends BasePane
 		grid_Order.setHgap (Data.BASEPANE_HVGAP);
 		grid_Order.setVgap (this.getHgap ());
 
+		VBox v = null;
+
 		for (final EFormFields eb : EFormFields.values ())
 		{
 
@@ -49,16 +52,17 @@ public class OrderPane extends BasePane
 			{
 
 				final boolean isRequired = eb.isRequired ();
+				final String id = eb.getID ();
 
 				if (eb.getType () == Data.ELEMENT_TEXT_FIELD)
 				{
 
-					final VBox v = new VBox ();
+					v = new VBox ();
 
 					final Label l = new Label (eb.getLabelText ());
 					v.getChildren ().add (l);
 
-					final TextField t = FormElementCreator.getStandardTextField (eb.getID (), isRequired);
+					final TextField t = FormElementCreator.getStandardTextField (id, isRequired);
 					v.getChildren ().add (t);
 
 					if (isRequired)
@@ -74,13 +78,13 @@ public class OrderPane extends BasePane
 				if (eb.getType () == Data.ELEMENT_TEXT_AREA)
 				{
 
-					final VBox v = new VBox ();
+					v = new VBox ();
 
-					final Label l = new Label (eb.getLabelText ());
-					v.getChildren ().add (l);
+					// final Label l = new Label (eb.getLabelText ());
+					v.getChildren ().add (new Label (eb.getLabelText ()));
 
-					final TextArea t = FormElementCreator.getStandardTextArea (eb.getID (), isRequired);
-					v.getChildren ().add (t);
+					// final TextArea t = FormElementCreator.getStandardTextArea (id, isRequired);
+					v.getChildren ().add (FormElementCreator.getStandardTextArea (id, isRequired));
 
 					if (isRequired)
 						RequiredAndErrorHelper.incrementTabCount (eb.getTiteldPaneID ());
@@ -99,18 +103,20 @@ public class OrderPane extends BasePane
 				if (eb.getType () == Data.ELEMENT_DATE_PICKER)
 				{
 
-					final VBox v = new VBox ();
+					v = new VBox ();
 
 					final Label l = new Label (eb.getLabelText ());
 					v.getChildren ().add (l);
-
-					final String id = eb.getID ();
 
 					final DatePicker dp = FormElementCreator.getStandardDatePicker (id, isRequired);
 					v.getChildren ().add (dp);
 
 					if (id.equals (EFormFields.INVOICE_DATE.getID ()))
+					{
 						dp.setDayCellFactory (rm.getInvoiceDateManager ().getDayCellFactoryForInvoiceDate ());
+						dp.setValue (LocalDate.now ());
+						dp.setStyle ("-fx-control-inner-background: #FFFFFF");
+					}
 
 					if (id.equals (EFormFields.FROM_DATE.getID ()))
 						while (col != 0)
