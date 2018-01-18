@@ -1,9 +1,11 @@
 package at.mareg.ebi43creator.invoicedata;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -296,13 +298,14 @@ public class InvoiceData
 		return true;
 	}
 
-	public boolean serializeInvoiceAsBookList (final String path)
+	public boolean serializeInvoiceAsXML (final String path)
 	{
 		try
 		{
 
 			final Marshaller m = JAXBContext.newInstance (InvoiceData.class).createMarshaller ();
 			m.setProperty (Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.valueOf (true));
+			m.setProperty (Marshaller.JAXB_ENCODING, "UTF-8");
 			m.setProperty ("com.sun.xml.bind.namespacePrefixMapper", new MyNamespaceMapper ());
 			m.marshal (this, new FileOutputStream (path));
 
@@ -315,6 +318,23 @@ public class InvoiceData
 
 			return false;
 		}
+	}
+
+	public InvoiceData readXMLInvoice (final String path)
+	{
+		try (FileInputStream aIS = new FileInputStream (path))
+		{
+
+			final Unmarshaller um = JAXBContext.newInstance (InvoiceData.class).createUnmarshaller ();
+			return (InvoiceData) um.unmarshal (aIS);
+
+		} catch (final Exception e)
+		{
+			System.out.println ("Fehler beim Lesen der Datei!");
+			e.printStackTrace ();
+		}
+
+		return null;
 	}
 
 	public void setTempData ()
