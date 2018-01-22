@@ -12,75 +12,97 @@ import javafx.scene.layout.BorderPane;
 public class FormTabs extends BorderPane
 {
 
-  private Scene scene;
-  private final OrderPane orderPane;
-  private final ContactPane billerPane;
+	private Scene scene;
+	private final OrderPane orderPane;
+	private final ContactPane billerPane;
 
-  private final HelpArea helpArea;
+	private final HelpArea helpArea;
 
-  private TabPane tabs;
+	private TabPane tabs;
 
-  public FormTabs (final OrderPane op, final ContactPane bp, final HelpArea area)
-  {
+	public FormTabs (final OrderPane op, final ContactPane bp, final HelpArea area)
+	{
 
-    orderPane = op;
-    billerPane = bp;
+		orderPane = op;
+		billerPane = bp;
 
-    helpArea = area;
+		helpArea = area;
 
-    init ();
+		init ();
 
-  }
+	}
 
-  private void init ()
-  {
+	private void init ()
+	{
 
-    this.setRight (helpArea);
+		this.setRight (helpArea);
 
-    // UI tabs
-    tabs = new TabPane ();
+		// UI tabs
+		tabs = new TabPane ();
 
-    // Order data
-    final Tab tabOrder = new Tab (Data.TAB_ORDER_DATA);
-    tabOrder.setContent (orderPane);
-    tabOrder.setId ("ordertab");
-    tabOrder.disableProperty ().set (false);
+		// Order data
+		final Tab tabOrder = new Tab (Data.TAB_ORDER_DATA);
+		tabOrder.setContent (orderPane);
+		tabOrder.setId ("ordertab");
+		tabOrder.disableProperty ().set (false);
 
-    // Contact data
-    final Tab tabContact = new Tab (Data.TAB_CONTACT_DATA);
-    tabContact.setContent (billerPane);
-    tabContact.setId ("billertab");
+		// Contact data
+		final Tab tabContact = new Tab (Data.TAB_CONTACT_DATA);
+		tabContact.setContent (billerPane);
+		tabContact.setId ("billertab");
 
-    tabs.getTabs ().addAll (tabOrder, tabContact);
+		// Payment data
+		final Tab tabPayment = new Tab (Data.TAB_PAYMENT_DATA);
+		tabPayment.setContent (null);
+		tabPayment.setId ("paymenttab");
 
-    this.setCenter (tabs);
+		// Details data
+		final Tab tabDetails = new Tab (Data.TAB_DETAILS_DATA);
+		tabDetails.setContent (null);
+		tabDetails.setId ("detailstab");
 
-    scene = new Scene (this);
-  }
+		// Surcharge/Reduction/Discount data
+		final Tab tabDiscount = new Tab (Data.TAB_DISCOUNT_DATA);
+		tabDiscount.setContent (null);
+		tabDiscount.setId ("discounttab");
 
-  public Scene getFormScene ()
-  {
-    return scene;
-  }
+		// Summary
+		final Tab tabSummary = new Tab (Data.TAB_SUMMARY_DATA);
+		tabSummary.setContent (null);
+		tabSummary.setId ("summarytab");
 
-  public List <Tab> getFormTabs ()
-  {
-    return tabs.getTabs ();
-  }
+		// Add all tabs to tab pane
+		tabs.getTabs ().addAll (tabOrder, tabContact, tabPayment, tabDetails, tabDiscount, tabSummary);
 
-  public String getTabName (final Tab tab)
-  {
-    return tab.getText ();
-  }
+		// Add tabs to center content area
+		this.setCenter (tabs);
 
-  public void setTabActiveStatus (final String tabName, final boolean status)
-  {
-    for (final Tab t : tabs.getTabs ())
-      if (t.getText ().equalsIgnoreCase (tabName))
-      {
-        t.disableProperty ().set (!status);
-        tabs.getSelectionModel ().select (t);
-      }
+		scene = new Scene (this);
+	}
 
-  }
+	public Scene getFormScene ()
+	{
+		return scene;
+	}
+
+	public List<Tab> getFormTabs ()
+	{
+		return tabs.getTabs ();
+	}
+
+	public String getTabName (final Tab tab)
+	{
+		return tab.getText ();
+	}
+
+	public void setTabActiveStatus (final String tabName, final boolean status)
+	{
+		for (final Tab t : tabs.getTabs ())
+			if (t.getText ().equalsIgnoreCase (tabName))
+			{
+				t.disableProperty ().set (!status);
+				tabs.getSelectionModel ().select (t);
+			}
+
+	}
 }
