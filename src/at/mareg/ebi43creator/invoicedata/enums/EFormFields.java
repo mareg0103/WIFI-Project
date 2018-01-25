@@ -47,9 +47,23 @@ public enum EFormFields
   BILLER_ZIP ("billerzip", "PLZ", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_BILLER),
   BILLER_TOWN ("billertown", "Stadt", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_BILLER),
   BILLER_COUNTRY ("billercountry", "Land", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_BILLER),
-  BILLER_EMAIL ("billeremail", "E-Mail", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_BILLER),
+  BILLER_EMAIL ("billeremail", "E-Mail", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_BILLER),
   BILLER_PHONE ("billerphone", "Telefon", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_BILLER),
   BILLER_CONTACT ("billercontact", "Kontaktperson", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_BILLER),
+
+  /*
+   * Delivery fields
+   */
+  DELIVERY_ID ("deliveryid", "Lieferscheinnummer", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY),
+  DELIVERY_USE ("deliveryuse", "Abweichende Lieferanschrift verwenden", Data.ELEMENTTYPE_CHECKBOX, false, Data.TITLEDPANE_DELIVERY),
+  DELIVERY_NAME ("deliveryname", "Name", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY),
+  DELIVERY_STREET ("deliverystreet", "Strasse", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY),
+  DELIVERY_ZIP ("deliveryzip", "PLZ", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY),
+  DELIVERY_TOWN ("deliverytown", "Stadt", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY),
+  DELIVERY_COUNTRY ("deliverycountry", "Land", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY),
+  DELIVERY_EMAIL ("deliveryemail", "E-Mail", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY),
+  DELIVERY_PHONE ("deliveryphone", "Telefon", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY),
+  DELIVERY_CONTACT ("dleiverycontact", "Kontaktperson", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY),
 
   /*
    * Invoice recipient fields
@@ -61,8 +75,18 @@ public enum EFormFields
   INVOICERECIPIENT_COUNTRY ("invoicerecipiencountry", "Land", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_INVOICERECIPIENT),
   INVOICERECIPIENT_EMAIL ("invoicerecipienemail", "E-Mail", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_INVOICERECIPIENT),
   INVOICERECIPIENT_PHONE ("invoicerecipienphone", "Telefon", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_INVOICERECIPIENT),
-  INVOICERECIPIENT_CONTACT ("invoicerecipiencontact", "Kontaktperson", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_INVOICERECIPIENT);
+  INVOICERECIPIENT_CONTACT ("invoicerecipiencontact", "Kontaktperson", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_INVOICERECIPIENT),
 
+  /*
+   * Payment fields
+   */
+  PAYMENT_BIC ("paymentbic", "BIC", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_PAYMENT),
+  PAYMENT_IBAN ("paymentiban", "IBAN", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_PAYMENT),
+  PAYMENT_ACCOUNTOWNER ("paymentaccountowner", "Kontoinhaber", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_PAYMENT);
+
+  /*
+   * Fields and Methods
+   */
   private final String sID;
   private final String sLabelText;
   private final String sType;

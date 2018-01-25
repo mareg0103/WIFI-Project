@@ -1,23 +1,73 @@
 package at.mareg.ebi43creator.display.form;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 
-public class DocumentTypePane {
+import at.mareg.ebi43creator.display.resources.ResourceManager;
+import at.mareg.ebi43creator.invoicedata.enums.EDocumentTypes;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
-	private Map<String, String> doctypeMap;
-	
-	public DocumentTypePane ()
-	{
-		doctypeMap = new TreeMap<> ();
-		initMap ();
-	}
-	
-	private void initMap() {
-		doctypeMap.put("Invoice", "Rechnung");
-		doctypeMap.put("CreditMemo", "Gutschrift");
-		doctypeMap.put("InvoiceForAdvancePayment", "Vorauszahlung");
-		doctypeMap.put("InvoiceForPartialDelivery", "Teilrechnung");
-		doctypeMap.put("FianlSettlement", "Schlussrechnung");
-	}
+public class DocumentTypePane extends BasePane
+{
+
+  // Map with the supported document types
+  private Map <String, String> doctypeMap;
+
+  // Elements
+  private Label documentTypeLabel;
+  private Button changeDocumentTypeButton;
+
+  public DocumentTypePane (final ResourceManager resman)
+  {
+    super (resman);
+
+    doctypeMap = new TreeMap <> ();
+
+    initMap ();
+    init ();
+  }
+
+  private void initMap ()
+  {
+    for (final EDocumentTypes e : EDocumentTypes.values ())
+    {
+      doctypeMap.put (e.getElementID (), e.getElementText ());
+    }
+  }
+
+  @Override
+  protected void init ()
+  {
+    super.init ();
+
+    documentTypeLabel = new Label ();
+    documentTypeLabel.setFont (Font.font ("Arial", FontWeight.BOLD, 20));
+    documentTypeLabel.setPrefWidth (350d);
+    documentTypeLabel.setText ("Dokumententyp: " + doctypeMap.get (rm.getInvoiceData ().getDocumentType ()));
+
+    this.add (documentTypeLabel, col, row);
+    incrementCol ();
+
+    changeDocumentTypeButton = new Button ("Dokumententyp ändern");
+    changeDocumentTypeButton.setOnAction (e -> {
+      Optional <ButtonType> result = (new ChangeDocumentTypeDialog (rm.getInvoiceData ().getDocumentType (),
+                                                                    rm).showAndWait ());
+
+      if (result.isPresent ())
+        if (result.get () == ButtonType.OK)
+          _refresh ();
+    });
+
+    this.add (changeDocumentTypeButton, col, row);
+  }
+
+  private void _refresh ()
+  {
+    documentTypeLabel.setText ("Dokumententyp: " + doctypeMap.get (rm.getInvoiceData ().getDocumentType ()));
+  }
 }

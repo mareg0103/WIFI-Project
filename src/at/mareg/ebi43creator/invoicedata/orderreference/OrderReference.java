@@ -5,31 +5,31 @@ import javax.xml.bind.annotation.XmlType;
 
 import at.mareg.ebi43creator.display.resources.Data;
 
-@XmlType (propOrder = { "orderid", "referenceDate", "description" })
+@XmlType (propOrder = { "orderId", "referenceDate", "description" })
 public class OrderReference
 {
-  private String orderid;
+  private String orderId;
   private String referenceDate;
   private String description;
-  
-  protected OrderReference ()
+
+  public OrderReference ()
   {}
 
   public OrderReference (final String id)
   {
-    orderid = id;
+    orderId = id;
   }
 
   @XmlElement (name = "OrderID", namespace = Data.DEFAULT_NAMESPACE)
-  public String getOrderid ()
+  public String getOrderId ()
   {
-    return orderid;
+    return orderId;
   }
 
   @SuppressWarnings ("hiding")
   public void setOrderid (final String orderid)
   {
-    this.orderid = orderid;
+    this.orderId = orderid;
   }
 
   @XmlElement (name = "ReferenceDate", namespace = Data.DEFAULT_NAMESPACE)

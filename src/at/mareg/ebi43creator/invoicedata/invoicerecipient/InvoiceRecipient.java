@@ -7,76 +7,84 @@ import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.invoicedata.address.Address;
 import at.mareg.ebi43creator.invoicedata.orderreference.OrderReference;
 
-@XmlType (propOrder = { "vatID", "orderID", "address", "billerID" })
+@XmlType (propOrder = { "vatID", "orderReference", "address", "billerID" })
 public class InvoiceRecipient
 {
 
-	private String vatID;
-	private OrderReference orderID;
-	private Address address;
-	private String billerID;
+  private String vatID;
+  private OrderReference orderReference;
+  private Address address;
+  private String billerID;
 
-	public InvoiceRecipient ()
-	{
+  public InvoiceRecipient ()
+  {
+    orderReference = new OrderReference ();
+    address = new Address ();
+  }
 
-	}
+  @XmlElement (name = "VATIdentificationNumber", namespace = Data.DEFAULT_NAMESPACE)
+  public String getVatID ()
+  {
+    return vatID;
+  }
 
-	@XmlElement (name = "VATIdentificationNumber", namespace = Data.DEFAULT_NAMESPACE)
-	public String getVatID ()
-	{
-		return vatID;
-	}
+  @SuppressWarnings ("hiding")
+  public void setVatID (final String vatID)
+  {
+    this.vatID = vatID;
+  }
 
-	@SuppressWarnings ("hiding")
-	public void setVatID (final String vatID)
-	{
-		this.vatID = vatID;
-	}
+  @XmlElement (name = "OrderReference", namespace = Data.DEFAULT_NAMESPACE)
+  public OrderReference getOrderReference ()
+  {
+    return orderReference;
+  }
 
-	@XmlElement (name = "OrderReference", namespace = Data.DEFAULT_NAMESPACE)
-	public OrderReference getOrderID ()
-	{
-		return orderID;
-	}
+  @SuppressWarnings ("hiding")
+  public void setOrderReference (final OrderReference orderReference)
+  {
+    this.orderReference = orderReference;
+  }
 
-	@SuppressWarnings ("hiding")
-	public void setOrderID (final OrderReference orderID)
-	{
-		this.orderID = orderID;
-	}
+  @XmlElement (name = "Address", namespace = Data.DEFAULT_NAMESPACE)
+  public Address getAddress ()
+  {
+    return address;
+  }
 
-	@XmlElement (name = "Address", namespace = Data.DEFAULT_NAMESPACE)
-	public Address getAddress ()
-	{
-		return address;
-	}
+  @SuppressWarnings ("hiding")
+  public void setAddress (final Address address)
+  {
+    this.address = address;
+  }
 
-	@SuppressWarnings ("hiding")
-	public void setAddress (final Address address)
-	{
-		this.address = address;
-	}
+  @XmlElement (name = "BillersInvoiceRecipientID", namespace = Data.DEFAULT_NAMESPACE)
+  public String getBillerID ()
+  {
+    return billerID;
+  }
 
-	@XmlElement (name = "BillersInvoiceRecipientID", namespace = Data.DEFAULT_NAMESPACE)
-	public String getBillerID ()
-	{
-		return billerID;
-	}
+  @SuppressWarnings ("hiding")
+  public void setBillerID (final String billerID)
+  {
+    this.billerID = billerID;
+  }
 
-	@SuppressWarnings ("hiding")
-	public void setBillerID (final String billerID)
-	{
-		this.billerID = billerID;
-	}
+  public void setTempData ()
+  {
+    this.setVatID ("ATU00000000");
+    this.getOrderReference ().setOrderid ("Z01");
+    this.setAddress (new Address ("Firma",
+                                  "Test Empfanger",
+                                  "Teststr. 201",
+                                  "Wien",
+                                  "1234",
+                                  "Österreich",
+                                  "01 / 654 12 38",
+                                  "test@empfaenger.at",
+                                  "Mutzi Rene"));
+    this.setBillerID ("13469");
 
-	public void setTempData ()
-	{
-		this.setVatID ("ATU00000000");
-		this.setOrderID (new OrderReference ("Z01"));
-		this.setAddress (new Address ("Firma", "Test Empfanger", "Teststr. 201", "Wien", "1234", "Österreich",
-				"01 / 654 12 38", "test@empfaenger.at", "Mutzi Rene"));
-		this.setBillerID ("13469");
-
-	}
+  }
 
 }

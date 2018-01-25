@@ -1,4 +1,4 @@
-package at.mareg.ebi43creator.display.utilities;
+package at.mareg.ebi43creator.display.form;
 
 import java.util.Map;
 import java.util.TreeMap;

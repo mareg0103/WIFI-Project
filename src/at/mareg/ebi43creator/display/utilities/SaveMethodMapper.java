@@ -1,7 +1,15 @@
 package at.mareg.ebi43creator.display.utilities;
 
+import at.mareg.ebi43creator.invoicedata.InputChecker;
 import at.mareg.ebi43creator.invoicedata.InvoiceData;
 import at.mareg.ebi43creator.invoicedata.enums.EFormFields;
+
+/**
+ * This class checks (if necessary) and saves data depending on the field which
+ * triggers this class
+ * 
+ * @author Martin Regitnig
+ */
 
 public final class SaveMethodMapper
 {
@@ -11,10 +19,30 @@ public final class SaveMethodMapper
   private SaveMethodMapper ()
   {}
 
-  public static final void callMethodFor (final EFormFields field, final String value)
+  // Check and save Data
+  public static final String callMethodFor (final EFormFields field, final String value)
   {
+    String checkInputReturnMessage = "ok";
+
     switch (field)
     {
+      case ORDER_ID:
+        if (value != null)
+          checkInputReturnMessage = InputChecker.checkOrderReference (value);
+
+        if (checkInputReturnMessage.equals ("ok"))
+          invoiceData.getInvoiceRecipient ().getOrderReference ().setOrderid (value);
+
+        break;
+
+      case SUPPLIER_ID:
+        if (value != null)
+          checkInputReturnMessage = InputChecker.checkSupplierID (value);
+
+        if (checkInputReturnMessage.equals ("ok"))
+          invoiceData.getBiller ().setSupplierID (value);
+
+        break;
 
       case BILLER_NAME:
         invoiceData.getBiller ().getAddress ().setName (value);
@@ -51,6 +79,8 @@ public final class SaveMethodMapper
       default:
         System.out.println ("Keine Methode für Feld '" + field + "' vorhanden!");
     }
+
+    return checkInputReturnMessage;
   }
 
   public static void setInvoiceData (final InvoiceData data)

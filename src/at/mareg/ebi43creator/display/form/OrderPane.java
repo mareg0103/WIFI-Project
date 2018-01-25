@@ -7,10 +7,10 @@ import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.display.utilities.FormElementCreator;
 import at.mareg.ebi43creator.display.utilities.RequiredAndErrorHelper;
 import at.mareg.ebi43creator.display.utilities.VBoxHelper;
+import at.mareg.ebi43creator.invoicedata.enums.ECurrency;
 import at.mareg.ebi43creator.invoicedata.enums.EFormFields;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
@@ -18,6 +18,9 @@ import javafx.scene.layout.VBox;
 
 public class OrderPane extends BasePane
 {
+  private Accordion ac;
+  private TitledPane tp_Order;
+  private GridPane grid_Order;
 
   public OrderPane (final ResourceManager resman)
   {
@@ -34,11 +37,11 @@ public class OrderPane extends BasePane
 
     super.init ();
 
-    final Accordion ac = new Accordion ();
+    ac = new Accordion ();
 
-    final TitledPane tp_Order = new TitledPane ();
+    tp_Order = new TitledPane ();
 
-    final GridPane grid_Order = new GridPane ();
+    grid_Order = new GridPane ();
     grid_Order.setPadding (Data.BASEPANE_PADDING);
     grid_Order.setHgap (Data.BASEPANE_HVGAP);
     grid_Order.setVgap (this.getHgap ());
@@ -50,45 +53,37 @@ public class OrderPane extends BasePane
 
       if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_ORDER))
       {
-
         final boolean isRequired = eb.isRequired ();
-        final String id = eb.getID ();
+        final String elementID = eb.getID ();
+        final String labelText = eb.getLabelText () + (isRequired ? "*" : "");
 
         if (eb.getType () == Data.ELEMENT_TEXT_FIELD)
         {
-
           v = new VBox ();
 
-          final Label l = new Label (eb.getLabelText () + (isRequired ? "*" : ""));
-          v.getChildren ().add (l);
-
-          final TextField t = FormElementCreator.getStandardTextField (id, isRequired);
+          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText));
+          TextField t = FormElementCreator.getStandardTextField (elementID, isRequired);
           v.getChildren ().add (t);
 
-          if (isRequired)
-            RequiredAndErrorHelper.incrementTabCount (eb.getTiteldPaneID ());
+          if (eb.getName ().equals ("INVOICE_CURRENCY"))
+          {
+            t.setText (ECurrency.EURO.getInvoiceCurrency ());
+            t.setEditable (false);
+            rm.getInvoiceData ().setInvoiceCurrency (ECurrency.EURO.getInvoiceCurrencyShort ());
+          }
 
           grid_Order.add (v, col, row);
           VBoxHelper.structureVBox (v);
 
           incrementCol ();
-
         }
 
         if (eb.getType () == Data.ELEMENT_TEXT_AREA)
         {
-
           v = new VBox ();
 
-          // final Label l = new Label (eb.getLabelText ());
-          v.getChildren ().add (new Label (eb.getLabelText () + (isRequired ? "*" : "")));
-
-          // final TextArea t = FormElementCreator.getStandardTextArea (id,
-          // isRequired);
-          v.getChildren ().add (FormElementCreator.getStandardTextArea (id, isRequired));
-
-          if (isRequired)
-            RequiredAndErrorHelper.incrementTabCount (eb.getTiteldPaneID ());
+          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText));
+          v.getChildren ().add (FormElementCreator.getStandardTextArea (elementID, isRequired));
 
           while (col != 0)
             incrementCol ();
@@ -103,27 +98,25 @@ public class OrderPane extends BasePane
 
         if (eb.getType () == Data.ELEMENT_DATE_PICKER)
         {
-
           v = new VBox ();
 
-          final Label l = new Label (eb.getLabelText () + (isRequired ? "*" : ""));
-          v.getChildren ().add (l);
+          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText));
 
-          final DatePicker dp = FormElementCreator.getStandardDatePicker (id, isRequired);
+          final DatePicker dp = FormElementCreator.getStandardDatePicker (elementID, isRequired);
           v.getChildren ().add (dp);
 
-          if (id.equals (EFormFields.INVOICE_DATE.getID ()))
+          if (elementID.equals (EFormFields.INVOICE_DATE.getID ()))
           {
             dp.setDayCellFactory (rm.getInvoiceDateManager ().getDayCellFactoryForInvoiceDate ());
             dp.setValue (LocalDate.now ());
             dp.setStyle ("-fx-control-inner-background: #FFFFFF");
           }
 
-          if (id.equals (EFormFields.FROM_DATE.getID ()))
+          if (elementID.equals (EFormFields.FROM_DATE.getID ()))
             while (col != 0)
               incrementCol ();
 
-          if (id.equals (EFormFields.TO_DATE.getID ()))
+          if (elementID.equals (EFormFields.TO_DATE.getID ()))
             dp.disableProperty ().set (true);
 
           grid_Order.add (v, col, row);
@@ -133,6 +126,8 @@ public class OrderPane extends BasePane
 
         }
 
+        if (isRequired)
+          RequiredAndErrorHelper.incrementTabCount (eb.getTiteldPaneID ());
       }
 
     }
