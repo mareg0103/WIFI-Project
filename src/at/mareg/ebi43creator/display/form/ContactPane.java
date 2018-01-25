@@ -212,8 +212,24 @@ public class ContactPane extends BasePane
 
   private void _enableDeliveryAddress ()
   {
-    // TODO
+    for (final Node n : grid_Delivery.getChildren ())
+    {
+      if (n.getClass () == VBox.class)
+      {
+        for (final Node sn : ((VBox) n).getChildren ())
+        {
+          if (sn.getClass () == Label.class)
+          {
 
+          }
+
+          if (sn.getClass () == TextField.class)
+          {
+
+          }
+        }
+      }
+    }
   }
 
   public void incrementBillerCol ()
