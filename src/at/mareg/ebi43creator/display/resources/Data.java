@@ -9,7 +9,13 @@ public final class Data
   private Data ()
   {}
 
-  // Application name
+  // ********************
+  // * General settings *
+  // ********************
+
+  /*
+   * Application name
+   */
   public static final String APPLICATION_NAME = "ebInterface 4.3 XML Creator for government";
 
   /*
@@ -27,37 +33,61 @@ public final class Data
   public static final String FURTERIDENTIFICATION_TYPE_FBG = "FBG";
 
   /*
+   * Check data message
+   */
+  public static final String CHECKMESSAGE_SUCCESS = "ok";
+
+  // *************************
+  // * Form element settings *
+  // *************************
+
+  /*
+   * Scene settings
+   */
+  public static final double SCENE_WIDTH = 1100d;
+  public static final double SCENE_HEIGHT = 595d;
+
+  /*
+   * Status background colors
+   */
+  public static final String BACKGROUND_HEX_OK = "FFFFFF";
+  public static final String BACKROUND_HEX_REQUIRED = "FFFFE0";
+  public static final String BACKGROUND_HEX_ERROR = "FF9999";
+
+  /*
    * Default component settings
    */
   public static final double DEFAULT_COMPONENT_WIDTH = 250d;
 
   /*
-   * Element type strings
-   */
-  public static final String ELEMENT_TEXT_FIELD = "TextField";
-  public static final String ELEMENT_TEXT_AREA = "TextArea";
-  public static final String ELEMENT_DATE_PICKER = "DatePicker";
-  public static final String ELEMENT_CHECK_BOX = "CheckBox";
-
-  /*
    * HelpText settings
    */
-  public static final double HELPTEXTAREA_WIDTH = 300d;
-  public static final double HELPTEXTAREA_HEIGHT = 400d;
+  public static final double HELPTEXTAREA_PADDING_VALUE = 5;
+  public static final double HELPTEXTAREA_WIDTH = 290d;
+  public static final double HELPTEXTAREA_HEIGHT = 565d - (2 * HELPTEXTAREA_PADDING_VALUE);
   public static final Color HELPTEXTAREA_BACKGROUNDCOLOR = Color.LIGHTGRAY;
   public static final String HELPTEXTAREA_FOREGROUNDCOLORASHEX = "#ff0000";
-  public static final Insets HELPTEXTAREA_PADDING = new Insets (5, 5, 5, 5);
+  public static final Insets HELPTEXTAREA_PADDING = new Insets (HELPTEXTAREA_PADDING_VALUE,
+                                                                HELPTEXTAREA_PADDING_VALUE,
+                                                                HELPTEXTAREA_PADDING_VALUE,
+                                                                HELPTEXTAREA_PADDING_VALUE);
 
   /*
    * ScrollPane (in DetailsPane) settings
    */
-  public static final double DETAILS_SCROLLPANE_HEIGHT = HELPTEXTAREA_HEIGHT;
+  public static final double DETAILS_SCROLLPANE_WIDTH = 800d;
+  public static final double DETAILS_SCROLLPANE_HEIGHT = HELPTEXTAREA_HEIGHT + 10;
 
   /*
    * BasePane settings
    */
   public static final Insets BASEPANE_PADDING = new Insets (5, 5, 5, 5);
   public static final double BASEPANE_HVGAP = 10d;
+
+  /*
+   * DocumentTypePane settings
+   */
+  public static final double DOCUMENTTYPEPANE_HEIGHT = 35d;
 
   /*
    * VBox settings
@@ -78,6 +108,7 @@ public final class Data
   public static final String ELEMENTTYPE_DATEPICKER = "DatePicker";
   public static final String ELEMENTTYPE_CHECKBOX = "CheckBox";
   public static final String ELEMENTTYPE_COMBOBOX = "ComboBox";
+  public static final String ELEMENTTYPE_BUTTON = "Button";
 
   /*
    * Tab names for form
@@ -97,5 +128,12 @@ public final class Data
   public static final String TITLEDPANE_INVOICERECIPIENT = "Rechnungsempfänger";
   public static final String TITLEDPANE_DELIVERY = "Lieferdaten";
   public static final String TITLEDPANE_PAYMENT = "Kontoverbindung";
+  public static final String TITLEDPANE_SURCHARGE = "Aufschlag/Abzug";
+  public static final String TITLEDPANE_DISCOUNT = "Skonto";
 
+  /*
+   * Details right area
+   */
+  public static final String DETAILS_RIGHT_AREA = "DetailsRightArea";
+  public static final double DETAILS_RIGHT_AREA_COMPONENT_WIDTH = 130;
 }

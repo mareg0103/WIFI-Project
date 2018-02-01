@@ -2,12 +2,15 @@ package at.mareg.ebi43creator.invoicedata;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -20,6 +23,7 @@ import at.mareg.ebi43creator.invoicedata.details.Details;
 import at.mareg.ebi43creator.invoicedata.invoicerecipient.InvoiceRecipient;
 import at.mareg.ebi43creator.invoicedata.payment.PaymentConditions;
 import at.mareg.ebi43creator.invoicedata.payment.PaymentMethod;
+import at.mareg.ebi43creator.invoicedata.reductionandsurcharge.Surcharge;
 import at.mareg.ebi43creator.invoicedata.tax.Tax;
 
 @XmlRootElement (name = "Invoice", namespace = Data.DEFAULT_NAMESPACE)
@@ -29,6 +33,7 @@ import at.mareg.ebi43creator.invoicedata.tax.Tax;
                         "biller",
                         "invoiceRecipient",
                         "details",
+                        "surchargeList",
                         "tax",
                         "totalGrossAmount",
                         "payableAmount",
@@ -40,7 +45,6 @@ public class InvoiceData
 
   private InvoiceDateManager idm = null;
 
-  // private String nameSpace;
   private String documentType;
   private String generatingSystem;
   private String invoiceCurrency;
@@ -55,6 +59,8 @@ public class InvoiceData
   private InvoiceRecipient invoiceRecipient;
 
   private Details details;
+
+  private List <Surcharge> surchargeList;
 
   private Tax tax;
 
@@ -75,7 +81,6 @@ public class InvoiceData
   {
     this.idm = idm;
 
-    // nameSpace = Default.NAMESPACE;
     documentType = docType;
     generatingSystem = Data.GENERATING_SYSTEM;
     invoiceCurrency = null;
@@ -157,6 +162,13 @@ public class InvoiceData
   public Details getDetails ()
   {
     return details;
+  }
+
+  @XmlElementWrapper (name = "ReductionAndSurchargeDetails", namespace = Data.DEFAULT_NAMESPACE)
+  @XmlElement (name = "Surcharge", namespace = Data.DEFAULT_NAMESPACE)
+  public List <Surcharge> getSurchargeList ()
+  {
+    return surchargeList;
   }
 
   @XmlElement (name = "Tax", namespace = Data.DEFAULT_NAMESPACE)
@@ -266,6 +278,12 @@ public class InvoiceData
   }
 
   @SuppressWarnings ("hiding")
+  public void setSurchargeList (final List <Surcharge> surchargeList)
+  {
+    this.surchargeList = surchargeList;
+  }
+
+  @SuppressWarnings ("hiding")
   public boolean setTax (final Tax tax)
   {
     this.tax = tax;
@@ -307,6 +325,31 @@ public class InvoiceData
     return true;
   }
 
+  /*
+   * Add/Remove sucharge items
+   */
+  public void addEmptySurchargeItem ()
+  {
+    if (surchargeList == null)
+      surchargeList = new ArrayList <> ();
+
+    surchargeList.add (new Surcharge ());
+  }
+
+  public void removeSurchargeItem (final Surcharge surcharge)
+  {
+    if (surchargeList != null && surchargeList.contains (surcharge))
+    {
+      surchargeList.remove (surcharge);
+
+      if (surchargeList.size () == 0)
+        surchargeList = null;
+    }
+  }
+
+  /*
+   * Write invoice data to xml file
+   */
   public boolean serializeInvoiceAsXML (final String path)
   {
     try
@@ -330,6 +373,9 @@ public class InvoiceData
     }
   }
 
+  /*
+   * Read existing xml invoice file
+   */
   public InvoiceData readXMLInvoice (final String path)
   {
     try (FileInputStream aIS = new FileInputStream (path))
@@ -362,6 +408,18 @@ public class InvoiceData
     invoiceRecipient.setTempData ();
 
     details.setTempData ();
+
+    this.addEmptySurchargeItem ();
+    final Surcharge reduction = surchargeList.get (0);
+    reduction.setBaseAmount (Double.valueOf (246.5));
+    reduction.setAmount (Double.valueOf (-6.50));
+    reduction.setVatRate (Integer.valueOf (20));
+
+    this.addEmptySurchargeItem ();
+    final Surcharge surcharge = surchargeList.get (1);
+    surcharge.setBaseAmount (Double.valueOf (246.5));
+    surcharge.setAmount (Double.valueOf (6.50));
+    surcharge.setVatRate (Integer.valueOf (20));
 
     tax.setTempData ();
 

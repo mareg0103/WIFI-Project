@@ -5,12 +5,13 @@ import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.display.utilities.RequiredAndErrorHelper;
 import at.mareg.ebi43creator.display.utilities.SaveMethodMapper;
-import at.mareg.ebi43creator.invoicedata.enums.EFormFields;
+import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -45,13 +46,14 @@ public class EBI43CreatorMain extends Application
     // Start resource manager
     // docType is manually set to "Invoice" for the moment, replace with return
     // value of start dialogue when implemented
-    rm = new ResourceManager (this, "CreditMemo");
+    rm = new ResourceManager (this, "Invoice");
 
     // Get help area instance
     helpArea = rm.getHelpArea ();
 
     // Set scene and primary stage settings
     primaryStage.setScene (rm.getForm ().getFormScene ());
+    // primaryStage.setHeight (640d);
     primaryStage.setTitle (Data.APPLICATION_NAME);
     primaryStage.getIcons ().add (applicationIcon);
 
@@ -61,7 +63,14 @@ public class EBI43CreatorMain extends Application
 
       if (oldValue != null)
       {
-        _oldValueWorker (oldValue);
+        if (oldValue.getClass () == TextField.class)
+          _TextFieldOldValueWorker ((TextField) oldValue);
+
+        if (oldValue.getClass () == TextArea.class)
+          _TextAreaOldValueWorker ((TextArea) oldValue);
+
+        if (oldValue.getClass () == DatePicker.class)
+          _DatePickerOldValueWorker ((DatePicker) oldValue);
       }
 
       if (newValue != null)
@@ -77,56 +86,175 @@ public class EBI43CreatorMain extends Application
     // Temporary show required list
     // delete before deployment
     System.out.println ("Call from Mainclass.init ()");
-    RequiredAndErrorHelper.showRequiredMap ();
+    RequiredAndErrorHelper.showReqMap ();
+    System.out.println ("Größe RequiredMap: " + RequiredAndErrorHelper.getRequiredMapSize () + " Einträge");
   }
 
-  // Handles oldValue (last focused node) from scene focus listener
-  private void _oldValueWorker (final Node oldValue)
+  // START
+  public static void main (final String [] args)
   {
-    final String elementID = oldValue.getId ();
-    final EFormFields field = EFormFields.getFromIDOrNull (elementID);
-    String elementContent = "";
-    boolean elementIsEmpty = true;
-    String valueCheckMessage = "ok";
-
-    if (oldValue.getClass () == TextField.class)
-    {
-      final TextField t = (TextField) oldValue;
-      elementContent = t.getText ();
-      elementIsEmpty = elementContent.isEmpty ();
-
-      t.setStyle ("-fx-control-inner-background: #" +
-                  (elementIsEmpty ? (field.isRequired () ? "FFFFE0" : "FFFFFF") : "FFFFFF"));
-    }
-
-    if (oldValue.getClass () == TextArea.class)
-    {
-      final TextArea t = (TextArea) oldValue;
-      elementContent = t.getText ();
-      elementIsEmpty = elementContent.isEmpty ();
-
-      t.setStyle ("-fx-control-inner-background: #" +
-                  (elementIsEmpty ? (field.isRequired () ? "FFFFE0" : "FFFFFF") : "FFFFFF"));
-    }
-
-    if (oldValue.getClass () == DatePicker.class)
-    {
-      final DatePicker dp = (DatePicker) oldValue;
-      elementContent = (dp.getValue () == null ? null : dp.getValue ().toString ());
-      elementIsEmpty = (elementContent == null) ? true : false;
-
-      dp.setStyle ("-fx-control-inner-background: #" +
-                   (elementIsEmpty ? (field.isRequired () ? "FFFFE0" : "FFFFFF") : "FFFFFF"));
-
-    }
-
-    if (field != null)
-      valueCheckMessage = SaveMethodMapper.callMethodFor (field, (elementIsEmpty ? null : elementContent));
-
-    System.out.println ("In Mainclass._oldValueWorker:\n   CheckMessage = " + valueCheckMessage);
+    launch (args);
   }
 
-  // Handles newValue (current focused node) from scene focus listener
+  /*
+   * Internal methods
+   */
+
+  /*
+   * TextField handler for oldValue (last focused node) from scene focus
+   * listener
+   */
+  private void _TextFieldOldValueWorker (final TextField t)
+  {
+    final String elementID = t.getId ();
+    String elementContent = t.getText ();
+    boolean elementIsEmpty = elementContent.isEmpty ();
+
+    final EFormElement field = EFormElement.getFromIDOrNull (elementID);
+    final boolean fieldIsRequired = field == null ? false : field.isRequired ();
+    String valueCheckMessage = Data.CHECKMESSAGE_SUCCESS;
+
+    valueCheckMessage = SaveMethodMapper.callMethodFor (field, (elementIsEmpty ? null : elementContent));
+
+    if (valueCheckMessage.equals (Data.CHECKMESSAGE_SUCCESS))
+    {
+      t.setStyle ("-fx-control-inner-background: #" +
+                  (elementIsEmpty ? (fieldIsRequired ? Data.BACKROUND_HEX_REQUIRED : Data.BACKGROUND_HEX_OK)
+                                  : Data.BACKGROUND_HEX_OK));
+      t.setTooltip (null);
+    }
+    else
+    {
+      t.setStyle ("-fx-control-inner-background: #" + Data.BACKGROUND_HEX_ERROR);
+      t.setTooltip (new Tooltip (valueCheckMessage));
+    }
+
+    if (fieldIsRequired)
+    {
+      if (elementIsEmpty)
+      {
+        RequiredAndErrorHelper.addRequiredField (field.getTiteldPaneID (), elementID);
+      }
+      else
+      {
+        RequiredAndErrorHelper.removeRequiredField (field.getTiteldPaneID (), elementID);
+      }
+    }
+
+    if (t.getTooltip () == null)
+    {
+      RequiredAndErrorHelper.removeErrorField (field.getTiteldPaneID (), elementID);
+    }
+    else
+    {
+      RequiredAndErrorHelper.addErrorField (field.getTiteldPaneID (), elementID);
+    }
+  }
+
+  /*
+   * TextArea handler for oldValue (last focused node) from scene focus listener
+   */
+  private void _TextAreaOldValueWorker (final TextArea t)
+  {
+    final String elementID = t.getId ();
+    String elementContent = t.getText ();
+    boolean elementIsEmpty = elementContent.isEmpty ();
+
+    final EFormElement field = EFormElement.getFromIDOrNull (elementID);
+    final boolean fieldIsRequired = field == null ? false : field.isRequired ();
+    String valueCheckMessage = Data.CHECKMESSAGE_SUCCESS;
+
+    valueCheckMessage = SaveMethodMapper.callMethodFor (field, (elementIsEmpty ? null : elementContent));
+
+    if (valueCheckMessage.equals (Data.CHECKMESSAGE_SUCCESS))
+    {
+      t.setStyle ("-fx-control-inner-background: #" +
+                  (elementIsEmpty ? (fieldIsRequired ? Data.BACKROUND_HEX_REQUIRED : Data.BACKGROUND_HEX_OK)
+                                  : Data.BACKGROUND_HEX_OK));
+      t.setTooltip (null);
+    }
+    else
+    {
+      t.setStyle ("-fx-control-inner-background: #" + Data.BACKGROUND_HEX_ERROR);
+      t.setTooltip (new Tooltip (valueCheckMessage));
+    }
+
+    if (fieldIsRequired)
+    {
+      if (elementIsEmpty)
+      {
+        RequiredAndErrorHelper.addRequiredField (field.getTiteldPaneID (), elementID);
+      }
+      else
+      {
+        RequiredAndErrorHelper.removeRequiredField (field.getTiteldPaneID (), elementID);
+      }
+    }
+
+    if (t.getTooltip () == null)
+    {
+      RequiredAndErrorHelper.removeErrorField (field.getTiteldPaneID (), elementID);
+    }
+    else
+    {
+      RequiredAndErrorHelper.addErrorField (field.getTiteldPaneID (), elementID);
+    }
+  }
+
+  /*
+   * DatePicker handler for oldValue (last focused node) from scene focus
+   * listener
+   */
+  private void _DatePickerOldValueWorker (final DatePicker dp)
+  {
+    final String elementID = dp.getId ();
+    String elementContent = dp.getValue () == null ? null : dp.getValue ().toString ();
+    boolean elementIsEmpty = elementContent == null ? true : false;
+
+    final EFormElement field = EFormElement.getFromIDOrNull (elementID);
+    final boolean fieldIsRequired = field == null ? false : field.isRequired ();
+    String valueCheckMessage = Data.CHECKMESSAGE_SUCCESS;
+
+    valueCheckMessage = SaveMethodMapper.callMethodFor (field, (elementIsEmpty ? null : elementContent));
+
+    if (valueCheckMessage.equals (Data.CHECKMESSAGE_SUCCESS))
+    {
+      dp.setStyle ("-fx-control-inner-background: #" +
+                   (elementIsEmpty ? (fieldIsRequired ? Data.BACKROUND_HEX_REQUIRED : Data.BACKGROUND_HEX_OK)
+                                   : Data.BACKGROUND_HEX_OK));
+      dp.setTooltip (null);
+    }
+    else
+    {
+      dp.setStyle ("-fx-control-inner-background: #" + Data.BACKGROUND_HEX_ERROR);
+      dp.setTooltip (new Tooltip (valueCheckMessage));
+    }
+
+    if (fieldIsRequired)
+    {
+      if (elementIsEmpty)
+      {
+        RequiredAndErrorHelper.addRequiredField (field.getTiteldPaneID (), elementID);
+      }
+      else
+      {
+        RequiredAndErrorHelper.removeRequiredField (field.getTiteldPaneID (), elementID);
+      }
+    }
+
+    if (dp.getTooltip () == null)
+    {
+      RequiredAndErrorHelper.removeErrorField (field.getTiteldPaneID (), elementID);
+    }
+    else
+    {
+      RequiredAndErrorHelper.addErrorField (field.getTiteldPaneID (), elementID);
+    }
+  }
+
+  /*
+   * Handler for newValue (current focused node) from scene focus listener
+   */
   private void _newValueWorker (final Node newValue)
   {
     Class <?> c = newValue.getClass ();
@@ -137,11 +265,4 @@ public class EBI43CreatorMain extends Application
         helpArea.show (newValue.getId ());
     }
   }
-
-  // START
-  public static void main (final String [] args)
-  {
-    launch (args);
-  }
-
 }

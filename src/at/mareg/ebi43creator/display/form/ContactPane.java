@@ -5,7 +5,7 @@ import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.display.utilities.FormElementCreator;
 import at.mareg.ebi43creator.display.utilities.RequiredAndErrorHelper;
 import at.mareg.ebi43creator.display.utilities.VBoxHelper;
-import at.mareg.ebi43creator.invoicedata.enums.EFormFields;
+import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.CheckBox;
@@ -14,10 +14,20 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 public class ContactPane extends BasePane
 {
+  /**
+   * Pane to enter contact specific data for biller, invoice recipient and
+   * delivery
+   * 
+   * @author Martin Regitnig
+   */
 
+  /*
+   * Pane elements
+   */
   private int billerCol = 0;
   private int billerRow = 0;
   private int invoiceRecipientCol = 0;
@@ -38,6 +48,10 @@ public class ContactPane extends BasePane
     init ();
   }
 
+  /*
+   * Create contact pane on base EFormElement enum. This pane contains address
+   * data for biller, invoice recipient and delivery
+   */
   @Override
   protected void init ()
   {
@@ -69,7 +83,7 @@ public class ContactPane extends BasePane
     grid_Delivery.setHgap (Data.BASEPANE_HVGAP);
     grid_Delivery.setVgap (this.getHgap ());
 
-    for (final EFormFields eb : EFormFields.values ())
+    for (final EFormElement eb : EFormElement.values ())
     {
       if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_BILLER))
       {
@@ -78,11 +92,11 @@ public class ContactPane extends BasePane
         final String elementID = eb.getID ();
         final String elementType = eb.getType ();
 
-        if (elementType == Data.ELEMENT_TEXT_FIELD)
+        if (elementType == Data.ELEMENTTYPE_TEXTFIELD)
         {
           final VBox v = new VBox ();
 
-          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText));
+          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
           v.getChildren ().add (FormElementCreator.getStandardTextField (elementID, isRequired));
 
           grid_Biller.add (v, billerCol, billerRow);
@@ -92,7 +106,7 @@ public class ContactPane extends BasePane
         }
 
         if (isRequired)
-          RequiredAndErrorHelper.incrementTabCount (eb.getTiteldPaneID ());
+          RequiredAndErrorHelper.addRequiredField (eb.getTiteldPaneID (), elementID);
       }
 
       if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_INVOICERECIPIENT))
@@ -103,11 +117,11 @@ public class ContactPane extends BasePane
         final String elementID = eb.getID ();
         final String elementType = eb.getType ();
 
-        if (elementType == Data.ELEMENT_TEXT_FIELD)
+        if (elementType == Data.ELEMENTTYPE_TEXTFIELD)
         {
           final VBox v = new VBox ();
 
-          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText));
+          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
           v.getChildren ().add (FormElementCreator.getStandardTextField (elementID, isRequired));
 
           grid_InvoiceRecipient.add (v, invoiceRecipientCol, invoiceRecipientRow);
@@ -117,7 +131,7 @@ public class ContactPane extends BasePane
         }
 
         if (isRequired)
-          RequiredAndErrorHelper.incrementTabCount (eb.getTiteldPaneID ());
+          RequiredAndErrorHelper.addRequiredField (eb.getTiteldPaneID (), elementID);
       }
 
       if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_DELIVERY))
@@ -127,18 +141,18 @@ public class ContactPane extends BasePane
         final String elementID = eb.getID ();
         final String elementType = eb.getType ();
 
-        if (elementType == Data.ELEMENT_TEXT_FIELD)
+        if (elementType == Data.ELEMENTTYPE_TEXTFIELD)
         {
           final VBox v = new VBox ();
 
           if (eb.getName ().equals ("DELIVERY_ID"))
           {
-            v.getChildren ().add (FormElementCreator.getStandardLabel (labelText));
+            v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
             v.getChildren ().add (FormElementCreator.getStandardTextField (elementID, isRequired));
           }
           else
           {
-            v.getChildren ().add (FormElementCreator.getDisabledLookingLabel (labelText));
+            v.getChildren ().add (FormElementCreator.getDisabledLookingLabel (labelText, null));
             v.getChildren ().add (FormElementCreator.getDisabledTextField (elementID, isRequired));
           }
 
@@ -148,22 +162,29 @@ public class ContactPane extends BasePane
           incrementCol ();
         }
 
-        if (elementType == Data.ELEMENT_CHECK_BOX)
+        if (elementType == Data.ELEMENTTYPE_CHECKBOX)
         {
           final VBox v = new VBox ();
 
-          v.getChildren ().add (FormElementCreator.getStandardLabel (""));
+          v.getChildren ().add (FormElementCreator.getStandardLabel ("", null));
 
           CheckBox cb = FormElementCreator.getStandardCheckBox (elementID, isRequired, labelText);
 
           if (eb.getName ().equals ("DELIVERY_USE"))
+          {
             cb.selectedProperty ().addListener ( (observable, oldValue, newValue) -> {
+              rm.getInvoiceData ().getDelivery ().enableDeliveryAddress (newValue);
+
               if (newValue)
                 _enableDeliveryAddress ();
               else
                 _disableDeliveryAddress ();
 
             });
+            cb.hoverProperty ().addListener (observable -> {
+              rm.getHelpArea ().show (cb.getId ());
+            });
+          }
 
           v.getChildren ().add (cb);
 
@@ -174,7 +195,7 @@ public class ContactPane extends BasePane
         }
 
         if (isRequired)
-          RequiredAndErrorHelper.incrementTabCount (eb.getTiteldPaneID ());
+          RequiredAndErrorHelper.addRequiredField (eb.getTiteldPaneID (), elementID);
       }
     }
 
@@ -188,6 +209,11 @@ public class ContactPane extends BasePane
     this.add (ac, 0, 0);
   }
 
+  /*
+   * If CheckBox "DELIVERY_USE" (Abweichende Lieferanschrift verwenden) is set
+   * to unselected, disable and clear all fields for delivery address except
+   * "DELIVERY_ID" (Lieferscheinnummer)
+   */
   private void _disableDeliveryAddress ()
   {
     for (final Node n : grid_Delivery.getChildren ())
@@ -198,24 +224,61 @@ public class ContactPane extends BasePane
         {
           if (sn.getClass () == Label.class)
           {
+            String checkLabelText = ((Label) sn).getText ();
 
+            if (!checkLabelText.equals (EFormElement.DELIVERY_ID.getLabelText ()))
+              ((Label) sn).setTextFill (Color.DARKGRAY);
           }
 
           if (sn.getClass () == TextField.class)
           {
+            String id = sn.getId ();
+            final TextField t = (TextField) sn;
 
+            if (id != null && !id.equals (EFormElement.DELIVERY_ID.getID ()))
+            {
+              t.disableProperty ().set (true);
+              t.setText ("");
+              t.setStyle ("-fx-control-inner-background: #" +
+                          (EFormElement.getFromIDOrNull (id).isRequired () ? Data.BACKROUND_HEX_REQUIRED
+                                                                           : Data.BACKGROUND_HEX_OK));
+            }
           }
         }
       }
     }
   }
 
+  /*
+   * If CheckBox "DELIVERY_USE" (Abweichende Lieferanschrift verwenden) is set
+   * to selected, enable all fields for delivery address
+   */
   private void _enableDeliveryAddress ()
   {
-    // TODO
+    for (final Node n : grid_Delivery.getChildren ())
+    {
+      if (n.getClass () == VBox.class)
+      {
+        for (final Node sn : ((VBox) n).getChildren ())
+        {
+          if (sn.getClass () == Label.class)
+          {
+            ((Label) sn).setTextFill (Color.BLACK);
+          }
 
+          if (sn.getClass () == TextField.class)
+          {
+            ((TextField) sn).disableProperty ().set (false);
+          }
+        }
+      }
+    }
   }
 
+  /*
+   * Calculate new column and row values for mostly automated creation of the
+   * biller part of this contact data form
+   */
   public void incrementBillerCol ()
   {
     billerCol++;
@@ -227,6 +290,10 @@ public class ContactPane extends BasePane
     }
   }
 
+  /*
+   * Calculate new column and row values for mostly automated creation of the
+   * invoice recipient part of this contact data form
+   */
   public void incrementInvoiceRecipientCol ()
   {
     invoiceRecipientCol++;
@@ -237,5 +304,4 @@ public class ContactPane extends BasePane
       invoiceRecipientRow++;
     }
   }
-
 }

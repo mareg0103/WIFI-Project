@@ -4,8 +4,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 
+import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
-import at.mareg.ebi43creator.invoicedata.enums.EDocumentTypes;
+import at.mareg.ebi43creator.invoicedata.enums.EDocumentType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -14,11 +15,21 @@ import javafx.scene.text.FontWeight;
 
 public class DocumentTypePane extends BasePane
 {
+  /**
+   * Pane to show the current document type. Here is the possibility to change
+   * the type at any time
+   * 
+   * @author Martin Regitnig
+   */
 
-  // Map with the supported document types
+  /*
+   * Map with the supported document types based on EDocumentType enum
+   */
   private Map <String, String> doctypeMap;
 
-  // Elements
+  /*
+   * Pane elements
+   */
   private Label documentTypeLabel;
   private Button changeDocumentTypeButton;
 
@@ -34,7 +45,7 @@ public class DocumentTypePane extends BasePane
 
   private void initMap ()
   {
-    for (final EDocumentTypes e : EDocumentTypes.values ())
+    for (final EDocumentType e : EDocumentType.values ())
     {
       doctypeMap.put (e.getElementID (), e.getElementText ());
     }
@@ -44,6 +55,8 @@ public class DocumentTypePane extends BasePane
   protected void init ()
   {
     super.init ();
+    this.setPrefHeight (Data.DOCUMENTTYPEPANE_HEIGHT);
+    this.setMaxHeight (Data.DOCUMENTTYPEPANE_HEIGHT);
 
     documentTypeLabel = new Label ();
     documentTypeLabel.setFont (Font.font ("Arial", FontWeight.BOLD, 20));

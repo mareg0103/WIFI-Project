@@ -1,5 +1,6 @@
 package at.mareg.ebi43creator.invoicedata;
 
+import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 
 /**
@@ -23,7 +24,7 @@ public final class InputChecker
   // Check order reference
   public static String checkOrderReference (final String orderReference)
   {
-    String ret = "ok";
+    String ret = Data.CHECKMESSAGE_SUCCESS;
 
     if (orderReference != null)
     {
@@ -83,7 +84,7 @@ public final class InputChecker
   // Check supplier id
   public static String checkSupplierID (final String id)
   {
-    String ret = "ok";
+    String ret = Data.CHECKMESSAGE_SUCCESS;
     final String orderReference = rm.getInvoiceData ().getInvoiceRecipient ().getOrderReference ().getOrderId ();
 
     if (orderReference.toLowerCase ().startsWith ("oebb/"))

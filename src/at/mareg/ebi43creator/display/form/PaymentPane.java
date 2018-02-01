@@ -5,7 +5,7 @@ import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.display.utilities.FormElementCreator;
 import at.mareg.ebi43creator.display.utilities.RequiredAndErrorHelper;
 import at.mareg.ebi43creator.display.utilities.VBoxHelper;
-import at.mareg.ebi43creator.invoicedata.enums.EFormFields;
+import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
@@ -13,6 +13,15 @@ import javafx.scene.layout.VBox;
 
 public class PaymentPane extends BasePane
 {
+  /**
+   * Pane to enter payment informations (IBAN, etc. of biller)
+   * 
+   * @author Martin Regitnig
+   */
+
+  /*
+   * Pane elements
+   */
   private Accordion ac;
   private TitledPane tp_Payment;
   private GridPane grid_Payment;
@@ -24,6 +33,9 @@ public class PaymentPane extends BasePane
     init ();
   }
 
+  /*
+   * Initialize OrderPane
+   */
   @Override
   protected void init ()
   {
@@ -40,7 +52,7 @@ public class PaymentPane extends BasePane
 
     VBox v = null;
 
-    for (final EFormFields eb : EFormFields.values ())
+    for (final EFormElement eb : EFormElement.values ())
     {
       if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_PAYMENT))
       {
@@ -49,11 +61,11 @@ public class PaymentPane extends BasePane
         final String elementID = eb.getID ();
         final String elementType = eb.getType ();
 
-        if (elementType == Data.ELEMENT_TEXT_FIELD)
+        if (elementType == Data.ELEMENTTYPE_TEXTFIELD)
         {
           v = new VBox ();
 
-          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText));
+          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
           v.getChildren ().add (FormElementCreator.getStandardTextField (elementID, isRequired));
 
           grid_Payment.add (v, col, row);
@@ -62,11 +74,11 @@ public class PaymentPane extends BasePane
           incrementCol ();
         }
 
-        if (elementType == Data.ELEMENT_TEXT_AREA)
+        if (elementType == Data.ELEMENTTYPE_TEXTAREA)
         {
           v = new VBox ();
 
-          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText));
+          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
           v.getChildren ().add (FormElementCreator.getStandardTextArea (elementID, isRequired));
 
           while (col != 0)
@@ -79,11 +91,11 @@ public class PaymentPane extends BasePane
           incrementCol ();
         }
 
-        if (elementType == Data.ELEMENT_DATE_PICKER)
+        if (elementType == Data.ELEMENTTYPE_DATEPICKER)
         {
           v = new VBox ();
 
-          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText));
+          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
           v.getChildren ().add (FormElementCreator.getStandardDatePicker (elementID, isRequired));
 
           grid_Payment.add (v, col, row);
@@ -93,7 +105,7 @@ public class PaymentPane extends BasePane
         }
 
         if (isRequired)
-          RequiredAndErrorHelper.incrementTabCount (eb.getTiteldPaneID ());
+          RequiredAndErrorHelper.addRequiredField (eb.getTiteldPaneID (), elementID);
       }
     }
 
@@ -104,7 +116,6 @@ public class PaymentPane extends BasePane
     ac.setExpandedPane (tp_Payment);
 
     this.add (ac, 0, 0);
-
   }
 
 }
