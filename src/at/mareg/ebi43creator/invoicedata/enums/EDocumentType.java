@@ -1,6 +1,6 @@
 package at.mareg.ebi43creator.invoicedata.enums;
 
-public enum EDocumentTypes
+public enum EDocumentType
 {
   INVOICE ("Rechnung", "Invoice"),
   CREDIT_MEMO ("Gutschrift", "CreditMemo"),
@@ -11,7 +11,7 @@ public enum EDocumentTypes
   final String elementText;
   final String elementID;
 
-  private EDocumentTypes (final String text, final String id)
+  private EDocumentType (final String text, final String id)
   {
     elementText = text;
     elementID = id;

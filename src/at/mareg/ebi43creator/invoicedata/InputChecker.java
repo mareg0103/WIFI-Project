@@ -1,5 +1,6 @@
 package at.mareg.ebi43creator.invoicedata;
 
+import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 
 /**
@@ -20,10 +21,12 @@ public final class InputChecker
   private InputChecker ()
   {}
 
-  // Check order reference
+  /*
+   * Check order reference
+   */
   public static String checkOrderReference (final String orderReference)
   {
-    String ret = "ok";
+    String ret = Data.CHECKMESSAGE_SUCCESS;
 
     if (orderReference != null)
     {
@@ -80,10 +83,12 @@ public final class InputChecker
     return ret;
   }
 
-  // Check supplier id
+  /*
+   * Check supplier id
+   */
   public static String checkSupplierID (final String id)
   {
-    String ret = "ok";
+    String ret = Data.CHECKMESSAGE_SUCCESS;
     final String orderReference = rm.getInvoiceData ().getInvoiceRecipient ().getOrderReference ().getOrderId ();
 
     if (orderReference.toLowerCase ().startsWith ("oebb/"))
@@ -147,13 +152,31 @@ public final class InputChecker
     return ret;
   }
 
-  // Set resource manager
+  /*
+   * Check if order id is government order number
+   */
+  public static boolean orderIDisGovermentOrderNumber (final String orderId)
+  {
+    if (!_isNumeric (orderId))
+      return false;
+
+    if (orderId.length () != 10 || !orderId.startsWith ("47"))
+      return false;
+
+    return true;
+  }
+
+  /*
+   * Set resource manager
+   */
   public static void setResourceManager (final ResourceManager resman)
   {
     rm = resman;
   }
 
-  // Check if String is numeric
+  /*
+   * Check if string is numeric
+   */
   private static boolean _isNumeric (final String number)
   {
     for (final char c : number.toCharArray ())

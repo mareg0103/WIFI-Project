@@ -1,11 +1,22 @@
 package at.mareg.ebi43creator.invoicedata.details;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
 import at.mareg.ebi43creator.display.resources.Data;
 
-@XmlType (propOrder = { "orderPositionNumber", "description", "quantity", "unitPrice", "vatRate", "lineItemAmount" })
+@XmlType (propOrder = { "orderPositionNumber",
+                        "description",
+                        "quantity",
+                        "unitPrice",
+                        "vatRate",
+                        "surcharge",
+                        "taxExemption",
+                        "lineItemAmount" })
 public class ListLineItem
 {
 
@@ -13,12 +24,14 @@ public class ListLineItem
   private String description;
   private Quantity quantity;
   private Double unitPrice;
+  private List <SurchargeListLineItem> surcharge;
   private Integer vatRate;
+  private String taxExemption;
   private Double lineItemAmount;
 
   public ListLineItem ()
   {
-	quantity = new Quantity();  
+    quantity = new Quantity ();
   }
 
   @XmlElement (name = "OrderPositionNumber", namespace = Data.DEFAULT_NAMESPACE)
@@ -81,6 +94,31 @@ public class ListLineItem
     this.vatRate = vatRate;
   }
 
+  @XmlElementWrapper (name = "ReductionAndSurchargeListLineItemDetails", namespace = Data.DEFAULT_NAMESPACE)
+  @XmlElement (name = "SurchargeListLineItem", namespace = Data.DEFAULT_NAMESPACE)
+  public List <SurchargeListLineItem> getSurcharge ()
+  {
+    return surcharge;
+  }
+
+  @SuppressWarnings ("hiding")
+  public void setSurcharge (List <SurchargeListLineItem> surcharge)
+  {
+    this.surcharge = surcharge;
+  }
+
+  @XmlElement (name = "TaxExemption", namespace = Data.DEFAULT_NAMESPACE)
+  public String getTaxExemption ()
+  {
+    return taxExemption;
+  }
+
+  @SuppressWarnings ("hiding")
+  public void setTaxExemption (String taxExemption)
+  {
+    this.taxExemption = taxExemption;
+  }
+
   @XmlElement (name = "LineItemAmount", namespace = Data.DEFAULT_NAMESPACE)
   public Double getLineItemAmount ()
   {
@@ -93,4 +131,31 @@ public class ListLineItem
     this.lineItemAmount = lineItemAmount;
   }
 
+  public void setTaxExemptionReasonInternal (final String reason)
+  {
+    this.vatRate = null;
+    this.taxExemption = reason;
+  }
+
+  public void removeTaxExemptionReason (final Integer vat)
+  {
+    this.taxExemption = null;
+    this.vatRate = vat;
+  }
+
+  public void addSurcharge (final Double totalNetAmount, final Double surcharge)
+  {
+    this.surcharge = new ArrayList <> ();
+
+    SurchargeListLineItem s = new SurchargeListLineItem ();
+    s.setBaseAmount (totalNetAmount);
+    s.setAmount (surcharge);
+
+    this.surcharge.add (s);
+  }
+
+  public void removeSurchare ()
+  {
+    this.surcharge = null;
+  }
 }

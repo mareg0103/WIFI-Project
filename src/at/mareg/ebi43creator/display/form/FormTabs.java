@@ -2,6 +2,7 @@ package at.mareg.ebi43creator.display.form;
 
 import java.util.List;
 
+import at.mareg.ebi43creator.display.form.help.HelpArea;
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 import javafx.scene.Scene;
@@ -11,30 +12,48 @@ import javafx.scene.layout.BorderPane;
 
 public class FormTabs extends BorderPane
 {
+  /**
+   * Main class for form
+   * 
+   * @author Martin Regitnig
+   */
+
+  /*
+   * Instance of ResourceManager because this pane doesn't extend BasePane
+   */
   private ResourceManager rm;
 
-  // Top content
+  /*
+   * Pane elements
+   */
   private DocumentTypePane documentTypePane;
 
-  // Center content
   private Scene scene;
   private TabPane tabs;
   private final OrderPane orderPane;
   private final ContactPane billerPane;
   private final PaymentPane paymentPane;
+  private final DetailsPane detailsPane;
+  private final SurchargeDiscountPane surchargeDiscountPane;
+  private final SummaryPane summaryPane;
 
-  // Right area content
   private final HelpArea helpArea;
 
   public FormTabs (final OrderPane op,
                    final ContactPane bp,
                    final PaymentPane pp,
+                   final DetailsPane dp,
+                   final SurchargeDiscountPane sdp,
+                   final SummaryPane sp,
                    final HelpArea area,
                    final ResourceManager resman)
   {
     orderPane = op;
     billerPane = bp;
     paymentPane = pp;
+    detailsPane = dp;
+    surchargeDiscountPane = sdp;
+    summaryPane = sp;
 
     helpArea = area;
 
@@ -43,56 +62,83 @@ public class FormTabs extends BorderPane
     init ();
   }
 
+  /*
+   * Create form
+   */
   private void init ()
   {
-    // Top content
+    /*
+     * Top content of BorderPane
+     */
     documentTypePane = new DocumentTypePane (rm);
     this.setTop (documentTypePane);
 
-    // Right area content
+    /*
+     * Right content of BorderPane
+     */
     this.setRight (helpArea);
 
-    // Center content
+    /*
+     * Center content of BorderPane
+     */
     tabs = new TabPane ();
 
-    // Order data
+    /*
+     * Integrate OrderPane
+     */
     final Tab tabOrder = new Tab (Data.TAB_ORDER_DATA);
+    tabOrder.closableProperty ().set (false);
     tabOrder.setContent (orderPane);
     tabOrder.setId ("ordertab");
     tabOrder.disableProperty ().set (false);
 
-    // Contact data
+    /*
+     * Integrate ContactPane
+     */
     final Tab tabContact = new Tab (Data.TAB_CONTACT_DATA);
+    tabContact.closableProperty ().set (false);
     tabContact.setContent (billerPane);
     tabContact.setId ("billertab");
 
-    // Payment data
+    /*
+     * Integrate PaymentPane
+     */
     final Tab tabPayment = new Tab (Data.TAB_PAYMENT_DATA);
+    tabPayment.closableProperty ().set (false);
     tabPayment.setContent (paymentPane);
     tabPayment.setId ("paymenttab");
 
-    // Details data
+    /*
+     * Integrate DetailsPane
+     */
     final Tab tabDetails = new Tab (Data.TAB_DETAILS_DATA);
-    tabDetails.setContent (null);
+    tabDetails.closableProperty ().set (false);
+    tabDetails.setContent (detailsPane);
     tabDetails.setId ("detailstab");
 
-    // Surcharge/Reduction/Discount data
+    /*
+     * Integrate SurchargeDiscountPane
+     */
     final Tab tabDiscount = new Tab (Data.TAB_DISCOUNT_DATA);
-    tabDiscount.setContent (null);
+    tabDiscount.closableProperty ().set (false);
+    tabDiscount.setContent (surchargeDiscountPane);
     tabDiscount.setId ("discounttab");
 
-    // Summary
+    /*
+     * Integrate SummaryPane
+     */
     final Tab tabSummary = new Tab (Data.TAB_SUMMARY_DATA);
-    tabSummary.setContent (null);
+    tabSummary.closableProperty ().set (false);
+    tabSummary.setContent (summaryPane);
     tabSummary.setId ("summarytab");
 
-    // Add all tabs to tab pane
     tabs.getTabs ().addAll (tabOrder, tabContact, tabPayment, tabDetails, tabDiscount, tabSummary);
-
-    // Add tabs to center content area
     this.setCenter (tabs);
 
-    scene = new Scene (this);
+    /*
+     * Create scene
+     */
+    scene = new Scene (this, Data.SCENE_WIDTH, Data.SCENE_HEIGHT);
   }
 
   public Scene getFormScene ()
@@ -110,14 +156,4 @@ public class FormTabs extends BorderPane
     return tab.getText ();
   }
 
-  public void setTabActiveStatus (final String tabName, final boolean status)
-  {
-    for (final Tab t : tabs.getTabs ())
-      if (t.getText ().equalsIgnoreCase (tabName))
-      {
-        t.disableProperty ().set (!status);
-        tabs.getSelectionModel ().select (t);
-      }
-
-  }
 }

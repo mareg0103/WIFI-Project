@@ -20,6 +20,7 @@ public class ReadXMLFileTestMain
     id.getDelivery ().setInvoiceDateManager (idm);
 
     System.out.println ("Lese Testdaten + in Delivery eingetragenen InvoiceDateManager");
+    System.out.println (id.getInvoiceRecipient ().getOrderReference ().getOrderId ());
     System.out.println (id.getInvoiceNumber ());
     System.out.println (id.getInvoiceDate ());
     System.out.println (id.getDelivery ().getDeliveryID ());

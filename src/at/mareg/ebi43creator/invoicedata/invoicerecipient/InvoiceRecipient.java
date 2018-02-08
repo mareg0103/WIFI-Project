@@ -73,7 +73,9 @@ public class InvoiceRecipient
   public void setTempData ()
   {
     this.setVatID ("ATU00000000");
-    this.getOrderReference ().setOrderid ("Z01");
+    this.getOrderReference ().setOrderId ("Z01");
+    this.getOrderReference ().setReferenceDate ("2017-10-01");
+    this.getOrderReference ().setDescription ("Telefonische Order");
     this.setAddress (new Address ("Firma",
                                   "Test Empfanger",
                                   "Teststr. 201",

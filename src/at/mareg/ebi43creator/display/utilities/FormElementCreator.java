@@ -1,8 +1,14 @@
 package at.mareg.ebi43creator.display.utilities;
 
 import at.mareg.ebi43creator.display.resources.Data;
+import at.mareg.ebi43creator.invoicedata.enums.ESurchargeType;
+import at.mareg.ebi43creator.invoicedata.enums.EUnit;
+import at.mareg.ebi43creator.invoicedata.enums.EVATRate;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -10,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 
 /**
  * Creates standard and extended elements and provides methods for them (if
@@ -24,108 +31,204 @@ public final class FormElementCreator
   private FormElementCreator ()
   {}
 
-  public static Label getStandardLabel (final String text)
+  /*
+   * Get labels
+   */
+  public static Label getStandardLabel (final String text, final Insets insets)
   {
-    return new Label (text);
+    Label l = new Label (text);
+
+    if (insets != null)
+      l.setPadding (insets);
+
+    return l;
   }
 
-  public static Label getDisabledLookingLabel (final String text)
+  public static Label getDisabledLookingLabel (final String text, final Insets insets)
   {
     Label l = new Label (text);
 
     l.setTextFill (Color.DARKGRAY);
 
+    if (insets != null)
+      l.setPadding (insets);
+
     return l;
   }
 
-  public static TextField getStandardTextField (final String sID, final boolean required)
+  /*
+   * Get text fields
+   */
+  public static TextField getStandardTextField (final String id, final boolean required)
   {
     final TextField t = new TextField ();
 
     t.setPrefWidth (Data.DEFAULT_COMPONENT_WIDTH);
-    t.setStyle ("-fx-control-inner-background: #" + (required ? "FFFFE0" : "FFFFFF"));
-    t.setId (sID);
+    t.setStyle ("-fx-control-inner-background: #" + (required ? Data.BACKROUND_HEX_REQUIRED : Data.BACKGROUND_HEX_OK));
+    t.setId (id);
 
     return t;
   }
 
-  public static TextField getDisabledTextField (final String sID, final boolean required)
+  public static TextField getDisabledTextField (final String id, final boolean required)
   {
     final TextField t = new TextField ();
 
     t.setPrefWidth (Data.DEFAULT_COMPONENT_WIDTH);
-    // t.setStyle ("-fx-control-inner-background: #" + (required ? "FFFFE0" :
-    // "FFFFFF"));
     t.disableProperty ().set (true);
-    t.setId (sID);
+    t.setStyle ("-fx-control-inner-background: #" + (required ? Data.BACKROUND_HEX_REQUIRED : Data.BACKGROUND_HEX_OK));
+    t.setId (id);
 
     return t;
   }
 
-  public static TextArea getStandardTextArea (final String sID, final boolean required)
+  // Invoice line text field
+  public static TextField getInvoiceLineTextField (final String id, final boolean required)
+  {
+    final TextField t = new TextField ();
+
+    t.setStyle ("-fx-control-inner-background: #" + (required ? Data.BACKROUND_HEX_REQUIRED : Data.BACKGROUND_HEX_OK));
+    t.setId (id);
+
+    return t;
+  }
+
+  /*
+   * Get text areas
+   */
+  public static TextArea getStandardTextArea (final String id, final boolean required)
   {
     final TextArea t = new TextArea ();
 
     t.setPrefWidth (2 * Data.DEFAULT_COMPONENT_WIDTH);
-    t.setStyle ("-fx-control-inner-background: #" + (required ? "FFFFE0" : "FFFFFF"));
-    t.setId (sID);
+    t.setStyle ("-fx-control-inner-background: #" + (required ? Data.BACKROUND_HEX_REQUIRED : Data.BACKGROUND_HEX_OK));
+    t.setId (id);
 
     return t;
   }
 
-  public static DatePicker getStandardDatePicker (final String sID, final boolean required)
+  // Invoice line text Area
+  public static TextArea getInvoiceLineTextArea (final String id, final boolean required)
+  {
+    final TextArea t = new TextArea ();
+
+    t.setStyle ("-fx-control-inner-background: #" + (required ? Data.BACKROUND_HEX_REQUIRED : Data.BACKGROUND_HEX_OK));
+    t.setId (id);
+
+    return t;
+  }
+
+  /*
+   * Get date pickers
+   */
+  public static DatePicker getStandardDatePicker (final String id, final boolean required)
   {
     final DatePicker dp = new DatePicker ();
 
     dp.setPrefWidth (Data.DEFAULT_COMPONENT_WIDTH);
-    dp.setStyle ("-fx-control-inner-background: #" + (required ? "FFFFE0" : "FFFFFF"));
+    dp.setStyle ("-fx-control-inner-background: #" + (required ? Data.BACKROUND_HEX_REQUIRED : Data.BACKGROUND_HEX_OK));
     dp.setEditable (false);
-    dp.setId (sID);
+    dp.setId (id);
 
     return dp;
   }
 
-  public static CheckBox getStandardCheckBox (final String sID, final boolean required, final String text)
-  {
-    final CheckBox cb = new CheckBox (text);
-
-    cb.setPrefWidth (Data.DEFAULT_COMPONENT_WIDTH);
-    cb.setStyle ("-fx-control-inner-background: #" + (required ? "FFFFE0" : "FFFFFF"));
-    cb.setSelected (false);
-    cb.setId (sID);
-
-    return cb;
-  }
-
+  /*
+   * Receives a GridPane, search through it and returns the DatePicker with the
+   * given id else returns null
+   */
   public static DatePicker getDatePickerWithID (final GridPane grid, final String id)
   {
     for (final Node n : grid.getChildren ())
     {
-
       if (n.getClass () == VBox.class)
       {
-
         for (final Node vn : ((VBox) n).getChildren ())
         {
-
           if (vn.getClass () == DatePicker.class)
           {
-
             if (((DatePicker) vn).getId ().equals (id))
             {
               return ((DatePicker) vn);
             }
-
           }
-
         }
-
       }
-
     }
 
     return null;
-
   }
 
+  /*
+   * Get check boxes
+   */
+  public static CheckBox getStandardCheckBox (final String id, final boolean required, final String text)
+  {
+    final CheckBox cb = new CheckBox (text);
+
+    cb.setPrefWidth (Data.DEFAULT_COMPONENT_WIDTH);
+    cb.setStyle ("-fx-control-inner-background: #" + (required ? Data.BACKROUND_HEX_REQUIRED : Data.BACKGROUND_HEX_OK));
+    cb.setSelected (false);
+    cb.setId (id);
+
+    return cb;
+  }
+
+  /*
+   * Get combo boxes
+   */
+  public static ComboBox <String> getSurchargeTypeComboBox (final String id)
+  {
+    ComboBox <String> cb = new ComboBox <> ();
+
+    for (final ESurchargeType e : ESurchargeType.values ())
+      cb.getItems ().add (e.getType ());
+
+    cb.getSelectionModel ().selectFirst ();
+    cb.setEditable (false);
+    cb.setId (id);
+
+    return cb;
+  }
+
+  public static ComboBox <String> getVatRateComboBox (final String id)
+  {
+    ComboBox <String> cb = new ComboBox <> ();
+
+    for (final EVATRate e : EVATRate.values ())
+      cb.getItems ().add (e.getVatRateOutput ());
+
+    cb.getSelectionModel ().selectLast ();
+    cb.setEditable (false);
+
+    cb.setId (id);
+    return cb;
+  }
+
+  public static ComboBox <String> getUnitComboBox (final String id)
+  {
+    ComboBox <String> cb = new ComboBox <> ();
+
+    for (final EUnit e : EUnit.values ())
+      cb.getItems ().add (e.getUnitDescription ());
+
+    cb.getSelectionModel ().selectFirst ();
+    cb.setEditable (false);
+    cb.setPrefWidth (200);
+
+    cb.setId (id);
+    return cb;
+  }
+
+  /*
+   * Get buttons
+   */
+  public static Button getStandardButton (final String id, final String text)
+  {
+    Button b = new Button (text);
+
+    b.setId (id);
+    b.textAlignmentProperty ().set (TextAlignment.CENTER);
+    return b;
+  }
 }

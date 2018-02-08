@@ -16,7 +16,7 @@ public class Tax
   public Tax ()
   {
 
-    vatItems = new ArrayList<> ();
+    vatItems = new ArrayList <> ();
 
   }
 
@@ -49,7 +49,7 @@ public class Tax
   {
     this.addEmptyVatItemWithVatRate (Integer.valueOf (20));
     final VATItem vi = vatItems.get (0);
-    vi.setTaxedAmount (Double.valueOf (246.50));
+    vi.setTaxedAmount (Double.valueOf (240));
     vi.setAmount (vi.calculateVat ());
 
   }

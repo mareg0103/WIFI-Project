@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import at.mareg.ebi43creator.display.resources.Data;
+import at.mareg.ebi43creator.invoicedata.InputChecker;
 
 @XmlType (propOrder = { "orderId", "referenceDate", "description" })
 public class OrderReference
@@ -11,13 +12,11 @@ public class OrderReference
   private String orderId;
   private String referenceDate;
   private String description;
+  private boolean isGovernmentOrderNumber;
 
   public OrderReference ()
-  {}
-
-  public OrderReference (final String id)
   {
-    orderId = id;
+    isGovernmentOrderNumber = false;
   }
 
   @XmlElement (name = "OrderID", namespace = Data.DEFAULT_NAMESPACE)
@@ -27,9 +26,9 @@ public class OrderReference
   }
 
   @SuppressWarnings ("hiding")
-  public void setOrderid (final String orderid)
+  public void setOrderId (final String orderId)
   {
-    this.orderId = orderid;
+    this.orderId = orderId;
   }
 
   @XmlElement (name = "ReferenceDate", namespace = Data.DEFAULT_NAMESPACE)
@@ -54,6 +53,16 @@ public class OrderReference
   public void setDescription (final String description)
   {
     this.description = description;
+  }
+
+  public void orderIDisGovernmentOrderNumber ()
+  {
+    isGovernmentOrderNumber = InputChecker.orderIDisGovermentOrderNumber (orderId);
+  }
+
+  public boolean isOrderIDGovernmentOrderNumber ()
+  {
+    return isGovernmentOrderNumber;
   }
 
 }
