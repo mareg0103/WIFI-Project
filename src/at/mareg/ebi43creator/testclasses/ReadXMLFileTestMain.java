@@ -19,15 +19,6 @@ public class ReadXMLFileTestMain
 		System.out.println ("Rechnungsdaten gelesen, setze InvoiceDateManager in Delivery\n");
 		id.getDelivery ().setInvoiceDateManager (idm);
 
-<<<<<<< HEAD
-    System.out.println ("Lese Testdaten + in Delivery eingetragenen InvoiceDateManager");
-    System.out.println (id.getInvoiceRecipient ().getOrderReference ().getOrderId ());
-    System.out.println (id.getInvoiceNumber ());
-    System.out.println (id.getInvoiceDate ());
-    System.out.println (id.getDelivery ().getDeliveryID ());
-    System.out.println (id.getDetails ().getListLineItems ().get (0).getLineItemAmount ());
-    // System.out.println (id.getDelivery ().getInvoiceDateManager ());
-=======
 		System.out.println ("Lese Testdaten + in Delivery eingetragenen InvoiceDateManager");
 		System.out.println ("Rechnungsnummer: " + id.getInvoiceNumber ());
 		System.out.println ("Rechnungsdatum: " + id.getInvoiceDate ());
@@ -35,7 +26,6 @@ public class ReadXMLFileTestMain
 		System.out.println ("Gesamtnettopreis der eingetragenen Rechnugszeile: "
 				+ id.getDetails ().getListLineItems ().get (0).getLineItemAmount ());
 		System.out.println ("Dokumententyp: " + id.getDocumentType ());
->>>>>>> 65866830856d628d7eeed8e879042153d55ce848
 
 		System.out.println ("\nFertig");
 	}

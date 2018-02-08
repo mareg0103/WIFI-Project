@@ -15,151 +15,202 @@ import javafx.scene.layout.VBox;
 
 public class InvoiceLine extends BasePane
 {
-  /*
-   * Save list line item this line belongs to
-   */
-  private ListLineItem listLineItem;
+	/*
+	 * Save list line item this line belongs to
+	 */
+	private ListLineItem listLineItem;
 
-  /*
-   * Pane elements
-   */
-  private GridPane grid;
-  private Button removeThisLine;
+	/*
+	 * Pane elements
+	 */
+	private GridPane grid;
+	private Button removeThisLine;
 
-  /*
-   * Create form control variables
-   */
-  private int lineCol;
-  private int lineRow;
-  private boolean textAreaIsSet;
+	/*
+	 * Create form control variables
+	 */
+	private int lineCol;
+	private int lineRow;
+	private boolean textAreaIsSet;
 
-  public InvoiceLine (final ResourceManager resman, final ListLineItem li)
-  {
-    super (resman);
-    listLineItem = li;
+	private Double totalNetAmount;
+	private Double totalNetAmountOld;
+	private Double totalGrossAmount;
+	private Double totalGrossAmountOld;
 
-    lineCol = 0;
-    lineRow = 0;
-    textAreaIsSet = false;
+	public InvoiceLine (final ResourceManager resman, final ListLineItem li)
+	{
+		super (resman);
+		listLineItem = li;
 
-    init ();
-  }
+		lineCol = 0;
+		lineRow = 0;
+		textAreaIsSet = false;
 
-  @Override
-  protected void init ()
-  {
-    // super.init ();
+		init ();
+	}
 
-    grid = new GridPane ();
-    for (int i = 0; i < 4; i++)
-    {
-      ColumnConstraints column = new ColumnConstraints ((Data.DETAILS_SCROLLPANE_WIDTH - 210) / 4);
-      grid.getColumnConstraints ().add (column);
-    }
-    grid.setPadding (Data.LINE_PADDING);
-    grid.setHgap (Data.LINE_HVGAP);
-    grid.setVgap (this.getHgap ());
+	@Override
+	protected void init ()
+	{
+		// super.init ();
 
-    for (final EFormElement eb : EFormElement.values ())
-    {
-      if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_DETAILS))
-      {
-        final boolean isRequired = eb.isRequired ();
-        final String labelText = eb.getLabelText () + (isRequired ? "*" : "");
-        final String elementID = eb.getID ();
-        final String elementType = eb.getType ();
+		grid = new GridPane ();
+		for (int i = 0; i < 4; i++)
+		{
+			ColumnConstraints column = new ColumnConstraints ((Data.DETAILS_SCROLLPANE_WIDTH - 210) / 4);
+			grid.getColumnConstraints ().add (column);
+		}
+		grid.setPadding (Data.LINE_PADDING);
+		grid.setHgap (Data.LINE_HVGAP);
+		grid.setVgap (this.getHgap ());
 
-        if (elementType == Data.ELEMENTTYPE_TEXTFIELD)
-        {
-          final VBox v = new VBox ();
+		for (final EFormElement eb : EFormElement.values ())
+		{
+			if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_DETAILS))
+			{
+				final boolean isRequired = eb.isRequired ();
+				final String labelText = eb.getLabelText () + (isRequired ? "*" : "");
+				final String elementID = eb.getID ();
+				final String elementType = eb.getType ();
 
-          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
-          v.getChildren ().add (FormElementCreator.getInvoiceLineTextField (elementID, isRequired));
+				if (elementType == Data.ELEMENTTYPE_TEXTFIELD)
+				{
+					final VBox v = new VBox ();
 
-          grid.add (v, lineCol, lineRow);
-          VBoxHelper.structureVBox (v);
+					v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
+					v.getChildren ().add (FormElementCreator.getInvoiceLineTextField (elementID, isRequired));
 
-          _incrementLineCol ();
-        }
+					grid.add (v, lineCol, lineRow);
+					VBoxHelper.structureVBox (v);
 
-        if (elementType == Data.ELEMENTTYPE_COMBOBOX)
-        {
-          final VBox v = new VBox ();
+					_incrementLineCol ();
+				}
 
-          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
-          v.getChildren ().add (FormElementCreator.getUnitComboBox (elementID));
+				if (elementType == Data.ELEMENTTYPE_COMBOBOX)
+				{
+					final VBox v = new VBox ();
 
-          grid.add (v, lineCol, lineRow);
-          VBoxHelper.structureVBox (v);
+					v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
+					v.getChildren ().add (FormElementCreator.getUnitComboBox (elementID));
 
-          _incrementLineCol ();
-        }
+					grid.add (v, lineCol, lineRow);
+					VBoxHelper.structureVBox (v);
 
-        if (eb.getType () == Data.ELEMENTTYPE_TEXTAREA)
-        {
-          final VBox v = new VBox ();
+					_incrementLineCol ();
+				}
 
-          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
-          v.getChildren ().add (FormElementCreator.getStandardTextArea (elementID, isRequired));
+				if (eb.getType () == Data.ELEMENTTYPE_TEXTAREA)
+				{
+					final VBox v = new VBox ();
 
-          while (lineCol != 0)
-            _incrementLineCol ();
+					v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
+					v.getChildren ().add (FormElementCreator.getStandardTextArea (elementID, isRequired));
 
-          grid.add (v, lineCol, lineRow, 4, 1);
-          VBoxHelper.structureVBox (v);
+					while (lineCol != 0)
+						_incrementLineCol ();
 
-          textAreaIsSet = true;
+					grid.add (v, lineCol, lineRow, 4, 1);
+					VBoxHelper.structureVBox (v);
 
-          _incrementLineCol ();
-        }
+					textAreaIsSet = true;
 
-        if (isRequired)
-          RequiredAndErrorHelper.addRequiredField (eb.getTiteldPaneID (), elementID);
-      }
-    }
+					_incrementLineCol ();
+				}
 
-    removeThisLine = new Button ("Zeige listLineItem-ID");
-    removeThisLine.setOnAction (e -> {
-      System.out.println ("listLineItem in dieser InvoiceLine = " + listLineItem.toString ());
-      System.out.println ("Alle eingetragenen ListLineItems:");
-      for (ListLineItem l : rm.getInvoiceData ().getDetails ().getListLineItems ())
-        System.out.println ("   " + l.toString ());
-    });
+				if (isRequired)
+					RequiredAndErrorHelper.addRequiredField (eb.getTiteldPaneID (), elementID);
+			}
+		}
 
-    this.add (grid, 0, 0);
-  }
+		removeThisLine = new Button ("Zeige listLineItem-ID");
+		removeThisLine.setOnAction (e -> {
+			System.out.println ("listLineItem in dieser InvoiceLine = " + listLineItem.toString ());
+			System.out.println ("Alle eingetragenen ListLineItems:");
+			for (ListLineItem l : rm.getInvoiceData ().getDetails ().getListLineItems ())
+				System.out.println ("   " + l.toString ());
+		});
 
-  /*
-   * Calculate new column and row values for mostly automated creation of the
-   * form
-   */
-  private void _incrementLineCol ()
-  {
-    lineCol++;
+		this.add (grid, 0, 0);
+	}
 
-    if (textAreaIsSet)
-    {
-      lineCol = 0;
-      lineRow += 2;
+	/*
+	 * Calculate new column and row values for mostly automated creation of the form
+	 */
+	private void _incrementLineCol ()
+	{
+		lineCol++;
 
-      textAreaIsSet = false;
-    }
-    else
-    {
-      if (lineCol == Data.DETAILS_LINE_COLUMN_COUNT_PER_ROW)
-      {
-        lineCol = 0;
-        lineRow++;
-      }
-    }
+		if (textAreaIsSet)
+		{
+			lineCol = 0;
+			lineRow += 2;
 
-  }
+			textAreaIsSet = false;
+		} else
+		{
+			if (lineCol == Data.DETAILS_LINE_COLUMN_COUNT_PER_ROW)
+			{
+				lineCol = 0;
+				lineRow++;
+			}
+		}
 
-  /*
-   * Return list line item instance save in this line
-   */
-  public ListLineItem getListLineItem ()
-  {
-    return listLineItem;
-  }
+	}
+
+	/*
+	 * Return list line item instance save in this line
+	 */
+	public ListLineItem getListLineItem ()
+	{
+		return listLineItem;
+	}
+
+	/*
+	 * Get grid to run through elements to fill them with data
+	 */
+	public GridPane getGrid ()
+	{
+		return grid;
+	}
+
+	public Double getTotalNetAmount ()
+	{
+		return totalNetAmount;
+	}
+
+	public void setTotalNetAmount (Double totalNetAmount)
+	{
+		this.totalNetAmount = totalNetAmount;
+	}
+
+	public Double getTotalNetAmountOld ()
+	{
+		return totalNetAmountOld;
+	}
+
+	public void setTotalNetAmountOld (Double totalNetAmountOld)
+	{
+		this.totalNetAmountOld = totalNetAmountOld;
+	}
+
+	public Double getTotalGrossAmount ()
+	{
+		return totalGrossAmount;
+	}
+
+	public void setTotalGrossAmount (Double totalGrossAmount)
+	{
+		this.totalGrossAmount = totalGrossAmount;
+	}
+
+	public Double getTotalGrossAmountOld ()
+	{
+		return totalGrossAmountOld;
+	}
+
+	public void setTotalGrossAmountOld (Double totalGrossAmountOld)
+	{
+		this.totalGrossAmountOld = totalGrossAmountOld;
+	}
 }
