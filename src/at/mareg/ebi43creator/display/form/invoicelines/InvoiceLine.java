@@ -8,10 +8,16 @@ import at.mareg.ebi43creator.display.utilities.RequiredAndErrorHelper;
 import at.mareg.ebi43creator.display.utilities.VBoxHelper;
 import at.mareg.ebi43creator.invoicedata.details.ListLineItem;
 import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 public class InvoiceLine extends BasePane
 {
@@ -33,10 +39,19 @@ public class InvoiceLine extends BasePane
 	private int lineRow;
 	private boolean textAreaIsSet;
 
+	/*
+	 * Line variables
+	 */
+	private Integer orderPositionNumber;
+	private Double quantity;
+	private String unit;
+	private Double unitprice;
+	private String description;
 	private Double totalNetAmount;
-	private Double totalNetAmountOld;
+	private Double surcharge;
+	private Integer vatRate;
+	private String taxexemptionreason;
 	private Double totalGrossAmount;
-	private Double totalGrossAmountOld;
 
 	public InvoiceLine (final ResourceManager resman, final ListLineItem li)
 	{
@@ -130,7 +145,11 @@ public class InvoiceLine extends BasePane
 			for (ListLineItem l : rm.getInvoiceData ().getDetails ().getListLineItems ())
 				System.out.println ("   " + l.toString ());
 		});
+		grid.add (removeThisLine, lineCol, lineRow);
 
+		this.setBorder (new Border (new BorderStroke (Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+				BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID,
+				null, BorderWidths.DEFAULT, new Insets (3, 3, 3, 3))));
 		this.add (grid, 0, 0);
 	}
 
@@ -174,6 +193,59 @@ public class InvoiceLine extends BasePane
 		return grid;
 	}
 
+	/*
+	 * Getter / Setter for line variables
+	 */
+	public Integer getOrderPositionNumber ()
+	{
+		return orderPositionNumber;
+	}
+
+	public void setOrderPositionNumber (Integer orderPositionNumber)
+	{
+		this.orderPositionNumber = orderPositionNumber;
+	}
+
+	public Double getQuantity ()
+	{
+		return quantity;
+	}
+
+	public void setQuantity (Double quantity)
+	{
+		this.quantity = quantity;
+	}
+
+	public String getUnit ()
+	{
+		return unit;
+	}
+
+	public void setUnit (String unit)
+	{
+		this.unit = unit;
+	}
+
+	public Double getUnitprice ()
+	{
+		return unitprice;
+	}
+
+	public void setUnitprice (Double unitprice)
+	{
+		this.unitprice = unitprice;
+	}
+
+	public String getDescription ()
+	{
+		return description;
+	}
+
+	public void setDescription (String description)
+	{
+		this.description = description;
+	}
+
 	public Double getTotalNetAmount ()
 	{
 		return totalNetAmount;
@@ -184,14 +256,34 @@ public class InvoiceLine extends BasePane
 		this.totalNetAmount = totalNetAmount;
 	}
 
-	public Double getTotalNetAmountOld ()
+	public Double getSurcharge ()
 	{
-		return totalNetAmountOld;
+		return surcharge;
 	}
 
-	public void setTotalNetAmountOld (Double totalNetAmountOld)
+	public void setSurcharge (Double surcharge)
 	{
-		this.totalNetAmountOld = totalNetAmountOld;
+		this.surcharge = surcharge;
+	}
+
+	public Integer getVatRate ()
+	{
+		return vatRate;
+	}
+
+	public void setVatRate (Integer vatRate)
+	{
+		this.vatRate = vatRate;
+	}
+
+	public String getTaxexemptionreason ()
+	{
+		return taxexemptionreason;
+	}
+
+	public void setTaxexemptionreason (String taxexemptionreason)
+	{
+		this.taxexemptionreason = taxexemptionreason;
 	}
 
 	public Double getTotalGrossAmount ()
@@ -202,15 +294,5 @@ public class InvoiceLine extends BasePane
 	public void setTotalGrossAmount (Double totalGrossAmount)
 	{
 		this.totalGrossAmount = totalGrossAmount;
-	}
-
-	public Double getTotalGrossAmountOld ()
-	{
-		return totalGrossAmountOld;
-	}
-
-	public void setTotalGrossAmountOld (Double totalGrossAmountOld)
-	{
-		this.totalGrossAmountOld = totalGrossAmountOld;
 	}
 }
