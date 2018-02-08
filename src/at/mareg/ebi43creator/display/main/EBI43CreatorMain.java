@@ -78,6 +78,7 @@ public class EBI43CreatorMain extends Application
      * Set scene and primary stage settings
      */
     primaryStage.setScene (rm.getForm ().getFormScene ());
+    // primaryStage.setHeight (640d);
     primaryStage.setTitle (Data.APPLICATION_NAME);
     primaryStage.getIcons ().add (applicationIcon);
 

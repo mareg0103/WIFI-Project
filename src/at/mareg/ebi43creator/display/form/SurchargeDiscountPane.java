@@ -1,6 +1,9 @@
 package at.mareg.ebi43creator.display.form;
 
+<<<<<<< HEAD
 import at.mareg.ebi43creator.display.resources.Data;
+=======
+>>>>>>> 65866830856d628d7eeed8e879042153d55ce848
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ScrollPane;
@@ -37,6 +40,7 @@ public class SurchargeDiscountPane extends BorderPane
     rm = resman;
 
     init ();
+<<<<<<< HEAD
 
     ac = new Accordion ();
 
@@ -64,6 +68,8 @@ public class SurchargeDiscountPane extends BorderPane
 
     this.setCenter (ac);
 
+=======
+>>>>>>> 65866830856d628d7eeed8e879042153d55ce848
   }
 
   /*

@@ -112,7 +112,10 @@ public class FormTabs extends BorderPane
      * Integrate DetailsPane
      */
     final Tab tabDetails = new Tab (Data.TAB_DETAILS_DATA);
+<<<<<<< HEAD
     tabDetails.closableProperty ().set (false);
+=======
+>>>>>>> 65866830856d628d7eeed8e879042153d55ce848
     tabDetails.setContent (detailsPane);
     tabDetails.setId ("detailstab");
 
@@ -120,7 +123,10 @@ public class FormTabs extends BorderPane
      * Integrate SurchargeDiscountPane
      */
     final Tab tabDiscount = new Tab (Data.TAB_DISCOUNT_DATA);
+<<<<<<< HEAD
     tabDiscount.closableProperty ().set (false);
+=======
+>>>>>>> 65866830856d628d7eeed8e879042153d55ce848
     tabDiscount.setContent (surchargeDiscountPane);
     tabDiscount.setId ("discounttab");
 
@@ -128,7 +134,10 @@ public class FormTabs extends BorderPane
      * Integrate SummaryPane
      */
     final Tab tabSummary = new Tab (Data.TAB_SUMMARY_DATA);
+<<<<<<< HEAD
     tabSummary.closableProperty ().set (false);
+=======
+>>>>>>> 65866830856d628d7eeed8e879042153d55ce848
     tabSummary.setContent (summaryPane);
     tabSummary.setId ("summarytab");
 

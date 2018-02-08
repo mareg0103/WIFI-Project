@@ -19,6 +19,7 @@ public class DetailsPane extends BorderPane
    * 
    * @author Martin Regitnig
    */
+<<<<<<< HEAD
 
   /*
    * Instance of ResourceManager because this pane doesn't extend BasePane
@@ -29,6 +30,18 @@ public class DetailsPane extends BorderPane
    * Pane elements
    */
   private InvoiceLineArea invoiceLineArea;
+=======
+
+  /*
+   * Instance of ResourceManager because this pane doesn't extend BasePane
+   */
+  private ResourceManager rm;
+
+  /*
+   * Pane elements
+   */
+  private InvoiceLineArea invoiceLines;
+>>>>>>> 65866830856d628d7eeed8e879042153d55ce848
   private GridPane grid;
   private int rightAreaRow;
 
@@ -49,7 +62,11 @@ public class DetailsPane extends BorderPane
     /*
      * Center content of BorderPane
      */
+<<<<<<< HEAD
     invoiceLineArea = new InvoiceLineArea (rm);
+=======
+    invoiceLines = new InvoiceLineArea (rm);
+>>>>>>> 65866830856d628d7eeed8e879042153d55ce848
 
     /*
      * Right content of BorderPane
@@ -68,7 +85,11 @@ public class DetailsPane extends BorderPane
           Button b = FormElementCreator.getStandardButton (eb.getID (), eb.getLabelText ());
           b.setPrefWidth (Data.DETAILS_RIGHT_AREA_COMPONENT_WIDTH);
           b.setOnAction (e -> {
+<<<<<<< HEAD
             rm.getInvoiceData ().getDetails ().addEmptyListLineItem ();
+=======
+            System.out.println ("Neue Zeile hinzufügen geklickt");
+>>>>>>> 65866830856d628d7eeed8e879042153d55ce848
           });
           grid.add (b, 0, rightAreaRow);
 
@@ -87,6 +108,7 @@ public class DetailsPane extends BorderPane
             v.getChildren ().add (FormElementCreator.getStandardLabel (eb.getLabelText (), new Insets (20, 0, 0, 0)));
           else
             v.getChildren ().add (FormElementCreator.getStandardLabel (eb.getLabelText (), null));
+<<<<<<< HEAD
 
           TextField t = FormElementCreator.getStandardTextField (eb.getID (), eb.isRequired ());
           t.setPrefWidth (Data.DETAILS_RIGHT_AREA_COMPONENT_WIDTH);
@@ -106,5 +128,21 @@ public class DetailsPane extends BorderPane
   public InvoiceLineArea getInvoiceLineArea ()
   {
     return invoiceLineArea;
+=======
+
+          TextField t = FormElementCreator.getStandardTextField (eb.getID (), eb.isRequired ());
+          t.setPrefWidth (Data.DETAILS_RIGHT_AREA_COMPONENT_WIDTH);
+          v.getChildren ().add (t);
+
+          grid.add (v, 0, rightAreaRow);
+
+          rightAreaRow++;
+        }
+      }
+    }
+
+    this.setCenter (invoiceLines);
+    this.setRight (grid);
+>>>>>>> 65866830856d628d7eeed8e879042153d55ce848
   }
 }
