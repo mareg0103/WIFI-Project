@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.2" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="at.mareg.ebi43creator.invoicedata.InvoiceData" project="WIFI-project" 
+    file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/InvoiceData.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="135" y="554"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="at.mareg.ebi43creator.invoicedata.payment.PaymentConditions" 
+    project="WIFI-project" file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/payment/PaymentConditions.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="431" y="106"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="at.mareg.ebi43creator.invoicedata.payment.Discount" project="WIFI-project" 
+    file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/payment/Discount.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="431" y="416"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="4">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="5" name="discounts"/>      
+      <multiplicity id="6" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="7">    
+    <bendpoint x="297" y="241"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="8" name="paymentConditions">        
+        <position height="18" width="99" x="300" y="240"/>      
+      </attribute>      
+      <multiplicity id="9" minimum="0" maximum="1">        
+        <position height="16" width="23" x="373" y="257"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
