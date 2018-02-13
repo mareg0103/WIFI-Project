@@ -1,6 +1,7 @@
 package at.mareg.ebi43creator.invoicedata.details;
 
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -9,153 +10,171 @@ import javax.xml.bind.annotation.XmlType;
 
 import at.mareg.ebi43creator.display.resources.Data;
 
-@XmlType (propOrder = { "orderPositionNumber",
-                        "description",
-                        "quantity",
-                        "unitPrice",
-                        "vatRate",
-                        "surcharge",
-                        "taxExemption",
-                        "lineItemAmount" })
+@XmlType (propOrder = { "orderPositionNumber", "description", "quantity", "unitPrice", "vatRate", "surcharge",
+		"taxExemption", "lineItemAmount" })
 public class ListLineItem
 {
+	/*
+	 * Internal variables for saving an calculating values
+	 */
+	private Integer orderPositionNumber;
+	private String description;
+	private Quantity quantity;
+	private Double unitPrice;
+	private List<SurchargeListLineItem> surcharge;
+	private Integer vatRate;
+	private String taxExemption;
+	private Double lineItemAmount;
 
-  private Integer orderPositionNumber;
-  private String description;
-  private Quantity quantity;
-  private Double unitPrice;
-  private List <SurchargeListLineItem> surcharge;
-  private Integer vatRate;
-  private String taxExemption;
-  private Double lineItemAmount;
+	/*
+	 * String formatter for field quantity, unit price, total net amount and total
+	 * gross amount
+	 */
+	private Formatter twoDigitsAfterComma;
+	private Formatter fourDigitsAfterComma;
 
-  public ListLineItem ()
-  {
-    quantity = new Quantity ();
-  }
+	public ListLineItem ()
+	{
+		quantity = new Quantity ();
+	}
 
-  @XmlElement (name = "OrderPositionNumber", namespace = Data.DEFAULT_NAMESPACE)
-  public Integer getOrderPositionNumber ()
-  {
-    return orderPositionNumber;
-  }
+	/*
+	 * Sets the tax exemption reason
+	 */
+	public void setTaxExemptionReasonInternal (final String reason)
+	{
+		this.vatRate = null;
+		this.taxExemption = reason;
+	}
 
-  @SuppressWarnings ("hiding")
-  public void setOrderPositionNumber (final Integer orderPositionNumber)
-  {
-    this.orderPositionNumber = orderPositionNumber;
-  }
+	/*
+	 * Removes the tax exemption reason
+	 */
+	public void removeTaxExemptionReasonInternal (final Integer vat)
+	{
+		this.taxExemption = null;
+		this.vatRate = vat;
+	}
 
-  @XmlElement (name = "Description", namespace = Data.DEFAULT_NAMESPACE)
-  public String getDescription ()
-  {
-    return description;
-  }
+	/*
+	 * Adds a surcharge
+	 */
+	public void addSurcharge (final Double totalNetAmount, final Double surcharge)
+	{
+		this.surcharge = new ArrayList<> ();
 
-  @SuppressWarnings ("hiding")
-  public void setDescription (final String description)
-  {
-    this.description = description;
-  }
+		SurchargeListLineItem s = new SurchargeListLineItem ();
+		s.setBaseAmount (totalNetAmount);
+		s.setAmount (surcharge);
 
-  @XmlElement (name = "Quantity", namespace = Data.DEFAULT_NAMESPACE)
-  public Quantity getQuantity ()
-  {
-    return quantity;
-  }
+		this.surcharge.add (s);
+	}
 
-  @SuppressWarnings ("hiding")
-  public void setQuantity (final Quantity quantity)
-  {
-    this.quantity = quantity;
-  }
+	/*
+	 * Removes the surcharge
+	 */
+	public void removeSurchare ()
+	{
+		this.surcharge = null;
+	}
 
-  @XmlElement (name = "UnitPrice", namespace = Data.DEFAULT_NAMESPACE)
-  public Double getUnitPrice ()
-  {
-    return unitPrice;
-  }
+	/*
+	 * Getters / Setters
+	 */
+	@XmlElement (name = "OrderPositionNumber", namespace = Data.DEFAULT_NAMESPACE)
+	public Integer getOrderPositionNumber ()
+	{
+		return orderPositionNumber;
+	}
 
-  @SuppressWarnings ("hiding")
-  public void setUnitPrice (final Double unitPrice)
-  {
-    this.unitPrice = unitPrice;
-  }
+	@SuppressWarnings ("hiding")
+	public void setOrderPositionNumber (final Integer orderPositionNumber)
+	{
+		this.orderPositionNumber = orderPositionNumber;
+	}
 
-  @XmlElement (name = "VATRate", namespace = Data.DEFAULT_NAMESPACE)
-  public Integer getVatRate ()
-  {
-    return vatRate;
-  }
+	@XmlElement (name = "Description", namespace = Data.DEFAULT_NAMESPACE)
+	public String getDescription ()
+	{
+		return description;
+	}
 
-  @SuppressWarnings ("hiding")
-  public void setVatRate (final Integer vatRate)
-  {
-    this.vatRate = vatRate;
-  }
+	@SuppressWarnings ("hiding")
+	public void setDescription (final String description)
+	{
+		this.description = description;
+	}
 
-  @XmlElementWrapper (name = "ReductionAndSurchargeListLineItemDetails", namespace = Data.DEFAULT_NAMESPACE)
-  @XmlElement (name = "SurchargeListLineItem", namespace = Data.DEFAULT_NAMESPACE)
-  public List <SurchargeListLineItem> getSurcharge ()
-  {
-    return surcharge;
-  }
+	@XmlElement (name = "Quantity", namespace = Data.DEFAULT_NAMESPACE)
+	public Quantity getQuantity ()
+	{
+		return quantity;
+	}
 
-  @SuppressWarnings ("hiding")
-  public void setSurcharge (List <SurchargeListLineItem> surcharge)
-  {
-    this.surcharge = surcharge;
-  }
+	@SuppressWarnings ("hiding")
+	public void setQuantity (final Quantity quantity)
+	{
+		this.quantity = quantity;
+	}
 
-  @XmlElement (name = "TaxExemption", namespace = Data.DEFAULT_NAMESPACE)
-  public String getTaxExemption ()
-  {
-    return taxExemption;
-  }
+	@XmlElement (name = "UnitPrice", namespace = Data.DEFAULT_NAMESPACE)
+	public Double getUnitPrice ()
+	{
+		return unitPrice;
+	}
 
-  @SuppressWarnings ("hiding")
-  public void setTaxExemption (String taxExemption)
-  {
-    this.taxExemption = taxExemption;
-  }
+	@SuppressWarnings ("hiding")
+	public void setUnitPrice (final Double unitPrice)
+	{
+		this.unitPrice = unitPrice;
+	}
 
-  @XmlElement (name = "LineItemAmount", namespace = Data.DEFAULT_NAMESPACE)
-  public Double getLineItemAmount ()
-  {
-    return lineItemAmount;
-  }
+	@XmlElement (name = "VATRate", namespace = Data.DEFAULT_NAMESPACE)
+	public Integer getVatRate ()
+	{
+		return vatRate;
+	}
 
-  @SuppressWarnings ("hiding")
-  public void setLineItemAmount (final Double lineItemAmount)
-  {
-    this.lineItemAmount = lineItemAmount;
-  }
+	@SuppressWarnings ("hiding")
+	public void setVatRate (final Integer vatRate)
+	{
+		this.vatRate = vatRate;
+	}
 
-  public void setTaxExemptionReasonInternal (final String reason)
-  {
-    this.vatRate = null;
-    this.taxExemption = reason;
-  }
+	@XmlElementWrapper (name = "ReductionAndSurchargeListLineItemDetails", namespace = Data.DEFAULT_NAMESPACE)
+	@XmlElement (name = "SurchargeListLineItem", namespace = Data.DEFAULT_NAMESPACE)
+	public List<SurchargeListLineItem> getSurcharge ()
+	{
+		return surcharge;
+	}
 
-  public void removeTaxExemptionReason (final Integer vat)
-  {
-    this.taxExemption = null;
-    this.vatRate = vat;
-  }
+	@SuppressWarnings ("hiding")
+	public void setSurcharge (List<SurchargeListLineItem> surcharge)
+	{
+		this.surcharge = surcharge;
+	}
 
-  public void addSurcharge (final Double totalNetAmount, final Double surcharge)
-  {
-    this.surcharge = new ArrayList <> ();
+	@XmlElement (name = "TaxExemption", namespace = Data.DEFAULT_NAMESPACE)
+	public String getTaxExemption ()
+	{
+		return taxExemption;
+	}
 
-    SurchargeListLineItem s = new SurchargeListLineItem ();
-    s.setBaseAmount (totalNetAmount);
-    s.setAmount (surcharge);
+	@SuppressWarnings ("hiding")
+	public void setTaxExemption (String taxExemption)
+	{
+		this.taxExemption = taxExemption;
+	}
 
-    this.surcharge.add (s);
-  }
+	@XmlElement (name = "LineItemAmount", namespace = Data.DEFAULT_NAMESPACE)
+	public Double getLineItemAmount ()
+	{
+		return lineItemAmount;
+	}
 
-  public void removeSurchare ()
-  {
-    this.surcharge = null;
-  }
+	@SuppressWarnings ("hiding")
+	public void setLineItemAmount (final Double lineItemAmount)
+	{
+		this.lineItemAmount = lineItemAmount;
+	}
 }

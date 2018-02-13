@@ -24,7 +24,7 @@ public final class LoadInvoiceDataMapper
 				break;
 
 			case DETAILS_LINE_QUANTITY:
-				value = lli.getQuantity ().getQuantity ().toString ();
+				value = DoubleAsStringUtility.getFourDigitValue (lli.getQuantity ().getQuantity ());
 				break;
 
 			case DETAILS_LINE_UNIT:
@@ -32,7 +32,7 @@ public final class LoadInvoiceDataMapper
 				break;
 
 			case DETAILS_LINE_UNITPRICE:
-				value = lli.getUnitPrice ().toString ();
+				value = DoubleAsStringUtility.getFourDigitValue (lli.getUnitPrice ());
 				break;
 
 			case DETAILS_LINE_DESCRIPTION:
@@ -45,7 +45,7 @@ public final class LoadInvoiceDataMapper
 				if (l == null)
 					value = null;
 				else
-					value = l.get (0).getAmount ().toString ();
+					value = DoubleAsStringUtility.getTwoDigitValue (l.get (0).getAmount ());
 
 				break;
 

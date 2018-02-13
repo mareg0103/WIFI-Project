@@ -89,6 +89,7 @@ public enum EFormElement
    */
   DETAILS_RIGHT_ADDINVOICELINE_BUTTON ("addinvoiceline", "Rechnungszeile\nhinzufügen", Data.ELEMENTTYPE_BUTTON, false, Data.DETAILS_RIGHT_AREA),
   DETAILS_RIGHT_TOTALNETAMOUND ("totalnetamount", "Gesamtnetto", Data.ELEMENTTYPE_TEXTFIELD, false, Data.DETAILS_RIGHT_AREA),
+  DETAILS_RIGHT_TOTALGROSSAMOUND ("totalgrossamount", "Gesamtbrutto", Data.ELEMENTTYPE_TEXTFIELD, false, Data.DETAILS_RIGHT_AREA),
   DETAILS_RIGHT_VATID_BILLER ("billervatid", "UID Rechnungssteller", Data.ELEMENTTYPE_TEXTFIELD, false, Data.DETAILS_RIGHT_AREA),
   DETAILS_RIGHT_VATID_INVOICERECIPIENT ("invoicerecipientvatid", "UID Rechnungsempfänger", Data.ELEMENTTYPE_TEXTFIELD, false, Data.DETAILS_RIGHT_AREA),
 
@@ -102,6 +103,7 @@ public enum EFormElement
   DETAILS_LINE_DESCRIPTION ("description", "Beschreibung", Data.ELEMENTTYPE_TEXTAREA, true, Data.TITLEDPANE_DETAILS),
   DETAILS_LINE_TOTALNET ("totalnetamount", "Gesamtnetto", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DETAILS),
   DETAILS_LINE_SURCHARGE ("surcharge", "Auf-/Abschlag", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DETAILS),
+  DETAILS_LINE_SURCHARGE_DESCRIPTION ("surchargedescription", "Beschreibung", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DETAILS),
   DETAILS_LINE_VAT ("vatrate", "Steuersatz", Data.ELEMENTTYPE_COMBOBOX, true, Data.TITLEDPANE_DETAILS),
   DETAILS_LINE_TAXEXEMPTION_CHECK ("taxexemptioncheck", "Steuerbefreiung", Data.ELEMENTTYPE_CHECKBOX, false, Data.TITLEDPANE_DETAILS),
   DETAILS_LINE_TAXEXEMPTION_REASON ("taxexemptionreason", "Steuerbefreiungsgrund", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DETAILS),
