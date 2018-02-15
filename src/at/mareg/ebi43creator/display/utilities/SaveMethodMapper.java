@@ -40,6 +40,8 @@ public final class SaveMethodMapper
 				if (checkInputReturnMessage.equals ("ok"))
 					invoiceData.getInvoiceRecipient ().getOrderReference ().setOrderId (value);
 
+				invoiceData.getInvoiceRecipient ().getOrderReference ().checkIfOrderIDIsGovernmentOrderNumber ();
+
 				break;
 
 			case ORDER_REFERENCEDATE:

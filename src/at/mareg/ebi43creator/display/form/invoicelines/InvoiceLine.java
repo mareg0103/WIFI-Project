@@ -4,14 +4,15 @@ import at.mareg.ebi43creator.display.form.BasePane;
 import at.mareg.ebi43creator.display.form.help.HelpArea;
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
-import at.mareg.ebi43creator.display.utilities.DoubleAsStringUtility;
 import at.mareg.ebi43creator.display.utilities.FormElementCreator;
+import at.mareg.ebi43creator.display.utilities.TextFieldHelper;
 import at.mareg.ebi43creator.display.utilities.VBoxHelper;
 import at.mareg.ebi43creator.invoicedata.details.ListLineItem;
 import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
 import at.mareg.ebi43creator.invoicedata.enums.EVATRate;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -21,6 +22,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -29,9 +31,15 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class InvoiceLine extends BasePane
 {
+	/*
+	 * Invoice line counter
+	 */
+	private static int invoiceLineCounter = 0;
 	/*
 	 * Save list line item this line belongs to
 	 */
@@ -55,7 +63,7 @@ public class InvoiceLine extends BasePane
 	private TextArea descriptionArea;
 	private TextField totalNetAmountField;
 	private TextField surchargeField;
-	private TextField surchargeDescriptionField;
+	private TextField surchargeCommentField;
 	private Label vatRateLabel;
 	private ComboBox<String> vatComboBox;
 	private CheckBox taxExemptionCheckBox;
@@ -66,29 +74,99 @@ public class InvoiceLine extends BasePane
 	/*
 	 * Line variables
 	 */
+	private int lineNumber;
 	private Integer orderPositionNumber;
 	private Double quantity;
 	private String unit;
 	private Double unitprice;
 	private String description;
 	private Double totalNetAmount;
+	private Double totalNetAmountWithSurcharge;
 	private Double surcharge;
+	private String comment;
 	private Integer vatRate;
 	private String taxexemptionreason;
 	private Double totalGrossAmount;
 
+	/*
+	 * Event handler
+	 */
+	private EventHandler<KeyEvent> onlyNumbersEventHandler;
+	private EventHandler<KeyEvent> onlyNumbersAndSemicolonTwoDecimalDigits;
+	private EventHandler<KeyEvent> onlyNumbersAndSemicolonFourDecimalDigits;
+
 	public InvoiceLine (final ResourceManager resman, final ListLineItem li)
 	{
 		super (resman);
+		invoiceLineCounter++;
+		lineNumber = invoiceLineCounter;
+
 		listLineItem = li;
 
-		quantity = Double.valueOf (0);
-		unitprice = Double.valueOf (0);
+		// quantity = Double.valueOf (0);
+		// unitprice = Double.valueOf (0);
 		vatRate = Integer.valueOf (20);
 
 		helpArea = resman.getHelpArea ();
 
-		this.init ();
+		_initEventHandler ();
+		init ();
+	}
+
+	/*
+	 * Initialize event handlers
+	 */
+	private void _initEventHandler ()
+	{
+		onlyNumbersEventHandler = new EventHandler<KeyEvent> ()
+		{
+			@Override
+			public void handle (KeyEvent event)
+			{
+				if (!(event.getCharacter ().matches ("[0-9]")))
+				{
+					event.consume ();
+				}
+			}
+		};
+
+		onlyNumbersAndSemicolonTwoDecimalDigits = new EventHandler<KeyEvent> ()
+		{
+			@Override
+			public void handle (KeyEvent event)
+			{
+				if ((!(event.getCharacter ().matches ("[0-9]")) && (!(event.getCharacter ().equals (",")))))
+					event.consume ();
+
+				String text = ((TextField) event.getTarget ()).getText ();
+				int indexOfSemicolon = text.indexOf (",");
+
+				if (indexOfSemicolon != -1)
+					if (text.substring (indexOfSemicolon + 1).length () == 2)
+						event.consume ();
+			}
+		};
+
+		onlyNumbersAndSemicolonFourDecimalDigits = new EventHandler<KeyEvent> ()
+		{
+			@Override
+			public void handle (KeyEvent event)
+			{
+				if ((!(event.getCharacter ().matches ("[0-9]")) && (!(event.getCharacter ().equals (",")))))
+				{
+					event.consume ();
+				}
+
+				String text = ((TextField) event.getTarget ()).getText ();
+				int indexOfSemicolon = text.indexOf (",");
+
+				if (indexOfSemicolon != -1)
+					if (text.substring (indexOfSemicolon + 1).length () == 4)
+						event.consume ();
+
+				System.out.println (text);
+			}
+		};
 	}
 
 	@Override
@@ -97,7 +175,6 @@ public class InvoiceLine extends BasePane
 	 * needed focus listeners for calculation and direct saving of values to list
 	 * line item
 	 */
-
 	protected void init ()
 	{
 		// super.init ();
@@ -132,6 +209,7 @@ public class InvoiceLine extends BasePane
 			opnField = FormElementCreator.getDisabledTextField (EFormElement.DETAILS_LINE_ORDERPOSITIONNUMER.getID (),
 					EFormElement.DETAILS_LINE_ORDERPOSITIONNUMER.isRequired ());
 		}
+		opnField.addEventHandler (KeyEvent.KEY_TYPED, onlyNumbersEventHandler);
 		opnField.focusedProperty ().addListener (new ChangeListener<Boolean> ()
 		{
 			public void changed (ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
@@ -141,7 +219,15 @@ public class InvoiceLine extends BasePane
 					helpArea.show (EFormElement.DETAILS_LINE_ORDERPOSITIONNUMER.getID ());
 				} else
 				{
-					System.out.println ("opnField lost focus");
+					if (!opnField.getText ().isEmpty ())
+					{
+						orderPositionNumber = TextFieldHelper.getIntegerFromString (opnField.getText ());
+						listLineItem.setOrderPositionNumber (orderPositionNumber);
+					} else
+					{
+						orderPositionNumber = null;
+						listLineItem.setOrderPositionNumber (null);
+					}
 				}
 			}
 		});
@@ -160,6 +246,7 @@ public class InvoiceLine extends BasePane
 				null);
 		quantityField = FormElementCreator.getStandardTextField (EFormElement.DETAILS_LINE_QUANTITY.getID (),
 				EFormElement.DETAILS_LINE_QUANTITY.isRequired ());
+		quantityField.addEventHandler (KeyEvent.KEY_TYPED, onlyNumbersAndSemicolonFourDecimalDigits);
 		quantityField.focusedProperty ().addListener (new ChangeListener<Boolean> ()
 		{
 			public void changed (ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
@@ -169,7 +256,18 @@ public class InvoiceLine extends BasePane
 					helpArea.show (EFormElement.DETAILS_LINE_QUANTITY.getID ());
 				} else
 				{
-					System.out.println ("quantityField lost focus");
+					if (!quantityField.getText ().isEmpty ())
+					{
+						quantity = TextFieldHelper.getDoubleFromString (quantityField.getText ());
+						quantityField.setText (TextFieldHelper.getFourDecimalsStringFromDouble (quantity));
+						listLineItem.getQuantity ().setQuantity (quantity);
+					} else
+					{
+						quantity = null;
+						listLineItem.getQuantity ().setQuantity (null);
+					}
+
+					calculateLine ();
 				}
 			}
 		});
@@ -186,6 +284,7 @@ public class InvoiceLine extends BasePane
 
 		Label unitLabel = FormElementCreator.getStandardLabel (EFormElement.DETAILS_LINE_UNIT.getLabelText (), null);
 		unitComboBox = FormElementCreator.getInvoiceLineUnitComboBox (EFormElement.DETAILS_LINE_UNIT.getID ());
+		unitComboBox.getSelectionModel ().select (Data.DEFAULT_UNIT);
 		// unitComboBox.hoverProperty ().addListener ( (observable) -> {
 		// helpArea.show (EFormElement.DETAILS_LINE_UNIT.getID ());
 		// });
@@ -198,7 +297,8 @@ public class InvoiceLine extends BasePane
 					helpArea.show (EFormElement.DETAILS_LINE_UNIT.getID ());
 				} else
 				{
-					System.out.println ("unitComboBox lost focus");
+					unit = unitComboBox.getSelectionModel ().selectedItemProperty ().get ();
+					listLineItem.getQuantity ().setUnit (unit);
 				}
 			}
 		});
@@ -226,7 +326,18 @@ public class InvoiceLine extends BasePane
 					helpArea.show (EFormElement.DETAILS_LINE_UNITPRICE.getID ());
 				} else
 				{
-					System.out.println ("unitPriceField lost focus");
+					if (!unitPriceField.getText ().isEmpty ())
+					{
+						unitprice = TextFieldHelper.getDoubleFromString (unitPriceField.getText ());
+						unitPriceField.setText (TextFieldHelper.getFourDecimalsStringFromDouble (unitprice));
+						listLineItem.setUnitPrice (unitprice);
+					} else
+					{
+						unitprice = null;
+						listLineItem.setUnitPrice (null);
+					}
+
+					calculateLine ();
 				}
 			}
 		});
@@ -254,7 +365,15 @@ public class InvoiceLine extends BasePane
 					helpArea.show (EFormElement.DETAILS_LINE_DESCRIPTION.getID ());
 				} else
 				{
-					System.out.println ("descriptionArea lost focus");
+					if (!descriptionArea.getText ().isEmpty ())
+					{
+						description = descriptionArea.getText ();
+						listLineItem.setDescription (description);
+					} else
+					{
+						description = null;
+						listLineItem.setDescription (null);
+					}
 				}
 			}
 		});
@@ -281,9 +400,6 @@ public class InvoiceLine extends BasePane
 				if (newValue)
 				{
 					helpArea.show (EFormElement.DETAILS_LINE_TOTALNET.getID ());
-				} else
-				{
-					System.out.println ("totalNetAmountField lost focus");
 				}
 			}
 		});
@@ -311,8 +427,27 @@ public class InvoiceLine extends BasePane
 					helpArea.show (EFormElement.DETAILS_LINE_SURCHARGE.getID ());
 				} else
 				{
-					System.out.println ("surchargeField lost focus");
+					if (!surchargeField.getText ().isEmpty ())
+					{
+						surcharge = TextFieldHelper.getDoubleFromString (surchargeField.getText ());
+						surchargeField.setText (TextFieldHelper.getTwoDecimalsStringFromDouble (surcharge));
+						listLineItem.addSurcharge (totalNetAmount, surcharge);
+
+						FormElementCreator.enableTextField (surchargeCommentField,
+								EFormElement.getFromIDOrNull (surchargeCommentField.getId ()));
+						surchargeCommentField.requestFocus ();
+					} else
+					{
+						surcharge = null;
+						comment = null;
+						listLineItem.removeSurchare ();
+
+						FormElementCreator.disableTextField (surchargeCommentField,
+								EFormElement.getFromIDOrNull (surchargeCommentField.getId ()));
+					}
 				}
+
+				calculateLine ();
 			}
 		});
 
@@ -322,16 +457,18 @@ public class InvoiceLine extends BasePane
 		grid.add (surchargeBox, 2, 2);
 
 		/*
-		 * Surcharge description
+		 * Surcharge comment
 		 */
-		VBox surchargeDescriptionBox = new VBox ();
+		VBox surchargeCommentBox = new VBox ();
 
-		Label surchargeDescriptionLabel = FormElementCreator
+		Label surchargeCommentLabel = FormElementCreator
 				.getStandardLabel (EFormElement.DETAILS_LINE_SURCHARGE_DESCRIPTION.getLabelText (), null);
-		surchargeDescriptionField = FormElementCreator.getStandardTextField (
+		surchargeCommentField = FormElementCreator.getStandardTextField (
 				EFormElement.DETAILS_LINE_SURCHARGE_DESCRIPTION.getID (),
 				EFormElement.DETAILS_LINE_SURCHARGE_DESCRIPTION.isRequired ());
-		surchargeDescriptionField.focusedProperty ().addListener (new ChangeListener<Boolean> ()
+		FormElementCreator.disableTextField (surchargeCommentField,
+				EFormElement.getFromIDOrNull (surchargeCommentField.getId ()));
+		surchargeCommentField.focusedProperty ().addListener (new ChangeListener<Boolean> ()
 		{
 			public void changed (ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
 			{
@@ -340,15 +477,22 @@ public class InvoiceLine extends BasePane
 					helpArea.show (EFormElement.DETAILS_LINE_SURCHARGE.getID ());
 				} else
 				{
-					System.out.println ("surchargeDescriptionField lost focus");
+					if (!surchargeCommentField.getText ().isEmpty ())
+					{
+						comment = surchargeCommentField.getText ();
+						listLineItem.addSurchargeComment (comment);
+					} else
+					{
+						comment = null;
+					}
 				}
 			}
 		});
 
-		surchargeDescriptionBox.getChildren ().addAll (surchargeDescriptionLabel, surchargeDescriptionField);
+		surchargeCommentBox.getChildren ().addAll (surchargeCommentLabel, surchargeCommentField);
 
-		VBoxHelper.structureVBox (surchargeDescriptionBox);
-		grid.add (surchargeDescriptionBox, 3, 2);
+		VBoxHelper.structureVBox (surchargeCommentBox);
+		grid.add (surchargeCommentBox, 3, 2);
 
 		/*
 		 * VAT rate
@@ -357,6 +501,14 @@ public class InvoiceLine extends BasePane
 
 		vatRateLabel = FormElementCreator.getStandardLabel (EFormElement.DETAILS_LINE_VAT.getLabelText () + "*", null);
 		vatComboBox = FormElementCreator.getVatRateComboBox (EFormElement.DETAILS_LINE_VAT.getID ());
+		listLineItem.setVatRate (EVATRate.getFromIDOrNull (Data.DEFAULT_VAT_RATE).getVatRateInteger ());
+		vatComboBox.setOnAction (e -> {
+			vatRate = EVATRate.getFromIDOrNull (vatComboBox.getSelectionModel ().getSelectedItem ())
+					.getVatRateInteger ();
+			listLineItem.setVatRate (vatRate);
+
+			calculateLine ();
+		});
 		vatComboBox.focusedProperty ().addListener (new ChangeListener<Boolean> ()
 		{
 			public void changed (ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
@@ -364,9 +516,6 @@ public class InvoiceLine extends BasePane
 				if (newValue)
 				{
 					helpArea.show (EFormElement.DETAILS_LINE_VAT.getID ());
-				} else
-				{
-					System.out.println ("vatComboBox lost focus");
 				}
 			}
 		});
@@ -420,7 +569,8 @@ public class InvoiceLine extends BasePane
 					helpArea.show (EFormElement.DETAILS_LINE_TAXEXEMPTION_REASON.getID ());
 				} else
 				{
-					System.out.println ("taxExemptionReasonField lost focus");
+					taxexemptionreason = taxExemptionReasonField.getText ();
+					listLineItem.setTaxExemptionReasonInternal (taxexemptionreason);
 				}
 			}
 		});
@@ -447,9 +597,6 @@ public class InvoiceLine extends BasePane
 				if (newValue)
 				{
 					helpArea.show (EFormElement.DETAILS_LINE_TOTALGROSS.getID ());
-				} else
-				{
-					System.out.println ("totalGrossAmountField lost focus");
 				}
 			}
 		});
@@ -473,9 +620,18 @@ public class InvoiceLine extends BasePane
 			System.out.println ("Alle eingetragenen ListLineItems:");
 			for (ListLineItem l : rm.getInvoiceData ().getDetails ().getListLineItems ())
 				System.out.println (" " + l.toString ());
+			System.out.println ("Zeilennummer: " + getInvoiceLineNumber ());
 		});
 
-		grid.add (removeThisLine, 5, 0);
+		grid.add (removeThisLine, 5, 4);
+
+		/*
+		 * Invoice line number
+		 */
+		Label invoiceLineNumber = FormElementCreator.getStandardLabel (String.valueOf (lineNumber),
+				new Insets (5, 15, 5, 15));
+		invoiceLineNumber.setFont (Font.font (invoiceLineNumber.getFont ().getFamily (), FontWeight.BOLD, 12));
+		grid.add (invoiceLineNumber, 5, 0);
 
 		this.setBorder (new Border (new BorderStroke (Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
 				BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID,
@@ -483,6 +639,14 @@ public class InvoiceLine extends BasePane
 		this.add (grid, 0, 0);
 
 		calculateLine ();
+	}
+
+	/*
+	 * Get invoice line number
+	 */
+	public int getInvoiceLineNumber ()
+	{
+		return lineNumber;
 	}
 
 	/*
@@ -503,7 +667,10 @@ public class InvoiceLine extends BasePane
 
 		FormElementCreator.showLabelAsDisabled (vatRateLabel, v);
 		FormElementCreator.disableComboBox (vatComboBox);
+
 		this.vatRate = null;
+
+		calculateLine ();
 	}
 
 	/*
@@ -519,6 +686,7 @@ public class InvoiceLine extends BasePane
 		FormElementCreator.disableTextField (taxExemptionReasonField, t);
 
 		this.taxexemptionreason = null;
+		listLineItem.setTaxExemption (taxexemptionreason);
 
 		// Enable vat rate
 		EFormElement v = EFormElement.DETAILS_LINE_VAT;
@@ -529,6 +697,9 @@ public class InvoiceLine extends BasePane
 
 		String selectedVat = vatComboBox.getSelectionModel ().getSelectedItem ();
 		vatRate = EVATRate.getFromIDOrNull (selectedVat).getVatRateInteger ();
+		listLineItem.setVatRate (vatRate);
+
+		calculateLine ();
 	}
 
 	/*
@@ -545,9 +716,17 @@ public class InvoiceLine extends BasePane
 	 */
 	public void _calculateTotalNetAmount ()
 	{
-		totalNetAmount = quantity * unitprice;
+		if (quantity != null && unitprice != null)
+			totalNetAmount = quantity * unitprice;
+		else
+			totalNetAmount = Double.valueOf (0);
 
-		totalNetAmountField.setText (DoubleAsStringUtility.getTwoDigitValue (totalNetAmount));
+		if (surcharge != null)
+			totalNetAmountWithSurcharge = totalNetAmount + surcharge;
+		else
+			totalNetAmountWithSurcharge = totalNetAmount;
+
+		totalNetAmountField.setText (TextFieldHelper.getTwoDecimalsStringFromDouble (totalNetAmount));
 	}
 
 	/*
@@ -557,14 +736,12 @@ public class InvoiceLine extends BasePane
 	public void _calculateTotalGrossAmount ()
 	{
 		double rate = vatRate == null ? 0 : 1 + ((double) vatRate / 100);
-		System.out.println ("In invoiceLine.calculateTotalGrossAmount ()...");
-		System.out.println ("   Rate = " + rate + "(" + vatRate + ")");
 
-		Double lineItemAmount = totalNetAmount + (surcharge == null ? 0 : surcharge.doubleValue ());
+		Double lineItemAmount = totalNetAmountWithSurcharge;
 
 		totalGrossAmount = lineItemAmount.doubleValue () * (rate == 0 ? 1 : rate);
 
-		totalGrossAmountField.setText (DoubleAsStringUtility.getTwoDigitValue (totalGrossAmount));
+		totalGrossAmountField.setText (TextFieldHelper.getTwoDecimalsStringFromDouble (totalGrossAmount));
 
 		_setLineItemAmountToLidtLineItem (lineItemAmount);
 	}

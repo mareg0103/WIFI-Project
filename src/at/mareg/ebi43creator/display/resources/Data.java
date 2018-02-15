@@ -1,6 +1,8 @@
 package at.mareg.ebi43creator.display.resources;
 
 import at.mareg.ebi43creator.invoicedata.enums.EDocumentType;
+import at.mareg.ebi43creator.invoicedata.enums.EUnit;
+import at.mareg.ebi43creator.invoicedata.enums.EVATRate;
 import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
 
@@ -159,6 +161,9 @@ public final class Data
 	/*
 	 * Details - invoice line
 	 */
+	public static final String DEFAULT_VAT_RATE = EVATRate.VAT_TWENTY.getVatRateOutput ();
+	public static final String DEFAULT_UNIT = EUnit.UNIT_03.getUnitDescription ();
+
 	public static final Insets LINE_PADDING = new Insets (5, 5, 5, 5);
 	public static final double LINE_HVGAP = 5d;
 

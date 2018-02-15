@@ -55,7 +55,7 @@ public class OrderReference
     this.description = description;
   }
 
-  public void orderIDisGovernmentOrderNumber ()
+  public void checkIfOrderIDIsGovernmentOrderNumber ()
   {
     isGovernmentOrderNumber = InputChecker.orderIDisGovermentOrderNumber (orderId);
   }

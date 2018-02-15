@@ -74,7 +74,6 @@ public class ResourceManager
 			formFiller = new FormFiller (invoiceData, this);
 		}
 		SaveMethodMapper.setInvoiceData (invoiceData);
-		invoiceData.getDetails ().setResourceManagerInternal (this);
 
 		this.contactPane = new ContactPane (this);
 		this.orderPane = new OrderPane (this);
@@ -84,6 +83,8 @@ public class ResourceManager
 		this.summaryPane = new SummaryPane (this);
 		this.form = new FormTabs (orderPane, contactPane, paymentPane, detailsPane, surchargeDiscountPane, summaryPane,
 				helpArea, this);
+
+		invoiceData.getDetails ().setResourceManagerInternal (this);
 
 		this.display = disp;
 

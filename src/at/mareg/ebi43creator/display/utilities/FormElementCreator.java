@@ -208,7 +208,7 @@ public final class FormElementCreator
 		for (final EVATRate e : EVATRate.values ())
 			cb.getItems ().add (e.getVatRateOutput ());
 
-		cb.getSelectionModel ().selectLast ();
+		cb.getSelectionModel ().select (Data.DEFAULT_VAT_RATE);
 		cb.setEditable (false);
 		cb.setPrefWidth (200);
 
@@ -267,9 +267,9 @@ public final class FormElementCreator
 		boolean isRequired = e.isRequired ();
 
 		t.disableProperty ().set (false);
-		t.setStyle ("-fx-control-inner-background: #"
-				+ (t.getText ().isEmpty () ? (isRequired ? Data.BACKROUND_HEX_REQUIRED : Data.BACKGROUND_HEX_OK)
-						: Data.BACKGROUND_HEX_OK));
+		t.setStyle ("-fx-control-inner-background: #" + (t.getText () == null || t.getText ().isEmpty ()
+				? (isRequired ? Data.BACKROUND_HEX_REQUIRED : Data.BACKGROUND_HEX_OK)
+				: Data.BACKGROUND_HEX_OK));
 	}
 
 	/*
@@ -297,14 +297,14 @@ public final class FormElementCreator
 	 */
 	public static void disableTextField (final TextField t, final EFormElement e)
 	{
-		t.disableProperty ().set (false);
+		t.disableProperty ().set (true);
 
 		if (e != null)
-			t.setStyle ("-fx-control-inner-background: #" + (t.getText ().isEmpty ()
+			t.setStyle ("-fx-control-inner-background: #" + (t.getText () == null || t.getText ().isEmpty ()
 					? (e.isRequired () ? Data.BACKROUND_HEX_REQUIRED : Data.BACKGROUND_HEX_OK)
 					: Data.BACKGROUND_HEX_OK));
 
-		t.setText (null);
+		t.setText ("");
 	}
 
 	/*

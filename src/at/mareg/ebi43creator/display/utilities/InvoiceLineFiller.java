@@ -61,7 +61,7 @@ public final class InvoiceLineFiller
 									Double dlq = lli.getQuantity ().getQuantity ();
 									il.setQuantity (dlq);
 									value = (dlq == null ? null
-											: DoubleAsStringUtility.getFourDigitValue (dlq.doubleValue ()));
+											: TextFieldHelper.getFourDecimalsStringFromDouble (dlq.doubleValue ()));
 									break;
 
 								case DETAILS_LINE_UNIT:
@@ -74,7 +74,7 @@ public final class InvoiceLineFiller
 									Double dlu = lli.getUnitPrice ();
 									il.setUnitprice (dlu);
 									value = (dlu == null ? null
-											: DoubleAsStringUtility.getFourDigitValue (dlu.doubleValue ()));
+											: TextFieldHelper.getFourDecimalsStringFromDouble (dlu.doubleValue ()));
 									break;
 
 								case DETAILS_LINE_DESCRIPTION:
@@ -88,7 +88,7 @@ public final class InvoiceLineFiller
 									Double dls = (l == null ? null : l.get (0).getAmount ());
 									il.setSurcharge (dls);
 									value = (dls == null ? null
-											: DoubleAsStringUtility.getTwoDigitValue (dls.doubleValue ()));
+											: TextFieldHelper.getTwoDecimalsStringFromDouble (dls.doubleValue ()));
 									break;
 
 								case DETAILS_LINE_VAT:
