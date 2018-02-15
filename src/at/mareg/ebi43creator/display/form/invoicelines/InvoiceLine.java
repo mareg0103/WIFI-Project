@@ -40,6 +40,7 @@ public class InvoiceLine extends BasePane
 	 * Invoice line counter
 	 */
 	private static int invoiceLineCounter = 0;
+
 	/*
 	 * Save list line item this line belongs to
 	 */
@@ -49,6 +50,10 @@ public class InvoiceLine extends BasePane
 	 * Help area instance
 	 */
 	private HelpArea helpArea;
+
+	/*
+	 * 
+	 */
 
 	/*
 	 * Pane elements
@@ -92,8 +97,8 @@ public class InvoiceLine extends BasePane
 	 * Event handler
 	 */
 	private EventHandler<KeyEvent> onlyNumbersEventHandler;
-	private EventHandler<KeyEvent> onlyNumbersAndSemicolonTwoDecimalDigits;
-	private EventHandler<KeyEvent> onlyNumbersAndSemicolonFourDecimalDigits;
+	private EventHandler<KeyEvent> onlyNumbersSemicolonMinusTwoDecimalDigits;
+	private EventHandler<KeyEvent> onlyNumbersSemicolonMinusFourDecimalDigits;
 
 	public InvoiceLine (final ResourceManager resman, final ListLineItem li)
 	{
@@ -130,34 +135,43 @@ public class InvoiceLine extends BasePane
 			}
 		};
 
-		onlyNumbersAndSemicolonTwoDecimalDigits = new EventHandler<KeyEvent> ()
+		onlyNumbersSemicolonMinusTwoDecimalDigits = new EventHandler<KeyEvent> ()
 		{
 			@Override
 			public void handle (KeyEvent event)
 			{
-				if ((!(event.getCharacter ().matches ("[0-9]")) && (!(event.getCharacter ().equals (",")))))
+				String text = ((TextField) event.getTarget ()).getText ();
+
+				if ((text.length () > 0) && (event.getCharacter ().equals ("-")))
 					event.consume ();
 
-				String text = ((TextField) event.getTarget ()).getText ();
-				int indexOfSemicolon = text.indexOf (",");
+				if ((!(event.getCharacter ().matches ("[0-9]")) && (!(event.getCharacter ().equals (",")))
+						&& (!(event.getCharacter ().equals ("-")))))
+					event.consume ();
 
+				int indexOfSemicolon = text.indexOf (",");
 				if (indexOfSemicolon != -1)
 					if (text.substring (indexOfSemicolon + 1).length () == 2)
 						event.consume ();
 			}
 		};
 
-		onlyNumbersAndSemicolonFourDecimalDigits = new EventHandler<KeyEvent> ()
+		onlyNumbersSemicolonMinusFourDecimalDigits = new EventHandler<KeyEvent> ()
 		{
 			@Override
 			public void handle (KeyEvent event)
 			{
-				if ((!(event.getCharacter ().matches ("[0-9]")) && (!(event.getCharacter ().equals (",")))))
+				String text = ((TextField) event.getTarget ()).getText ();
+
+				if ((text.length () > 0) && (event.getCharacter ().equals ("-")))
+					event.consume ();
+
+				if ((!(event.getCharacter ().matches ("[0-9]")) && (!(event.getCharacter ().equals (",")))
+						&& (!(event.getCharacter ().equals ("-")))))
 				{
 					event.consume ();
 				}
 
-				String text = ((TextField) event.getTarget ()).getText ();
 				int indexOfSemicolon = text.indexOf (",");
 
 				if (indexOfSemicolon != -1)
@@ -246,7 +260,7 @@ public class InvoiceLine extends BasePane
 				null);
 		quantityField = FormElementCreator.getStandardTextField (EFormElement.DETAILS_LINE_QUANTITY.getID (),
 				EFormElement.DETAILS_LINE_QUANTITY.isRequired ());
-		quantityField.addEventHandler (KeyEvent.KEY_TYPED, onlyNumbersAndSemicolonFourDecimalDigits);
+		quantityField.addEventHandler (KeyEvent.KEY_TYPED, onlyNumbersSemicolonMinusFourDecimalDigits);
 		quantityField.focusedProperty ().addListener (new ChangeListener<Boolean> ()
 		{
 			public void changed (ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
@@ -317,6 +331,7 @@ public class InvoiceLine extends BasePane
 				null);
 		unitPriceField = FormElementCreator.getStandardTextField (EFormElement.DETAILS_LINE_UNITPRICE.getID (),
 				EFormElement.DETAILS_LINE_UNITPRICE.isRequired ());
+		unitPriceField.addEventHandler (KeyEvent.KEY_TYPED, onlyNumbersSemicolonMinusFourDecimalDigits);
 		unitPriceField.focusedProperty ().addListener (new ChangeListener<Boolean> ()
 		{
 			public void changed (ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
@@ -418,6 +433,7 @@ public class InvoiceLine extends BasePane
 				null);
 		surchargeField = FormElementCreator.getStandardTextField (EFormElement.DETAILS_LINE_SURCHARGE.getID (),
 				EFormElement.DETAILS_LINE_SURCHARGE.isRequired ());
+		surchargeField.addEventHandler (KeyEvent.KEY_TYPED, onlyNumbersSemicolonMinusTwoDecimalDigits);
 		surchargeField.focusedProperty ().addListener (new ChangeListener<Boolean> ()
 		{
 			public void changed (ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
@@ -709,6 +725,7 @@ public class InvoiceLine extends BasePane
 	{
 		_calculateTotalNetAmount ();
 		_calculateTotalGrossAmount ();
+		rm.getDetailsPane ().refreshTotalNetAndGrossAmount ();
 	}
 
 	/*
@@ -831,6 +848,16 @@ public class InvoiceLine extends BasePane
 	public void setTotalNetAmount (Double totalNetAmount)
 	{
 		this.totalNetAmount = totalNetAmount;
+	}
+
+	public Double getTotalNetAmountWithSurcharge ()
+	{
+		return totalNetAmountWithSurcharge;
+	}
+
+	public void setTotalNetAmountWithSurcharge (Double totalNetAmountWithSurcharge)
+	{
+		this.totalNetAmountWithSurcharge = totalNetAmountWithSurcharge;
 	}
 
 	public Double getSurcharge ()

@@ -125,4 +125,12 @@ public class InvoiceLineArea extends BasePane
 
 		_refreshArea ();
 	}
+
+	/*
+	 * Getter / Setter
+	 */
+	public List<InvoiceLine> getInvoiceLineList ()
+	{
+		return invoiceLineList;
+	}
 }

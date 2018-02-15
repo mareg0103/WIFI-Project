@@ -314,4 +314,32 @@ public final class FormElementCreator
 	{
 		c.disableProperty ().set (true);
 	}
+
+	/*
+	 * Set text field status (required / not required)
+	 */
+	public static void setVisibleTextFieldStatus (final TextField t, final EFormElement e)
+	{
+		if (e != null)
+			t.setStyle ("-fx-control-inner-background: #" + (t.getText () == null || t.getText ().isEmpty ()
+					? (e.isRequired () ? Data.BACKROUND_HEX_REQUIRED : Data.BACKGROUND_HEX_OK)
+					: Data.BACKGROUND_HEX_OK));
+	}
+
+	/*
+	 * Set label status (required / not required)
+	 */
+	public static void setVisibleLabelStatus (final Label l, final EFormElement e)
+	{
+		String labelText = l.getText ();
+
+		if (e != null)
+		{
+			if (e.isRequired () && !labelText.endsWith ("*"))
+				l.setText (labelText + "*");
+
+			if (!e.isRequired () && labelText.endsWith ("*"))
+				l.setText (labelText.substring (0, labelText.length () - 1));
+		}
+	}
 }
