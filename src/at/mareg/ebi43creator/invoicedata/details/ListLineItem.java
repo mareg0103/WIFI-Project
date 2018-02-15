@@ -177,4 +177,18 @@ public class ListLineItem
 	{
 		this.lineItemAmount = lineItemAmount;
 	}
+
+	// Temporary method
+	public void showListLineItem ()
+	{
+		System.out.println ("  OrderPosNumber: " + orderPositionNumber);
+		System.out.println ("  Description: " + description);
+		// private Quantity quantity;
+		System.out.println ("  UnitPrice: " + unitPrice);
+		// private List<SurchargeListLineItem> surcharge;
+		System.out.println ("  VATRate: " + vatRate);
+		System.out.println ("  TaxExemption: " + taxExemption);
+		System.out.println ("  LineItemAmount: " + lineItemAmount);
+
+	}
 }

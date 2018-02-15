@@ -1,6 +1,7 @@
 package at.mareg.ebi43creator.display.utilities;
 
 import at.mareg.ebi43creator.display.resources.Data;
+import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
 import at.mareg.ebi43creator.invoicedata.enums.ESurchargeType;
 import at.mareg.ebi43creator.invoicedata.enums.EUnit;
 import at.mareg.ebi43creator.invoicedata.enums.EVATRate;
@@ -240,5 +241,77 @@ public final class FormElementCreator
 		b.setId (id);
 		b.textAlignmentProperty ().set (TextAlignment.CENTER);
 		return b;
+	}
+
+	/*
+	 * Helper methods
+	 */
+
+	/*
+	 * Show label as enable
+	 */
+	public static void showLabelAsEnabled (final Label l, final EFormElement e)
+	{
+		l.setTextFill (Color.BLACK);
+
+		if (e.isRequired () && !l.getText ().endsWith ("*"))
+			l.setText (l.getText () + "*");
+
+	}
+
+	/*
+	 * Enable text field
+	 */
+	public static void enableTextField (final TextField t, final EFormElement e)
+	{
+		boolean isRequired = e.isRequired ();
+
+		t.disableProperty ().set (false);
+		t.setStyle ("-fx-control-inner-background: #"
+				+ (t.getText ().isEmpty () ? (isRequired ? Data.BACKROUND_HEX_REQUIRED : Data.BACKGROUND_HEX_OK)
+						: Data.BACKGROUND_HEX_OK));
+	}
+
+	/*
+	 * Enable combo box
+	 */
+	public static void enableComboBox (final ComboBox<String> c)
+	{
+		c.disableProperty ().set (false);
+	}
+
+	/*
+	 * Show label as disabled
+	 */
+	public static void showLabelAsDisabled (final Label l, final EFormElement e)
+	{
+		l.setTextFill (Color.DARKGRAY);
+
+		String labelText = l.getText ();
+		if (e != null && !e.isRequired () && labelText.endsWith ("*"))
+			l.setText (labelText.substring (0, labelText.length () - 1));
+	}
+
+	/*
+	 * Disable text field
+	 */
+	public static void disableTextField (final TextField t, final EFormElement e)
+	{
+		t.disableProperty ().set (false);
+
+		if (e != null)
+			t.setStyle ("-fx-control-inner-background: #" + (t.getText ().isEmpty ()
+					? (e.isRequired () ? Data.BACKROUND_HEX_REQUIRED : Data.BACKGROUND_HEX_OK)
+					: Data.BACKGROUND_HEX_OK));
+
+		t.setText (null);
+	}
+
+	/*
+	 * Disable combo box
+	 */
+	public static void disableComboBox (final ComboBox<String> c)
+	{
+		c.disableProperty ().set (true);
 	}
 }

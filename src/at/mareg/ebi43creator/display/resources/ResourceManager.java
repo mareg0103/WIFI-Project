@@ -21,134 +21,129 @@ import at.mareg.ebi43creator.invoicedata.InvoiceData;
  */
 public class ResourceManager
 {
-  /*
-   * Date manager
-   */
-  private final InvoiceDateManager invoiceDateManager;
+	/*
+	 * Date manager
+	 */
+	private final InvoiceDateManager invoiceDateManager;
 
-  /*
-   * Invoice data
-   */
-  private InvoiceData invoiceData;
+	/*
+	 * Invoice data
+	 */
+	private InvoiceData invoiceData;
 
-  /*
-   * Form filler (loaded XML document)
-   */
-  private final FormFiller formFiller;
+	/*
+	 * Form filler (loaded XML document)
+	 */
+	private final FormFiller formFiller;
 
-  /*
-   * Display management
-   */
-  private final EBI43CreatorMain display;
+	/*
+	 * Display management
+	 */
+	private final EBI43CreatorMain display;
 
-  /*
-   * Help texts
-   */
-  private final HelpArea helpArea;
+	/*
+	 * Help texts
+	 */
+	private final HelpArea helpArea;
 
-  /*
-   * The form
-   */
-  private final FormTabs form;
-  private final OrderPane orderPane;
-  private final ContactPane contactPane;
-  private final PaymentPane paymentPane;
-  private final DetailsPane detailsPane;
-  private final SurchargeDiscountPane surchargeDiscountPane;
-  private final SummaryPane summaryPane;
+	/*
+	 * The form
+	 */
+	private final FormTabs form;
+	private final OrderPane orderPane;
+	private final ContactPane contactPane;
+	private final PaymentPane paymentPane;
+	private final DetailsPane detailsPane;
+	private final SurchargeDiscountPane surchargeDiscountPane;
+	private final SummaryPane summaryPane;
 
-  public ResourceManager (final EBI43CreatorMain disp, final String docType, final String loadPath)
-  {
-    InputChecker.setResourceManager (this);
+	public ResourceManager (final EBI43CreatorMain disp, final String docType, final String loadPath)
+	{
+		InputChecker.setResourceManager (this);
 
-    this.helpArea = new HelpArea ();
-    this.invoiceDateManager = new InvoiceDateManager ();
+		this.helpArea = new HelpArea ();
+		this.invoiceDateManager = new InvoiceDateManager ();
 
-    if (loadPath == null)
-    {
-      this.invoiceData = new InvoiceData (invoiceDateManager, docType);
-      formFiller = null;
-    }
-    else
-    {
-      invoiceData = new InvoiceData ().readXMLInvoice (loadPath);
-      formFiller = new FormFiller (invoiceData, this);
-    }
-    SaveMethodMapper.setInvoiceData (invoiceData);
-    invoiceData.getDetails ().setResourceManagerInternal (this);
+		if (loadPath == null)
+		{
+			this.invoiceData = new InvoiceData (invoiceDateManager, docType);
+			formFiller = null;
+		} else
+		{
+			invoiceData = new InvoiceData ().readXMLInvoice (loadPath);
+			formFiller = new FormFiller (invoiceData, this);
+		}
+		SaveMethodMapper.setInvoiceData (invoiceData);
+		invoiceData.getDetails ().setResourceManagerInternal (this);
 
-    this.contactPane = new ContactPane (this);
-    this.orderPane = new OrderPane (this);
-    this.paymentPane = new PaymentPane (this);
-    this.detailsPane = new DetailsPane (this);
-    this.surchargeDiscountPane = new SurchargeDiscountPane (this);
-    this.summaryPane = new SummaryPane (this);
-    this.form = new FormTabs (orderPane,
-                              contactPane,
-                              paymentPane,
-                              detailsPane,
-                              surchargeDiscountPane,
-                              summaryPane,
-                              helpArea,
-                              this);
+		this.contactPane = new ContactPane (this);
+		this.orderPane = new OrderPane (this);
+		this.paymentPane = new PaymentPane (this);
+		this.detailsPane = new DetailsPane (this);
+		this.surchargeDiscountPane = new SurchargeDiscountPane (this);
+		this.summaryPane = new SummaryPane (this);
+		this.form = new FormTabs (orderPane, contactPane, paymentPane, detailsPane, surchargeDiscountPane, summaryPane,
+				helpArea, this);
 
-    this.display = disp;
+		this.display = disp;
 
-    if (loadPath != null)
-      formFiller.fillFormWithLoadedData ();
-  }
+		if (loadPath == null)
+			invoiceData.getDetails ().addEmptyListLineItem ();
+		else
+			formFiller.fillFormWithLoadedData ();
+	}
 
-  /*
-   * Data
-   */
-  public InvoiceDateManager getInvoiceDateManager ()
-  {
-    return invoiceDateManager;
-  }
+	/*
+	 * Data
+	 */
+	public InvoiceDateManager getInvoiceDateManager ()
+	{
+		return invoiceDateManager;
+	}
 
-  public InvoiceData getInvoiceData ()
-  {
-    return invoiceData;
-  }
+	public InvoiceData getInvoiceData ()
+	{
+		return invoiceData;
+	}
 
-  /*
-   * Display management
-   */
-  public EBI43CreatorMain getDisplay ()
-  {
-    return display;
-  }
+	/*
+	 * Display management
+	 */
+	public EBI43CreatorMain getDisplay ()
+	{
+		return display;
+	}
 
-  /*
-   * The form
-   */
-  public FormTabs getForm ()
-  {
-    return form;
-  }
+	/*
+	 * The form
+	 */
+	public FormTabs getForm ()
+	{
+		return form;
+	}
 
-  public OrderPane getOrderPane ()
-  {
-    return orderPane;
-  }
+	public OrderPane getOrderPane ()
+	{
+		return orderPane;
+	}
 
-  public ContactPane getContactPane ()
-  {
-    return contactPane;
-  }
+	public ContactPane getContactPane ()
+	{
+		return contactPane;
+	}
 
-  public PaymentPane getPaymentPane ()
-  {
-    return paymentPane;
-  }
+	public PaymentPane getPaymentPane ()
+	{
+		return paymentPane;
+	}
 
-  public DetailsPane getDetailsPane ()
-  {
-    return detailsPane;
-  }
+	public DetailsPane getDetailsPane ()
+	{
+		return detailsPane;
+	}
 
-  public HelpArea getHelpArea ()
-  {
-    return helpArea;
-  }
+	public HelpArea getHelpArea ()
+	{
+		return helpArea;
+	}
 }

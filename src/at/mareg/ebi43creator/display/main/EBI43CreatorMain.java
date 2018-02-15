@@ -55,7 +55,7 @@ public class EBI43CreatorMain extends Application
 		documentType = Data.DEFAULT_DOCUMENTTYPE;
 
 		// Set loadPath temporary
-		loadPath = "H:\\test.xml";
+		// loadPath = "H:\\test.xml";
 
 		/*
 		 * Show start dialog

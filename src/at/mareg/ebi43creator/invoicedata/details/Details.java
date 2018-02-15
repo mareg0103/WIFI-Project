@@ -59,6 +59,7 @@ public class Details
 		}
 	}
 
+	// Temporary methods
 	public void setTempData ()
 	{
 		this.addEmptyListLineItem ();
