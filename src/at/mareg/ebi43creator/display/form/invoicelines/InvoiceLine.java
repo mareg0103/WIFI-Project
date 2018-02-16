@@ -875,6 +875,16 @@ public class InvoiceLine extends BasePane
 		return vatRate;
 	}
 
+	public String getComment ()
+	{
+		return comment;
+	}
+
+	public void setComment (final String comment)
+	{
+		this.comment = comment;
+	}
+
 	public void setVatRate (Integer vatRate)
 	{
 		this.vatRate = vatRate;

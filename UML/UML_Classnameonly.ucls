@@ -3,7 +3,7 @@
   realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="at.mareg.ebi43creator.invoicedata.InvoiceData" project="WIFI-project" 
     file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/InvoiceData.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="867" y="36"/>    
+    <position height="-1" width="-1" x="471" y="27"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -111,7 +111,7 @@
   </class>  
   <class id="12" language="java" name="at.mareg.ebi43creator.invoicedata.tax.Tax" project="WIFI-project" 
     file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/tax/Tax.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1096" y="117"/>    
+    <position height="-1" width="-1" x="97" y="602"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -120,7 +120,7 @@
   </class>  
   <class id="13" language="java" name="at.mareg.ebi43creator.invoicedata.tax.VATItem" project="WIFI-project" 
     file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/tax/VATItem.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1096" y="223"/>    
+    <position height="-1" width="-1" x="95" y="704"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -130,7 +130,7 @@
   <class id="14" language="java" name="at.mareg.ebi43creator.invoicedata.payment.PaymentMethod" project="WIFI-project" 
     file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/payment/PaymentMethod.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1335" y="118"/>    
+    <position height="-1" width="-1" x="334" y="605"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -140,7 +140,7 @@
   <class id="15" language="java" name="at.mareg.ebi43creator.invoicedata.payment.PaymentConditions" 
     project="WIFI-project" file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/payment/PaymentConditions.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1575" y="121"/>    
+    <position height="-1" width="-1" x="574" y="602"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -150,7 +150,7 @@
   <class id="16" language="java" name="at.mareg.ebi43creator.invoicedata.payment.BeneficiaryAccount" 
     project="WIFI-project" file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/payment/BeneficiaryAccount.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1335" y="320"/>    
+    <position height="-1" width="-1" x="334" y="801"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -161,7 +161,7 @@
     project="WIFI-project" 
     file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/payment/UniversalBankTransaction.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1333" y="222"/>    
+    <position height="-1" width="-1" x="332" y="703"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -171,232 +171,329 @@
   <class id="18" language="java" name="at.mareg.ebi43creator.invoicedata.payment.Discount" project="WIFI-project" 
     file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/payment/Discount.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1577" y="223"/>    
+    <position height="-1" width="-1" x="576" y="704"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <association id="19">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="20" name="orderReference"/>      
-      <multiplicity id="21" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="22">    
-    <end type="SOURCE" refId="17" navigable="false">      
-      <attribute id="23" name="beneficiaryAccount"/>      
-      <multiplicity id="24" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="16" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="25">    
-    <bendpoint x="206" y="173"/>    
-    <bendpoint x="206" y="265"/>    
-    <bendpoint x="206" y="360"/>    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="26" name="address">        
-        <position height="18" width="48" x="183" y="399"/>      
-      </attribute>      
-      <multiplicity id="27" minimum="0" maximum="1">        
-        <position height="16" width="23" x="237" y="401"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="11" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="28">    
-    <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="29" name="quantity"/>      
-      <multiplicity id="30" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="10" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="31">    
-    <bendpoint x="487" y="36"/>    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="32" name="delivery">        
-        <position height="18" width="46" x="153" y="71"/>      
-      </attribute>      
-      <multiplicity id="33" minimum="0" maximum="1">        
-        <position height="16" width="23" x="204" y="72"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="34">    
-    <bendpoint x="1216" y="37"/>    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="35" name="paymentConditions">        
-        <position height="18" width="99" x="1400" y="60"/>      
-      </attribute>      
-      <multiplicity id="36" minimum="0" maximum="1">        
-        <position height="16" width="23" x="1503" y="61"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="15" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="37">    
-    <bendpoint x="602" y="52"/>    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="38" name="biller">        
-        <position height="18" width="30" x="387" y="66"/>      
-      </attribute>      
-      <multiplicity id="39" minimum="0" maximum="1">        
-        <position height="16" width="23" x="423" y="67"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="40">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="41" name="deliveryPeriod"/>      
-      <multiplicity id="42" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="43">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="44" name="tax"/>      
-      <multiplicity id="45" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="46">    
-    <bendpoint x="468" y="183"/>    
-    <bendpoint x="468" y="272"/>    
-    <bendpoint x="468" y="337"/>    
+  <class id="19" language="java" name="at.mareg.ebi43creator.invoicedata.details.SurchargeListLineItem" 
+    project="WIFI-project" file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/details/SurchargeListLineItem.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="870" y="424"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="at.mareg.ebi43creator.invoicedata.reductionandsurcharge.Surcharge" 
+    project="WIFI-project" 
+    file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/reductionandsurcharge/Surcharge.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="839" y="603"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <association id="21">    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="47" name="address">        
-        <position height="18" width="48" x="443" y="405"/>      
-      </attribute>      
-      <multiplicity id="48" minimum="0" maximum="1">        
-        <position height="16" width="23" x="426" y="353"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="11" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="49">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="50" name="invoiceRecipient">        
-        <position height="18" width="86" x="603" y="64"/>      
-      </attribute>      
-      <multiplicity id="51" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="52">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="53" name="furtherFS">        
-        <position height="18" width="54" x="245" y="229"/>      
-      </attribute>      
-      <multiplicity id="54" minimum="0" maximum="1">        
-        <position height="16" width="23" x="378" y="209"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="55">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="56" name="furtherFN">        
-        <position height="18" width="54" x="245" y="207"/>      
-      </attribute>      
-      <multiplicity id="57" minimum="0" maximum="1">        
-        <position height="16" width="23" x="378" y="231"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="58">    
-    <end type="SOURCE" refId="14" navigable="false">      
-      <attribute id="59" name="universalBankTransaction"/>      
-      <multiplicity id="60" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="17" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="61">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="62" name="listLineItems"/>      
-      <multiplicity id="63" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="9" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="64">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="65" name="paymentMethod">        
-        <position height="18" width="84" x="1148" y="63"/>      
-      </attribute>      
-      <multiplicity id="66" minimum="0" maximum="1">        
-        <position height="16" width="23" x="1236" y="65"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="14" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="67">    
-    <end type="SOURCE" refId="15" navigable="false">      
-      <attribute id="68" name="discounts"/>      
-      <multiplicity id="69" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="18" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="70">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="71" name="details"/>      
-      <multiplicity id="72" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="73">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="74" name="furtherFBG">        
+      <attribute id="22" name="furtherFBG">        
         <position height="18" width="62" x="242" y="186"/>      
       </attribute>      
-      <multiplicity id="75" minimum="0" maximum="1">        
+      <multiplicity id="23" minimum="0" maximum="1">        
         <position height="16" width="23" x="377" y="188"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="76">    
-    <bendpoint x="490" y="174"/>    
-    <bendpoint x="490" y="349"/>    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="77" name="address">        
-        <position height="18" width="48" x="373" y="352"/>      
+  <association id="24">    
+    <bendpoint x="464" y="181"/>    
+    <bendpoint x="464" y="269"/>    
+    <bendpoint x="464" y="335"/>    
+    <bendpoint x="355" y="334"/>    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="25" name="address">        
+        <position height="18" width="48" x="369" y="382"/>      
       </attribute>      
-      <multiplicity id="78" minimum="0" maximum="1">        
-        <position height="16" width="23" x="492" y="406"/>      
+      <multiplicity id="26" minimum="0" maximum="1">        
+        <position height="16" width="23" x="328" y="367"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="11" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="79">    
+  <association id="27">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="28" name="biller">        
+        <position height="18" width="30" x="324" y="68"/>      
+      </attribute>      
+      <multiplicity id="29" minimum="0" maximum="1">        
+        <position height="16" width="23" x="360" y="69"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="30">    
+    <bendpoint x="212" y="84"/>    
+    <bendpoint x="212" y="328"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="31" name="tax">        
+        <position height="0" width="0" x="-999" y="485"/>      
+      </attribute>      
+      <multiplicity id="32" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-999" y="485"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="33">    
+    <bendpoint x="740" y="69"/>    
+    <bendpoint x="740" y="494"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="34" name="surchargeList">        
+        <position height="18" width="75" x="819" y="553"/>      
+      </attribute>      
+      <multiplicity id="35" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="896" y="554"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="36">    
+    <bendpoint x="206" y="173"/>    
+    <bendpoint x="206" y="265"/>    
+    <bendpoint x="206" y="360"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="37" name="address">        
+        <position height="18" width="48" x="183" y="399"/>      
+      </attribute>      
+      <multiplicity id="38" minimum="0" maximum="1">        
+        <position height="16" width="23" x="237" y="401"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="39">    
+    <bendpoint x="306" y="28"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="40" name="delivery">        
+        <position height="18" width="46" x="111" y="66"/>      
+      </attribute>      
+      <multiplicity id="41" minimum="0" maximum="1">        
+        <position height="16" width="23" x="162" y="67"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="42">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="43" name="deliveryPeriod">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="44" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="45">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="46" name="furtherFS">        
+        <position height="18" width="54" x="245" y="229"/>      
+      </attribute>      
+      <multiplicity id="47" minimum="0" maximum="1">        
+        <position height="16" width="23" x="378" y="209"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="48">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="49" name="furtherFN">        
+        <position height="18" width="54" x="245" y="207"/>      
+      </attribute>      
+      <multiplicity id="50" minimum="0" maximum="1">        
+        <position height="16" width="23" x="378" y="231"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="51">    
+    <bendpoint x="725" y="76"/>    
+    <bendpoint x="725" y="321"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="52" name="paymentConditions">        
+        <position height="18" width="99" x="498" y="549"/>      
+      </attribute>      
+      <multiplicity id="53" minimum="0" maximum="1">        
+        <position height="16" width="23" x="601" y="550"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="54">    
     <end type="SOURCE" refId="12" navigable="false">      
-      <attribute id="80" name="vatItems"/>      
-      <multiplicity id="81" minimum="0" maximum="2147483647"/>    
+      <attribute id="55" name="vatItems">        
+        <position height="0" width="0" x="-1001" y="481"/>      
+      </attribute>      
+      <multiplicity id="56" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-1001" y="481"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="57">    
+    <bendpoint x="490" y="174"/>    
+    <bendpoint x="490" y="349"/>    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="58" name="address">        
+        <position height="18" width="48" x="275" y="366"/>      
+      </attribute>      
+      <multiplicity id="59" minimum="0" maximum="1">        
+        <position height="16" width="23" x="418" y="383"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="60">    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="61" name="beneficiaryAccount">        
+        <position height="0" width="0" x="-1001" y="481"/>      
+      </attribute>      
+      <multiplicity id="62" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-1001" y="481"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="63">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="64" name="universalBankTransaction">        
+        <position height="0" width="0" x="-1001" y="481"/>      
+      </attribute>      
+      <multiplicity id="65" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-1001" y="481"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="66">    
+    <bendpoint x="517" y="72"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="67" name="invoiceRecipient">        
+        <position height="18" width="86" x="539" y="65"/>      
+      </attribute>      
+      <multiplicity id="68" minimum="0" maximum="1">        
+        <position height="16" width="23" x="628" y="66"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="69">    
+    <bendpoint x="471" y="540"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="70" name="paymentMethod">        
+        <position height="18" width="84" x="294" y="544"/>      
+      </attribute>      
+      <multiplicity id="71" minimum="0" maximum="1">        
+        <position height="16" width="23" x="382" y="546"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="72">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="73" name="quantity">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="74" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="75">    
+    <bendpoint x="767" y="297"/>    
+    <bendpoint x="767" y="360"/>    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="76" name="surcharge">        
+        <position height="18" width="58" x="737" y="378"/>      
+      </attribute>      
+      <multiplicity id="77" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="829" y="377"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="78">    
+    <bendpoint x="718" y="52"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="79" name="details">        
+        <position height="18" width="39" x="790" y="63"/>      
+      </attribute>      
+      <multiplicity id="80" minimum="0" maximum="1">        
+        <position height="16" width="23" x="830" y="64"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="81">    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="82" name="discounts">        
+        <position height="0" width="0" x="-1001" y="481"/>      
+      </attribute>      
+      <multiplicity id="83" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-1001" y="481"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="84">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="85" name="orderReference">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="86" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="87">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="88" name="listLineItems">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="89" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

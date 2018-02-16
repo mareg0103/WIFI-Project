@@ -91,6 +91,12 @@ public final class Data
 	public static final double DETAILS_SCROLLPANE_HEIGHT = HELPTEXTAREA_HEIGHT + 10;
 
 	/*
+	 * ScrollPane (in SurchargeArea) settings
+	 */
+	public static final double DETAILS_SCROLLSURCHARGE_WIDTH = 800d;
+	public static final double DETAILS_SCROLLSURCHARGE_HEIGHT = 600d;
+
+	/*
 	 * BasePane settings
 	 */
 	public static final Insets BASEPANE_PADDING = new Insets (5, 5, 5, 5);
@@ -143,14 +149,14 @@ public final class Data
 	/*
 	 * TitledPane names for form
 	 */
-	public static final String TITLEDPANE_ORDER = "Auftragsdaten";
-	public static final String TITLEDPANE_BILLER = "Rechnungssteller";
-	public static final String TITLEDPANE_INVOICERECIPIENT = "Rechnungsempfänger";
-	public static final String TITLEDPANE_DELIVERY = "Lieferdaten";
-	public static final String TITLEDPANE_PAYMENT = "Kontoverbindung";
-	public static final String TITLEDPANE_DETAILS = "Details";
-	public static final String TITLEDPANE_SURCHARGE = "Aufschlag/Abzug";
-	public static final String TITLEDPANE_DISCOUNT = "Skonto";
+	public static final String TITLEDPANE_ORDER_NAME = "Auftragsdaten";
+	public static final String TITLEDPANE_BILLER_NAME = "Rechnungssteller";
+	public static final String TITLEDPANE_INVOICERECIPIENT_NAME = "Rechnungsempfänger";
+	public static final String TITLEDPANE_DELIVERY_NAME = "Lieferdaten";
+	public static final String TITLEDPANE_PAYMENT_NAME = "Kontoverbindung";
+	public static final String TITLEDPANE_DETAILS_NAME = "Details";
+	public static final String TITLEDPANE_SURCHARGE_NAME = "Aufschlag/Abzug";
+	public static final String TITLEDPANE_DISCOUNT_NAME = "Skonto";
 
 	/*
 	 * Details - right area
@@ -169,4 +175,11 @@ public final class Data
 
 	public static final int DETAILS_LINE_COLUMN_COUNT_PER_ROW = 4;
 	public static final double DETAILS_LINE_GRID_WIDTH = DETAILS_SCROLLPANE_WIDTH / 4;
+
+	/*
+	 * Reduction/Surcharge/Discount - right area
+	 */
+	public static final String SURCHARGE_RIGHT_AREA = "SurchargeRightArea";
+	public static final double SURCHARGE_RIGHT_AREA_COMPONENT_WIDTH = DETAILS_RIGHT_AREA_COMPONENT_WIDTH;
+
 }

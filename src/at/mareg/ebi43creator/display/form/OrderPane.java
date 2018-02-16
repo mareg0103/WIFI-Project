@@ -63,7 +63,7 @@ public class OrderPane extends BasePane
     for (final EFormElement eb : EFormElement.values ())
     {
 
-      if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_ORDER))
+      if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_ORDER_NAME))
       {
         final boolean isRequired = eb.isRequired ();
         final String elementID = eb.getID ();

@@ -31,6 +31,7 @@ public final class InvoiceLineFiller
 	public static void fillLineWithLoadedData (final InvoiceLine il)
 	{
 		ListLineItem lli = il.getListLineItem ();
+		List<SurchargeListLineItem> l = lli.getSurcharge ();
 		GridPane grid = il.getGrid ();
 
 		for (final Node n : grid.getChildren ())
@@ -84,11 +85,16 @@ public final class InvoiceLineFiller
 									break;
 
 								case DETAILS_LINE_SURCHARGE:
-									List<SurchargeListLineItem> l = lli.getSurcharge ();
 									Double dls = (l == null ? null : l.get (0).getAmount ());
 									il.setSurcharge (dls);
 									value = (dls == null ? null
 											: TextFieldHelper.getTwoDecimalsStringFromDouble (dls.doubleValue ()));
+									break;
+
+								case DETAILS_LINE_SURCHARGE_DESCRIPTION:
+									String dlsc = (l == null ? null : l.get (0).getComment ());
+									il.setComment (dlsc);
+									value = dlsc;
 									break;
 
 								case DETAILS_LINE_VAT:

@@ -8,40 +8,41 @@ import javafx.scene.layout.GridPane;
 
 public class SurchargeArea extends BasePane
 {
-  /**
-   * Class to add surcharge lines to the current document (negative surcharge is
-   * an reduction)
-   * 
-   * @author Martin Regitnig
-   */
+	/**
+	 * Class to add surcharge lines to the current document (negative surcharge is
+	 * an reduction)
+	 * 
+	 * @author Martin Regitnig
+	 */
 
-  /*
-   * Pane elements
-   */
-  private ScrollPane scroll;
-  private GridPane grid;
+	/*
+	 * Pane elements
+	 */
+	private ScrollPane scroll;
+	private GridPane grid;
+	private int areaRow;
 
-  protected SurchargeArea (final ResourceManager resman)
-  {
-    super (resman);
+	public SurchargeArea (final ResourceManager resman)
+	{
+		super (resman);
 
-    init ();
-  }
+		init ();
+	}
 
-  @Override
-  protected void init ()
-  {
-    super.init ();
+	@Override
+	protected void init ()
+	{
+		super.init ();
 
-    scroll = new ScrollPane ();
-    scroll.setPrefHeight (Data.DETAILS_SCROLLPANE_HEIGHT); // to change
-    scroll.setMaxHeight (scroll.getPrefHeight ());
-    scroll.setPrefWidth (Data.DETAILS_SCROLLPANE_WIDTH); // to change
-    scroll.setMaxWidth (scroll.getPrefWidth ());
+		scroll = new ScrollPane ();
+		scroll.setPrefHeight (Data.DETAILS_SCROLLSURCHARGE_HEIGHT); // to change
+		scroll.setMaxHeight (scroll.getPrefHeight ());
+		scroll.setPrefWidth (Data.DETAILS_SCROLLSURCHARGE_WIDTH); // to change
+		scroll.setMaxWidth (scroll.getPrefWidth ());
 
-    grid = new GridPane ();
+		grid = new GridPane ();
 
-    scroll.setContent (grid);
-    this.getChildren ().add (scroll);
-  }
+		scroll.setContent (grid);
+		this.getChildren ().add (scroll);
+	}
 }

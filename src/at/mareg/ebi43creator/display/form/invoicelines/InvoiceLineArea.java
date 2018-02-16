@@ -26,7 +26,7 @@ public class InvoiceLineArea extends BasePane
 	 */
 	private ScrollPane scroll;
 	private GridPane grid;
-	private int row;
+	private int areaRow;
 
 	/*
 	 * List to save invoice lines
@@ -66,12 +66,12 @@ public class InvoiceLineArea extends BasePane
 	 */
 	private void _buildArea ()
 	{
-		row = 0;
+		areaRow = 0;
 
 		for (final InvoiceLine il : invoiceLineList)
 		{
-			grid.add (il, 0, row);
-			row++;
+			grid.add (il, 0, areaRow);
+			areaRow++;
 		}
 	}
 

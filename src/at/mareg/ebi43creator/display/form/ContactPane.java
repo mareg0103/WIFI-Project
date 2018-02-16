@@ -60,13 +60,13 @@ public class ContactPane extends BasePane
     ac = new Accordion ();
 
     tp_Biller = new TitledPane ();
-    tp_Biller.setText (Data.TITLEDPANE_BILLER);
+    tp_Biller.setText (Data.TITLEDPANE_BILLER_NAME);
 
     tp_InvoiceRecipient = new TitledPane ();
-    tp_InvoiceRecipient.setText (Data.TITLEDPANE_INVOICERECIPIENT);
+    tp_InvoiceRecipient.setText (Data.TITLEDPANE_INVOICERECIPIENT_NAME);
 
     tp_Delivery = new TitledPane ();
-    tp_Delivery.setText (Data.TITLEDPANE_DELIVERY);
+    tp_Delivery.setText (Data.TITLEDPANE_DELIVERY_NAME);
 
     grid_Biller = new GridPane ();
     grid_Biller.setPadding (Data.BASEPANE_PADDING);
@@ -85,7 +85,7 @@ public class ContactPane extends BasePane
 
     for (final EFormElement eb : EFormElement.values ())
     {
-      if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_BILLER))
+      if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_BILLER_NAME))
       {
         final boolean isRequired = eb.isRequired ();
         final String labelText = eb.getLabelText () + (isRequired ? "*" : "");
@@ -109,7 +109,7 @@ public class ContactPane extends BasePane
           RequiredAndErrorHelper.addRequiredField (eb.getTiteldPaneID (), elementID);
       }
 
-      if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_INVOICERECIPIENT))
+      if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_INVOICERECIPIENT_NAME))
       {
 
         final boolean isRequired = eb.isRequired ();
@@ -134,7 +134,7 @@ public class ContactPane extends BasePane
           RequiredAndErrorHelper.addRequiredField (eb.getTiteldPaneID (), elementID);
       }
 
-      if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_DELIVERY))
+      if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_DELIVERY_NAME))
       {
         final boolean isRequired = eb.isRequired ();
         final String labelText = eb.getLabelText () + (isRequired ? "*" : "");

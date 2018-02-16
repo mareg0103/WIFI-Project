@@ -28,95 +28,103 @@ public enum EFormElement
   /*
    * Order data elements
    */
-  ORDER_ID ("orderid", "Auftragsreferenz", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_ORDER),
-  ORDER_REFERENCEDATE ("orderreferencedate", "Auftragsdatum", Data.ELEMENTTYPE_DATEPICKER, false, Data.TITLEDPANE_ORDER),
-  ORDER_DESCRIPTION ("orderdescription", "Auftragsbeschreibung", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_ORDER),
-  SUPPLIER_ID ("supplierid", "Lieferantennummer", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_ORDER),
-  INVOICE_NUMBER ("invoicenumber", "Rechnungsnummer", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_ORDER),
-  INVOICE_DATE ("invoicedate", "Rechnungsdatum", Data.ELEMENTTYPE_DATEPICKER, true, Data.TITLEDPANE_ORDER),
-  INVOICE_CURRENCY ("invoicecurrency", "Währung", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_ORDER),
-  FROM_DATE ("fromdate", "Lieferdatum / Leistungszeitraum Von", Data.ELEMENTTYPE_DATEPICKER, true, Data.TITLEDPANE_ORDER),
-  TO_DATE ("todate", "Leistungszeitraum Bis", Data.ELEMENTTYPE_DATEPICKER, false, Data.TITLEDPANE_ORDER),
-  COMMENT ("comment", "Mitteilung", Data.ELEMENTTYPE_TEXTAREA, false, Data.TITLEDPANE_ORDER),
+  ORDER_ID ("orderid", "Auftragsreferenz", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_ORDER_NAME),
+  ORDER_REFERENCEDATE ("orderreferencedate", "Auftragsdatum", Data.ELEMENTTYPE_DATEPICKER, false, Data.TITLEDPANE_ORDER_NAME),
+  ORDER_DESCRIPTION ("orderdescription", "Auftragsbeschreibung", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_ORDER_NAME),
+  SUPPLIER_ID ("supplierid", "Lieferantennummer", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_ORDER_NAME),
+  INVOICE_NUMBER ("invoicenumber", "Rechnungsnummer", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_ORDER_NAME),
+  INVOICE_DATE ("invoicedate", "Rechnungsdatum", Data.ELEMENTTYPE_DATEPICKER, true, Data.TITLEDPANE_ORDER_NAME),
+  INVOICE_CURRENCY ("invoicecurrency", "Währung", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_ORDER_NAME),
+  FROM_DATE ("fromdate", "Lieferdatum / Leistungszeitraum Von", Data.ELEMENTTYPE_DATEPICKER, true, Data.TITLEDPANE_ORDER_NAME),
+  TO_DATE ("todate", "Leistungszeitraum Bis", Data.ELEMENTTYPE_DATEPICKER, false, Data.TITLEDPANE_ORDER_NAME),
+  COMMENT ("comment", "Mitteilung", Data.ELEMENTTYPE_TEXTAREA, false, Data.TITLEDPANE_ORDER_NAME),
 
   /*
    * Biller elements
    */
-  BILLER_NAME ("billername", "Name", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_BILLER),
-  BILLER_STREET ("billerstreet", "Strasse", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_BILLER),
-  BILLER_ZIP ("billerzip", "PLZ", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_BILLER),
-  BILLER_TOWN ("billertown", "Stadt", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_BILLER),
-  BILLER_COUNTRY ("billercountry", "Land", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_BILLER),
-  BILLER_EMAIL ("billeremail", "E-Mail", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_BILLER),
-  BILLER_PHONE ("billerphone", "Telefon", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_BILLER),
-  BILLER_CONTACT ("billercontact", "Kontaktperson", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_BILLER),
+  BILLER_NAME ("billername", "Name", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_BILLER_NAME),
+  BILLER_STREET ("billerstreet", "Strasse", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_BILLER_NAME),
+  BILLER_ZIP ("billerzip", "PLZ", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_BILLER_NAME),
+  BILLER_TOWN ("billertown", "Stadt", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_BILLER_NAME),
+  BILLER_COUNTRY ("billercountry", "Land", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_BILLER_NAME),
+  BILLER_EMAIL ("billeremail", "E-Mail", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_BILLER_NAME),
+  BILLER_PHONE ("billerphone", "Telefon", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_BILLER_NAME),
+  BILLER_CONTACT ("billercontact", "Kontaktperson", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_BILLER_NAME),
 
   /*
    * Invoice recipient elements
    */
-  INVOICERECIPIENT_NAME ("invoicerecipientname", "Name", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_INVOICERECIPIENT),
-  INVOICERECIPIENT_STREET ("invoicerecipienstreet", "Strasse", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_INVOICERECIPIENT),
-  INVOICERECIPIENT_ZIP ("invoicerecipienzip", "PLZ", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_INVOICERECIPIENT),
-  INVOICERECIPIENT_TOWN ("invoicerecipientown", "Stadt", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_INVOICERECIPIENT),
-  INVOICERECIPIENT_COUNTRY ("invoicerecipiencountry", "Land", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_INVOICERECIPIENT),
-  INVOICERECIPIENT_EMAIL ("invoicerecipienemail", "E-Mail", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_INVOICERECIPIENT),
-  INVOICERECIPIENT_PHONE ("invoicerecipienphone", "Telefon", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_INVOICERECIPIENT),
-  INVOICERECIPIENT_CONTACT ("invoicerecipiencontact", "Kontaktperson", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_INVOICERECIPIENT),
+  INVOICERECIPIENT_NAME ("invoicerecipientname", "Name", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_INVOICERECIPIENT_NAME),
+  INVOICERECIPIENT_STREET ("invoicerecipienstreet", "Strasse", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_INVOICERECIPIENT_NAME),
+  INVOICERECIPIENT_ZIP ("invoicerecipienzip", "PLZ", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_INVOICERECIPIENT_NAME),
+  INVOICERECIPIENT_TOWN ("invoicerecipientown", "Stadt", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_INVOICERECIPIENT_NAME),
+  INVOICERECIPIENT_COUNTRY ("invoicerecipiencountry", "Land", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_INVOICERECIPIENT_NAME),
+  INVOICERECIPIENT_EMAIL ("invoicerecipienemail", "E-Mail", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_INVOICERECIPIENT_NAME),
+  INVOICERECIPIENT_PHONE ("invoicerecipienphone", "Telefon", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_INVOICERECIPIENT_NAME),
+  INVOICERECIPIENT_CONTACT ("invoicerecipiencontact", "Kontaktperson", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_INVOICERECIPIENT_NAME),
 
   /*
    * Delivery elements
    */
-  DELIVERY_ID ("deliveryid", "Lieferscheinnummer", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY),
-  DELIVERY_USE ("deliveryuse", "Abweichende Lieferanschrift verwenden", Data.ELEMENTTYPE_CHECKBOX, false, Data.TITLEDPANE_DELIVERY),
-  DELIVERY_NAME ("deliveryname", "Name", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY),
-  DELIVERY_STREET ("deliverystreet", "Strasse", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY),
-  DELIVERY_ZIP ("deliveryzip", "PLZ", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY),
-  DELIVERY_TOWN ("deliverytown", "Stadt", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY),
-  DELIVERY_COUNTRY ("deliverycountry", "Land", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY),
-  DELIVERY_EMAIL ("deliveryemail", "E-Mail", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY),
-  DELIVERY_PHONE ("deliveryphone", "Telefon", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY),
-  DELIVERY_CONTACT ("dleiverycontact", "Kontaktperson", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY),
+  DELIVERY_ID ("deliveryid", "Lieferscheinnummer", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY_NAME),
+  DELIVERY_USE ("deliveryuse", "Abweichende Lieferanschrift verwenden", Data.ELEMENTTYPE_CHECKBOX, false, Data.TITLEDPANE_DELIVERY_NAME),
+  DELIVERY_NAME ("deliveryname", "Name", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY_NAME),
+  DELIVERY_STREET ("deliverystreet", "Strasse", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY_NAME),
+  DELIVERY_ZIP ("deliveryzip", "PLZ", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY_NAME),
+  DELIVERY_TOWN ("deliverytown", "Stadt", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY_NAME),
+  DELIVERY_COUNTRY ("deliverycountry", "Land", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY_NAME),
+  DELIVERY_EMAIL ("deliveryemail", "E-Mail", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY_NAME),
+  DELIVERY_PHONE ("deliveryphone", "Telefon", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY_NAME),
+  DELIVERY_CONTACT ("dleiverycontact", "Kontaktperson", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY_NAME),
 
   /*
    * Payment elements
    */
-  PAYMENT_BIC ("paymentbic", "BIC", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_PAYMENT),
-  PAYMENT_IBAN ("paymentiban", "IBAN", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_PAYMENT),
-  PAYMENT_ACCOUNTOWNER ("paymentaccountowner", "Kontoinhaber", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_PAYMENT),
+  PAYMENT_BIC ("paymentbic", "BIC", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_PAYMENT_NAME),
+  PAYMENT_IBAN ("paymentiban", "IBAN", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_PAYMENT_NAME),
+  PAYMENT_ACCOUNTOWNER ("paymentaccountowner", "Kontoinhaber", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_PAYMENT_NAME),
 
   /*
    * Details Pane - right area elements
    */
   DETAILS_RIGHT_ADDINVOICELINE_BUTTON ("addinvoiceline", "Rechnungszeile\nhinzufügen", Data.ELEMENTTYPE_BUTTON, false, Data.DETAILS_RIGHT_AREA),
-  DETAILS_RIGHT_TOTALNETAMOUND ("totalnetamount", "Gesamtnetto", Data.ELEMENTTYPE_TEXTFIELD, false, Data.DETAILS_RIGHT_AREA),
-  DETAILS_RIGHT_TOTALGROSSAMOUND ("totalgrossamount", "Gesamtbrutto", Data.ELEMENTTYPE_TEXTFIELD, false, Data.DETAILS_RIGHT_AREA),
+  DETAILS_RIGHT_TOTALNETAMOUND ("detailsrighttotalnetamount", "Gesamtnetto\ninkl. Auf-/Abschläge", Data.ELEMENTTYPE_TEXTFIELD, false, Data.DETAILS_RIGHT_AREA),
+  DETAILS_RIGHT_TOTALGROSSAMOUND ("detailsrighttotalgrossamount", "Gesamtbrutto", Data.ELEMENTTYPE_TEXTFIELD, false, Data.DETAILS_RIGHT_AREA),
   DETAILS_RIGHT_VATID_BILLER ("billervatid", "UID Rechnungssteller", Data.ELEMENTTYPE_TEXTFIELD, false, Data.DETAILS_RIGHT_AREA),
   DETAILS_RIGHT_VATID_INVOICERECIPIENT ("invoicerecipientvatid", "UID Rechnungsempfänger", Data.ELEMENTTYPE_TEXTFIELD, false, Data.DETAILS_RIGHT_AREA),
 
   /*
    * Details Pane - invoice lines
    */
-  DETAILS_LINE_ORDERPOSITIONNUMER ("orderpositionnumber", "Pos.Nr. aus Bestellung", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DETAILS),
-  DETAILS_LINE_QUANTITY ("quantity", "Menge", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DETAILS),
-  DETAILS_LINE_UNIT ("unit", "Mengeneinheit", Data.ELEMENTTYPE_COMBOBOX, true, Data.TITLEDPANE_DETAILS),
-  DETAILS_LINE_UNITPRICE ("unitprice", "Einzelpreis netto", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DETAILS),
-  DETAILS_LINE_DESCRIPTION ("description", "Beschreibung", Data.ELEMENTTYPE_TEXTAREA, true, Data.TITLEDPANE_DETAILS),
-  DETAILS_LINE_TOTALNET ("totalnetamount", "Gesamtnetto", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DETAILS),
-  DETAILS_LINE_SURCHARGE ("surcharge", "Auf-/Abschlag", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DETAILS),
-  DETAILS_LINE_SURCHARGE_DESCRIPTION ("surchargedescription", "Beschreibung", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DETAILS),
-  DETAILS_LINE_VAT ("vatrate", "Steuersatz", Data.ELEMENTTYPE_COMBOBOX, true, Data.TITLEDPANE_DETAILS),
-  DETAILS_LINE_TAXEXEMPTION_CHECK ("taxexemptioncheck", "Steuerbefreiung", Data.ELEMENTTYPE_CHECKBOX, false, Data.TITLEDPANE_DETAILS),
-  DETAILS_LINE_TAXEXEMPTION_REASON ("taxexemptionreason", "Steuerbefreiungsgrund", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DETAILS),
-  DETAILS_LINE_TOTALGROSS ("totalgrossamount", "Gesamtbrutto", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DETAILS),
-  DETAILS_LINE_REMOVE ("deletethisline", "", Data.ELEMENTTYPE_BUTTON, false, Data.TITLEDPANE_DETAILS),
+  DETAILS_LINE_ORDERPOSITIONNUMER ("orderpositionnumber", "Pos.Nr. aus Bestellung", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DETAILS_NAME),
+  DETAILS_LINE_QUANTITY ("quantity", "Menge", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DETAILS_NAME),
+  DETAILS_LINE_UNIT ("unit", "Mengeneinheit", Data.ELEMENTTYPE_COMBOBOX, true, Data.TITLEDPANE_DETAILS_NAME),
+  DETAILS_LINE_UNITPRICE ("unitprice", "Einzelpreis netto", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DETAILS_NAME),
+  DETAILS_LINE_DESCRIPTION ("description", "Beschreibung", Data.ELEMENTTYPE_TEXTAREA, true, Data.TITLEDPANE_DETAILS_NAME),
+  DETAILS_LINE_TOTALNET ("totalnetamount", "Gesamtnetto", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DETAILS_NAME),
+  DETAILS_LINE_SURCHARGE ("surcharge", "Auf-/Abschlag", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DETAILS_NAME),
+  DETAILS_LINE_SURCHARGE_DESCRIPTION ("surchargedescription", "Beschreibung", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DETAILS_NAME),
+  DETAILS_LINE_VAT ("vatrate", "Steuersatz", Data.ELEMENTTYPE_COMBOBOX, true, Data.TITLEDPANE_DETAILS_NAME),
+  DETAILS_LINE_TAXEXEMPTION_CHECK ("taxexemptioncheck", "Steuerbefreiung", Data.ELEMENTTYPE_CHECKBOX, false, Data.TITLEDPANE_DETAILS_NAME),
+  DETAILS_LINE_TAXEXEMPTION_REASON ("taxexemptionreason", "Steuerbefreiungsgrund", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DETAILS_NAME),
+  DETAILS_LINE_TOTALGROSS ("totalgrossamount", "Gesamtbrutto", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DETAILS_NAME),
+  DETAILS_LINE_REMOVE ("deletethisline", "", Data.ELEMENTTYPE_BUTTON, false, Data.TITLEDPANE_DETAILS_NAME),
+  
+  /*
+   * Reduction/Surcharge/Discount - right area
+   */
+  SURCHARGE_DISCOUNT_RIGHT_ADDSURCHARGEBUTTON ("addsurcharge", "Auf-/Abschlag\nhinzufügen", Data.ELEMENTTYPE_BUTTON, false, Data.SURCHARGE_RIGHT_AREA),
+  SURCHARGE_DISCOUNT_RIGHT_ADDDISCOUNTBUTTON ("adddiscount", "Skonto\nhinzufügen", Data.ELEMENTTYPE_BUTTON, false, Data.SURCHARGE_RIGHT_AREA),
+  SURCHARGE_DISCOUNT_RIGHT_TOTALNETAMOUNT ("surchargerighttotalnetamount", "Gesamtnetto inkl.\naller Auf-/Abschläge", Data.ELEMENTTYPE_TEXTFIELD, false, Data.SURCHARGE_RIGHT_AREA),
+  SURCHARGE_DISCOUNT_RIGHT_TOTALGROSSAMOUNT ("surchargerighttotalgrossamount", "Gesamtbrutto", Data.ELEMENTTYPE_TEXTFIELD, false, Data.SURCHARGE_RIGHT_AREA),
 
   /*
    * Reduction/Surcharge elements
    */
-  SURCHARGE_TYPE ("surchargetype", "Art", Data.ELEMENTTYPE_COMBOBOX, false, Data.TITLEDPANE_SURCHARGE),
-  SURCHARGE_VALUE ("surchargevalue", "Wert", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_SURCHARGE),
-  SURCHARGE_VAT ("surchargevat", "Steuersatz", Data.ELEMENTTYPE_COMBOBOX, false, Data.TITLEDPANE_SURCHARGE),
-  SURCHARGE_COMMENT ("surchargecomment", "Kommentar", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_SURCHARGE);
+  SURCHARGE_VALUE ("surchargevalue", "Wert", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_SURCHARGE_NAME),
+  SURCHARGE_VAT ("surchargevat", "Steuersatz", Data.ELEMENTTYPE_COMBOBOX, false, Data.TITLEDPANE_SURCHARGE_NAME),
+  SURCHARGE_COMMENT ("surchargecomment", "Kommentar", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_SURCHARGE_NAME),
+  SURCHARGE_REMOVE ("deletethissurcharge", "", Data.ELEMENTTYPE_BUTTON, false, Data.TITLEDPANE_SURCHARGE_NAME);
 
   /*
    * Variables and methods

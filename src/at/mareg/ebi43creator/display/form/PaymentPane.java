@@ -54,7 +54,7 @@ public class PaymentPane extends BasePane
 
     for (final EFormElement eb : EFormElement.values ())
     {
-      if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_PAYMENT))
+      if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_PAYMENT_NAME))
       {
         final boolean isRequired = eb.isRequired ();
         final String labelText = eb.getLabelText () + (isRequired ? "*" : "");
