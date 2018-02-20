@@ -1,6 +1,7 @@
 package at.mareg.ebi43creator.display.form;
 
 import at.mareg.ebi43creator.display.resources.ResourceManager;
+import at.mareg.ebi43creator.display.utilities.RequiredAndErrorHelper;
 import at.mareg.ebi43creator.invoicedata.InvoiceData;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -37,7 +38,13 @@ public class SummaryPane extends BasePane
 
 		Button testShowInvoiceData = new Button ("InvoiceData anzeigen");
 		testShowInvoiceData.setOnAction (e -> {
-			showInvoiceData ();
+			// showInvoiceData ();
+			showRequired ();
+			showRequiredForLines ();
+			showError ();
+
+			System.out.println ("Rechnung kann gespeichert werden: "
+					+ (RequiredAndErrorHelper.allFieldsArrFilledAndCorrect () ? "JA" : "NEIN"));
 		});
 
 		gridSummary.getChildren ().add (testShowInvoiceData);
@@ -46,11 +53,12 @@ public class SummaryPane extends BasePane
 	}
 
 	/*
-	 * Test method to show some invoice data, remove before deployment
+	 * Test methods to show some invoice data, remove before deployment
 	 */
 	private void showInvoiceData ()
 	{
 		InvoiceData id = rm.getInvoiceData ();
+
 		System.out.println ("DocumentType: " + id.getDocumentType ());
 		System.out.println ("InvoiceNumber: " + id.getInvoiceNumber ());
 		System.out.println ("BillerName: " + id.getBiller ().getAddress ().getName ());
@@ -59,5 +67,29 @@ public class SummaryPane extends BasePane
 		System.out.println ("Rechnungswährung: " + id.getInvoiceCurrency ());
 		System.out.println ("Auftragsreferenz ist Bundbestellnummer: "
 				+ id.getInvoiceRecipient ().getOrderReference ().isOrderIDGovernmentOrderNumber ());
+	}
+
+	private void showRequiredForLines ()
+	{
+		System.out.println ("Required Fields von Zeilen eingetragen:");
+		RequiredAndErrorHelper.showLineReqMap ();
+
+		System.out.println ("Größe: " + RequiredAndErrorHelper.getLineRequiredMapSize ());
+		System.out.println ();
+	}
+
+	private void showError ()
+	{
+		System.out.println ("Fehlerhafte Felder:");
+		RequiredAndErrorHelper.showErrorMap ();
+		System.out.println ();
+
+	}
+
+	private void showRequired ()
+	{
+		System.out.println ("Required Fields eingetragen:");
+		RequiredAndErrorHelper.showReqMap ();
+		System.out.println ();
 	}
 }

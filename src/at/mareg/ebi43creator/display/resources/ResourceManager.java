@@ -66,11 +66,12 @@ public class ResourceManager
 
 		if (loadPath == null)
 		{
-			this.invoiceData = new InvoiceData (invoiceDateManager, docType);
+			this.invoiceData = new InvoiceData (invoiceDateManager, docType, this);
 			formFiller = null;
 		} else
 		{
 			invoiceData = new InvoiceData ().readXMLInvoice (loadPath);
+			invoiceData.setResourceManagerInternal (this);
 			formFiller = new FormFiller (invoiceData, this);
 		}
 		SaveMethodMapper.setInvoiceData (invoiceData);
@@ -89,9 +90,12 @@ public class ResourceManager
 		this.display = disp;
 
 		if (loadPath == null)
+		{
 			invoiceData.getDetails ().addEmptyListLineItem ();
-		else
+		} else
+		{
 			formFiller.fillFormWithLoadedData ();
+		}
 	}
 
 	/*
@@ -141,6 +145,11 @@ public class ResourceManager
 	public DetailsPane getDetailsPane ()
 	{
 		return detailsPane;
+	}
+
+	public SurchargeDiscountPane getSurchargeDiscountPane ()
+	{
+		return surchargeDiscountPane;
 	}
 
 	public HelpArea getHelpArea ()

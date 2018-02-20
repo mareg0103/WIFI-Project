@@ -68,11 +68,11 @@ public enum EFormElement
    */
   DELIVERY_ID ("deliveryid", "Lieferscheinnummer", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY_NAME),
   DELIVERY_USE ("deliveryuse", "Abweichende Lieferanschrift verwenden", Data.ELEMENTTYPE_CHECKBOX, false, Data.TITLEDPANE_DELIVERY_NAME),
-  DELIVERY_NAME ("deliveryname", "Name", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY_NAME),
-  DELIVERY_STREET ("deliverystreet", "Strasse", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY_NAME),
-  DELIVERY_ZIP ("deliveryzip", "PLZ", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY_NAME),
-  DELIVERY_TOWN ("deliverytown", "Stadt", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY_NAME),
-  DELIVERY_COUNTRY ("deliverycountry", "Land", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DELIVERY_NAME),
+  DELIVERY_NAME ("deliveryname", "Name", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY_NAME),
+  DELIVERY_STREET ("deliverystreet", "Strasse", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY_NAME),
+  DELIVERY_ZIP ("deliveryzip", "PLZ", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY_NAME),
+  DELIVERY_TOWN ("deliverytown", "Stadt", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY_NAME),
+  DELIVERY_COUNTRY ("deliverycountry", "Land", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY_NAME),
   DELIVERY_EMAIL ("deliveryemail", "E-Mail", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY_NAME),
   DELIVERY_PHONE ("deliveryphone", "Telefon", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY_NAME),
   DELIVERY_CONTACT ("dleiverycontact", "Kontaktperson", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY_NAME),
@@ -96,7 +96,7 @@ public enum EFormElement
   /*
    * Details Pane - invoice lines
    */
-  DETAILS_LINE_ORDERPOSITIONNUMER ("orderpositionnumber", "Pos.Nr. aus Bestellung", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DETAILS_NAME),
+  DETAILS_LINE_ORDERPOSITIONNUMER ("orderpositionnumber", "Pos.Nr. aus Bestellung", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DETAILS_NAME),
   DETAILS_LINE_QUANTITY ("quantity", "Menge", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DETAILS_NAME),
   DETAILS_LINE_UNIT ("unit", "Mengeneinheit", Data.ELEMENTTYPE_COMBOBOX, true, Data.TITLEDPANE_DETAILS_NAME),
   DETAILS_LINE_UNITPRICE ("unitprice", "Einzelpreis netto", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DETAILS_NAME),
@@ -121,8 +121,8 @@ public enum EFormElement
   /*
    * Reduction/Surcharge elements
    */
-  SURCHARGE_VALUE ("surchargevalue", "Wert", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_SURCHARGE_NAME),
-  SURCHARGE_VAT ("surchargevat", "Steuersatz", Data.ELEMENTTYPE_COMBOBOX, false, Data.TITLEDPANE_SURCHARGE_NAME),
+  SURCHARGE_VALUE ("surchargevalue", "Wert", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_SURCHARGE_NAME),
+  SURCHARGE_VAT ("surchargevat", "Steuersatz", Data.ELEMENTTYPE_COMBOBOX, true, Data.TITLEDPANE_SURCHARGE_NAME),
   SURCHARGE_COMMENT ("surchargecomment", "Kommentar", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_SURCHARGE_NAME),
   SURCHARGE_REMOVE ("deletethissurcharge", "", Data.ELEMENTTYPE_BUTTON, false, Data.TITLEDPANE_SURCHARGE_NAME);
 

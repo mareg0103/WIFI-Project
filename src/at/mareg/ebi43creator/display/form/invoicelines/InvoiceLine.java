@@ -5,6 +5,7 @@ import at.mareg.ebi43creator.display.form.help.HelpArea;
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.display.utilities.FormElementCreator;
+import at.mareg.ebi43creator.display.utilities.RequiredAndErrorHelper;
 import at.mareg.ebi43creator.display.utilities.TextFieldHelper;
 import at.mareg.ebi43creator.display.utilities.VBoxHelper;
 import at.mareg.ebi43creator.invoicedata.details.ListLineItem;
@@ -61,6 +62,7 @@ public class InvoiceLine extends BasePane
 	private GridPane grid;
 	private Button removeThisLine;
 
+	private Label opnLabel;
 	private TextField opnField;
 	private TextField quantityField;
 	private ComboBox<String> unitComboBox;
@@ -209,20 +211,24 @@ public class InvoiceLine extends BasePane
 		 */
 		VBox opnBox = new VBox ();
 
-		Label opnLabel;
+		EFormElement opnElement = EFormElement.DETAILS_LINE_ORDERPOSITIONNUMER;
+		String opnID = opnElement.getID ();
+		boolean opnRequired = opnElement.isRequired ();
+
 		if (rm.getInvoiceData ().getInvoiceRecipient ().getOrderReference ().isOrderIDGovernmentOrderNumber ())
 		{
-			opnLabel = FormElementCreator
-					.getStandardLabel (EFormElement.DETAILS_LINE_ORDERPOSITIONNUMER.getLabelText (), null);
-			opnField = FormElementCreator.getStandardTextField (EFormElement.DETAILS_LINE_ORDERPOSITIONNUMER.getID (),
-					EFormElement.DETAILS_LINE_ORDERPOSITIONNUMER.isRequired ());
+			opnLabel = FormElementCreator.getStandardLabel (opnElement.getLabelText () + (opnRequired ? "*" : ""),
+					null);
+			opnField = FormElementCreator.getStandardTextField (opnID, opnRequired);
 		} else
 		{
-			opnLabel = FormElementCreator
-					.getDisabledLookingLabel (EFormElement.DETAILS_LINE_ORDERPOSITIONNUMER.getLabelText (), null);
-			opnField = FormElementCreator.getDisabledTextField (EFormElement.DETAILS_LINE_ORDERPOSITIONNUMER.getID (),
-					EFormElement.DETAILS_LINE_ORDERPOSITIONNUMER.isRequired ());
+			opnLabel = FormElementCreator.getDisabledLookingLabel (opnElement.getLabelText (), null);
+			opnField = FormElementCreator.getDisabledTextField (opnID, opnRequired);
 		}
+
+		if (opnRequired)
+			RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), opnID);
+
 		opnField.addEventHandler (KeyEvent.KEY_TYPED, onlyNumbersEventHandler);
 		opnField.focusedProperty ().addListener (new ChangeListener<Boolean> ()
 		{
@@ -237,10 +243,15 @@ public class InvoiceLine extends BasePane
 					{
 						orderPositionNumber = TextFieldHelper.getIntegerFromString (opnField.getText ());
 						listLineItem.setOrderPositionNumber (orderPositionNumber);
+
+						RequiredAndErrorHelper.removeRequiredFieldForLine (Integer.valueOf (lineNumber), opnID);
 					} else
 					{
 						orderPositionNumber = null;
 						listLineItem.setOrderPositionNumber (null);
+
+						if (opnRequired)
+							RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), opnID);
 					}
 				}
 			}
@@ -254,12 +265,19 @@ public class InvoiceLine extends BasePane
 		/*
 		 * Quantity
 		 */
+		EFormElement quantityElement = EFormElement.DETAILS_LINE_QUANTITY;
+		String quantityID = quantityElement.getID ();
+		boolean quantityRequired = quantityElement.isRequired ();
+
 		VBox quantityBox = new VBox ();
 
-		Label quantityLabel = FormElementCreator.getStandardLabel (EFormElement.DETAILS_LINE_QUANTITY.getLabelText (),
-				null);
-		quantityField = FormElementCreator.getStandardTextField (EFormElement.DETAILS_LINE_QUANTITY.getID (),
-				EFormElement.DETAILS_LINE_QUANTITY.isRequired ());
+		Label quantityLabel = FormElementCreator
+				.getStandardLabel (quantityElement.getLabelText () + (quantityRequired ? "*" : ""), null);
+		quantityField = FormElementCreator.getStandardTextField (quantityID, quantityRequired);
+
+		if (quantityRequired)
+			RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), quantityID);
+
 		quantityField.addEventHandler (KeyEvent.KEY_TYPED, onlyNumbersSemicolonMinusFourDecimalDigits);
 		quantityField.focusedProperty ().addListener (new ChangeListener<Boolean> ()
 		{
@@ -275,10 +293,15 @@ public class InvoiceLine extends BasePane
 						quantity = TextFieldHelper.getDoubleFromString (quantityField.getText ());
 						quantityField.setText (TextFieldHelper.getFourDecimalsStringFromDouble (quantity));
 						listLineItem.getQuantity ().setQuantity (quantity);
+
+						RequiredAndErrorHelper.removeRequiredFieldForLine (Integer.valueOf (lineNumber), quantityID);
 					} else
 					{
 						quantity = null;
 						listLineItem.getQuantity ().setQuantity (null);
+
+						if (quantityRequired)
+							RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), quantityID);
 					}
 
 					calculateLine ();
@@ -325,12 +348,18 @@ public class InvoiceLine extends BasePane
 		/*
 		 * Unit price
 		 */
+		EFormElement unitPriceElement = EFormElement.DETAILS_LINE_UNITPRICE;
+		String unitPriceID = unitPriceElement.getID ();
+		boolean unitPriceRequired = unitPriceElement.isRequired ();
+
 		VBox unitPriceBox = new VBox ();
 
-		Label unitPriceLabel = FormElementCreator.getStandardLabel (EFormElement.DETAILS_LINE_UNITPRICE.getLabelText (),
-				null);
-		unitPriceField = FormElementCreator.getStandardTextField (EFormElement.DETAILS_LINE_UNITPRICE.getID (),
-				EFormElement.DETAILS_LINE_UNITPRICE.isRequired ());
+		Label unitPriceLabel = FormElementCreator.getStandardLabel (unitPriceElement.getLabelText (), null);
+		unitPriceField = FormElementCreator.getStandardTextField (unitPriceID, unitPriceRequired);
+
+		if (unitPriceRequired)
+			RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), unitPriceID);
+
 		unitPriceField.addEventHandler (KeyEvent.KEY_TYPED, onlyNumbersSemicolonMinusFourDecimalDigits);
 		unitPriceField.focusedProperty ().addListener (new ChangeListener<Boolean> ()
 		{
@@ -346,6 +375,8 @@ public class InvoiceLine extends BasePane
 						unitprice = TextFieldHelper.getDoubleFromString (unitPriceField.getText ());
 						unitPriceField.setText (TextFieldHelper.getFourDecimalsStringFromDouble (unitprice));
 						listLineItem.setUnitPrice (unitprice);
+
+						RequiredAndErrorHelper.removeRequiredFieldForLine (Integer.valueOf (lineNumber), unitPriceID);
 					} else
 					{
 						unitprice = null;
@@ -365,12 +396,18 @@ public class InvoiceLine extends BasePane
 		/*
 		 * Description
 		 */
+		EFormElement descriptionElement = EFormElement.DETAILS_LINE_DESCRIPTION;
+		String descriptionID = descriptionElement.getID ();
+		boolean descriptionRequired = unitPriceElement.isRequired ();
+
 		VBox descriptionBox = new VBox ();
 
-		Label descriptionLabel = FormElementCreator
-				.getStandardLabel (EFormElement.DETAILS_LINE_DESCRIPTION.getLabelText (), null);
-		descriptionArea = FormElementCreator.getInvoiceLineTextArea (EFormElement.DETAILS_LINE_DESCRIPTION.getID (),
-				EFormElement.DETAILS_LINE_DESCRIPTION.isRequired ());
+		Label descriptionLabel = FormElementCreator.getStandardLabel (descriptionElement.getLabelText (), null);
+		descriptionArea = FormElementCreator.getInvoiceLineTextArea (descriptionID, descriptionRequired);
+
+		if (descriptionRequired)
+			RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), descriptionID);
+
 		descriptionArea.focusedProperty ().addListener (new ChangeListener<Boolean> ()
 		{
 			public void changed (ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
@@ -384,10 +421,16 @@ public class InvoiceLine extends BasePane
 					{
 						description = descriptionArea.getText ();
 						listLineItem.setDescription (description);
+
+						RequiredAndErrorHelper.removeRequiredFieldForLine (Integer.valueOf (lineNumber), descriptionID);
 					} else
 					{
 						description = null;
 						listLineItem.setDescription (null);
+
+						if (descriptionRequired)
+							RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber),
+									descriptionID);
 					}
 				}
 			}
@@ -665,6 +708,26 @@ public class InvoiceLine extends BasePane
 		return lineNumber;
 	}
 
+	public void setOrderPositionNumberStatus (final boolean status)
+	{
+		EFormElement opnElement = EFormElement.DETAILS_LINE_ORDERPOSITIONNUMER;
+
+		if (status)
+		{
+			FormElementCreator.showLabelAsEnabled (opnLabel, opnElement);
+			FormElementCreator.enableTextField (opnField, opnElement);
+
+			if (opnElement.isRequired ())
+				RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), opnElement.getID ());
+		} else
+		{
+			FormElementCreator.showLabelAsDisabled (opnLabel, opnElement);
+			FormElementCreator.disableTextField (opnField, opnElement);
+
+			RequiredAndErrorHelper.removeRequiredFieldForLine (Integer.valueOf (lineNumber), opnElement.getID ());
+		}
+	}
+
 	/*
 	 * Activates tax exemption
 	 */
@@ -676,6 +739,8 @@ public class InvoiceLine extends BasePane
 
 		FormElementCreator.showLabelAsEnabled (taxExemptionReasonLabel, t);
 		FormElementCreator.enableTextField (taxExemptionReasonField, t);
+
+		RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), t.getID ());
 
 		// Disable vat rate
 		EFormElement v = EFormElement.DETAILS_LINE_VAT;
@@ -700,6 +765,8 @@ public class InvoiceLine extends BasePane
 
 		FormElementCreator.showLabelAsDisabled (taxExemptionReasonLabel, t);
 		FormElementCreator.disableTextField (taxExemptionReasonField, t);
+
+		RequiredAndErrorHelper.removeRequiredFieldForLine (Integer.valueOf (lineNumber), t.getID ());
 
 		this.taxexemptionreason = null;
 		listLineItem.setTaxExemption (taxexemptionreason);

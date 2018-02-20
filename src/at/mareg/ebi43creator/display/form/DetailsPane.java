@@ -40,6 +40,12 @@ public class DetailsPane extends BorderPane
 	private TextField vatidInvoiceRecipientField;
 	private int rightAreaRow;
 
+	/*
+	 * Pane variables
+	 */
+	private Double totalNet;
+	private Double totalGross;
+
 	public DetailsPane (final ResourceManager resman)
 	{
 		rm = resman;
@@ -149,8 +155,8 @@ public class DetailsPane extends BorderPane
 	 */
 	public void refreshTotalNetAndGrossAmount ()
 	{
-		Double totalNet = Double.valueOf (0);
-		Double totalGross = Double.valueOf (0);
+		totalNet = Double.valueOf (0);
+		totalGross = Double.valueOf (0);
 
 		for (final InvoiceLine il : invoiceLineArea.getInvoiceLineList ())
 		{
@@ -171,6 +177,8 @@ public class DetailsPane extends BorderPane
 
 		totalNetField.setText (TextFieldHelper.getTwoDecimalsStringFromDouble (totalNet));
 		totalGrossField.setText (TextFieldHelper.getTwoDecimalsStringFromDouble (totalGross));
+
+		rm.getSurchargeDiscountPane ().refreshTotalNetandTotalGross ();
 	}
 
 	/*
@@ -179,5 +187,15 @@ public class DetailsPane extends BorderPane
 	public InvoiceLineArea getInvoiceLineArea ()
 	{
 		return invoiceLineArea;
+	}
+
+	public Double getInvoiceLinesTotalNet ()
+	{
+		return totalNet;
+	}
+
+	public Double getInvoiceLinesTotalGross ()
+	{
+		return totalGross;
 	}
 }

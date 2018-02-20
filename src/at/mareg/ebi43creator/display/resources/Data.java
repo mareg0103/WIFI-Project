@@ -93,8 +93,8 @@ public final class Data
 	/*
 	 * ScrollPane (in SurchargeArea) settings
 	 */
-	public static final double DETAILS_SCROLLSURCHARGE_WIDTH = 800d;
-	public static final double DETAILS_SCROLLSURCHARGE_HEIGHT = 600d;
+	public static final double SURCHARGE_SCROLLPANE_WIDTH = 800d;
+	public static final double SURCHARGE_SCROLLPANE_HEIGHT = 600d;
 
 	/*
 	 * BasePane settings

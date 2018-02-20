@@ -241,6 +241,21 @@ public class HelpArea extends TextArea
 						+ "Diese Zeile ist nicht editierbar.");
 
 		helpTexts.put (EFormElement.DETAILS_LINE_REMOVE.getID (), "Entfernt diese Zeile aus dem Dokument.");
+
+		/*
+		 * DiscountSurchargePane - surcharge line
+		 */
+		helpTexts.put (EFormElement.SURCHARGE_VALUE.getID (),
+				"Hier können Sie einen Aufschlag oder Abzug für die gesamte Rechnung eingeben\n\nPositive Zahlen sind "
+						+ "Aufschläge.\n\nNegative Zahlen sind Abzüge.");
+
+		helpTexts.put (EFormElement.SURCHARGE_VAT.getID (),
+				"Bitte wählen Sie hier den Steuersatz aus, der für diesen Aufschlage/Abzug gilt.");
+
+		helpTexts.put (EFormElement.SURCHARGE_COMMENT.getID (),
+				"Hier können sie einen Komentar zu diesen Aufschlag/Abzug angeben.");
+
+		helpTexts.put (EFormElement.SURCHARGE_REMOVE.getID (), "Entfernt diesen Aufschlag/Abzug aus diesem Dokument.");
 	}
 
 	/*

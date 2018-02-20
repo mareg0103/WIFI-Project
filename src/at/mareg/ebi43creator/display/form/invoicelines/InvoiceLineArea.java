@@ -96,7 +96,7 @@ public class InvoiceLineArea extends BasePane
 	}
 
 	/*
-	 * Remove an empty invoice line
+	 * Remove an invoice line
 	 */
 	public void removeInvoiceLine (final InvoiceLine line)
 	{
@@ -106,6 +106,18 @@ public class InvoiceLineArea extends BasePane
 			rm.getInvoiceData ().getDetails ().removeListLineItem (line.getListLineItem ());
 
 			_refreshArea ();
+		}
+	}
+
+	/*
+	 * If order id is government order number set order position number in all
+	 * invoice line to active
+	 */
+	public void setOrderPostionNumberInLinesStatus (final boolean status)
+	{
+		for (final InvoiceLine il : invoiceLineList)
+		{
+			il.setOrderPositionNumberStatus (status);
 		}
 	}
 

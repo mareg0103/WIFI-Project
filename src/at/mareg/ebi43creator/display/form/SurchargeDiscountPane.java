@@ -1,10 +1,14 @@
 package at.mareg.ebi43creator.display.form;
 
+import java.util.List;
+
 import at.mareg.ebi43creator.display.form.discount.DiscountArea;
 import at.mareg.ebi43creator.display.form.surcharge.SurchargeArea;
+import at.mareg.ebi43creator.display.form.surcharge.SurchargeLine;
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.display.utilities.FormElementCreator;
+import at.mareg.ebi43creator.display.utilities.TextFieldHelper;
 import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
 import javafx.geometry.Insets;
 import javafx.scene.control.Accordion;
@@ -37,7 +41,16 @@ public class SurchargeDiscountPane extends BorderPane
 	private TitledPane tp_Discount;
 	private SurchargeArea surchargeArea;
 	private DiscountArea discountArea;
+
+	private TextField totalNetField;
+	private TextField totalGrossField;
 	private int rightAreaRow;
+
+	/*
+	 * SurchargeDiscountPane variables
+	 */
+	private Double overallTotalNet;
+	private Double overallTotalGross;
 
 	public SurchargeDiscountPane (final ResourceManager resman)
 	{
@@ -93,11 +106,15 @@ public class SurchargeDiscountPane extends BorderPane
 					{
 						b.setOnAction (e -> {
 							rm.getInvoiceData ().addEmptySurchargeItem ();
+							expandSurchargePane ();
 						});
-					} else
+					}
+
+					if (elementID.equals (EFormElement.SURCHARGE_DISCOUNT_RIGHT_ADDDISCOUNTBUTTON.getID ()))
 					{
 						b.setOnAction (e -> {
 							rm.getInvoiceData ().getPaymentConditions ().addEmptyDiscount ();
+							expandDiscountPane ();
 						});
 					}
 
@@ -114,11 +131,19 @@ public class SurchargeDiscountPane extends BorderPane
 					t.setPrefWidth (Data.SURCHARGE_RIGHT_AREA_COMPONENT_WIDTH);
 
 					if (elementID.equals (EFormElement.SURCHARGE_DISCOUNT_RIGHT_TOTALNETAMOUNT.getID ()))
+					{
 						v.getChildren ()
 								.add (FormElementCreator.getStandardLabel (labelText, new Insets (20, 0, 0, 0)));
 
+						totalNetField = t;
+					}
+
 					if (elementID.equals (EFormElement.SURCHARGE_DISCOUNT_RIGHT_TOTALGROSSAMOUNT.getID ()))
+					{
 						v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
+
+						totalGrossField = t;
+					}
 
 					v.getChildren ().add (t);
 					grid.add (v, 0, rightAreaRow);
@@ -130,5 +155,49 @@ public class SurchargeDiscountPane extends BorderPane
 
 		this.setCenter (ac);
 		this.setRight (grid);
+	}
+
+	/*
+	 * Expand surcharge pane
+	 */
+	private void expandSurchargePane ()
+	{
+		tp_Surcharge.setExpanded (true);
+	}
+
+	/*
+	 * Expand discount pane ()
+	 */
+	private void expandDiscountPane ()
+	{
+		tp_Discount.setExpanded (true);
+	}
+
+	public void refreshTotalNetandTotalGross ()
+	{
+		overallTotalNet = rm.getDetailsPane ().getInvoiceLinesTotalNet ();
+		overallTotalGross = rm.getDetailsPane ().getInvoiceLinesTotalGross ();
+
+		List<SurchargeLine> surchargeLineList = getSurchargeArea ().getSurchargeLineList ();
+
+		if (surchargeLineList != null)
+			for (final SurchargeLine sl : getSurchargeArea ().getSurchargeLineList ())
+			{
+				overallTotalNet = Double
+						.valueOf (overallTotalNet.doubleValue () + sl.getSurchargeLineTotalNet ().doubleValue ());
+				overallTotalGross = Double
+						.valueOf (overallTotalGross.doubleValue () + sl.getSurchargeLineTotalGross ().doubleValue ());
+			}
+
+		totalNetField.setText (TextFieldHelper.getTwoDecimalsStringFromDouble (overallTotalNet));
+		totalGrossField.setText (TextFieldHelper.getTwoDecimalsStringFromDouble (overallTotalGross));
+	}
+
+	/*
+	 * Getter / Setter
+	 */
+	public SurchargeArea getSurchargeArea ()
+	{
+		return surchargeArea;
 	}
 }
