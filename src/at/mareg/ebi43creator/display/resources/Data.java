@@ -157,6 +157,7 @@ public final class Data
 	public static final String TITLEDPANE_DETAILS_NAME = "Details";
 	public static final String TITLEDPANE_SURCHARGE_NAME = "Aufschlag/Abzug";
 	public static final String TITLEDPANE_DISCOUNT_NAME = "Skonto";
+	public static final String TITLEDPANE_DUEDATE_NAME = "Netto-Fälligkeit";
 
 	/*
 	 * Details - right area
@@ -182,4 +183,5 @@ public final class Data
 	public static final String SURCHARGE_RIGHT_AREA = "SurchargeRightArea";
 	public static final double SURCHARGE_RIGHT_AREA_COMPONENT_WIDTH = DETAILS_RIGHT_AREA_COMPONENT_WIDTH;
 
+	public static final int MAX_ALLOWED_DISCOUNTS = 2;
 }

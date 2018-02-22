@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
 
 public final class RequiredAndErrorHelper
@@ -19,7 +20,7 @@ public final class RequiredAndErrorHelper
 	private static final Map<Integer, List<String>> lineRequiredMap = new TreeMap<> ();
 
 	/*
-	 * Translator map to show the missing required and erroneous fields
+	 * Translator map to show the missing required and erroneous id's as clear text
 	 */
 	private static Map<String, String> translatorMap;
 
@@ -28,29 +29,71 @@ public final class RequiredAndErrorHelper
 	}
 
 	/*
-	 * Methods for requiredMap
+	 * Initialize translator map (used for required and erroneous fields)
 	 */
-
-	/*
-	 * initialize translator map
-	 */
-	private static void initTranslatorMap ()
+	private static void _initTranslatorMap ()
 	{
 		translatorMap = new TreeMap<> ();
 
 		/*
 		 * Order data
 		 */
-		translatorMap.put (EFormElement.ORDER_ID.getID (), "Tab Auftragsdaten, Feld Autragsreferenz");
-		translatorMap.put (EFormElement.SUPPLIER_ID.getID (), "Tab Auftragsdaten, Feld Lieferantennummer");
+		translatorMap.put (EFormElement.ORDER_ID.getID (), "Tab " + Data.TAB_ORDER_DATA + ", Feld Autragsreferenz");
+		translatorMap.put (EFormElement.SUPPLIER_ID.getID (),
+				"Tab " + Data.TAB_ORDER_DATA + ", Feld Lieferantennummer");
 		translatorMap.put (EFormElement.FROM_DATE.getID (),
-				"Tab Auftragsdaten, Feld Lieferdatum / Leistungszeitraum von:");
+				"Tab " + Data.TAB_ORDER_DATA + ", Feld Lieferdatum / Leistungszeitraum von:");
+
+		/*
+		 * Contact data - biller
+		 */
+		translatorMap.put (EFormElement.BILLER_NAME.getID (),
+				"Tab " + Data.TAB_CONTACT_DATA + ", Abschnitt " + Data.TITLEDPANE_BILLER_NAME + ",\n   Feld Name");
+		translatorMap.put (EFormElement.BILLER_STREET.getID (),
+				"Tab " + Data.TAB_CONTACT_DATA + ", Abschnitt " + Data.TITLEDPANE_BILLER_NAME + ",\n   Feld Straße");
+		translatorMap.put (EFormElement.BILLER_ZIP.getID (),
+				"Tab " + Data.TAB_CONTACT_DATA + ", Abschnitt " + Data.TITLEDPANE_BILLER_NAME + ",\n   Feld PLZ");
+		translatorMap.put (EFormElement.BILLER_TOWN.getID (),
+				"Tab " + Data.TAB_CONTACT_DATA + ", Abschnitt " + Data.TITLEDPANE_BILLER_NAME + ",\n   Feld Stadt");
+		translatorMap.put (EFormElement.BILLER_COUNTRY.getID (),
+				"Tab " + Data.TAB_CONTACT_DATA + ", Abschnitt " + Data.TITLEDPANE_BILLER_NAME + ",\n   Feld Land");
+		translatorMap.put (EFormElement.BILLER_EMAIL.getID (),
+				"Tab " + Data.TAB_CONTACT_DATA + ", Abschnitt " + Data.TITLEDPANE_BILLER_NAME + ",\n   Feld E-Mail");
+
+		/*
+		 * Contact data - invoice recipient
+		 */
+		translatorMap.put (EFormElement.INVOICERECIPIENT_NAME.getID (), "Tab " + Data.TAB_CONTACT_DATA + ", Abschnitt "
+				+ Data.TITLEDPANE_INVOICERECIPIENT_NAME + ",\n   Feld Name");
+		translatorMap.put (EFormElement.INVOICERECIPIENT_STREET.getID (), "Tab " + Data.TAB_CONTACT_DATA
+				+ ", Abschnitt " + Data.TITLEDPANE_INVOICERECIPIENT_NAME + ",\n   Feld Straße");
+		translatorMap.put (EFormElement.INVOICERECIPIENT_ZIP.getID (), "Tab " + Data.TAB_CONTACT_DATA + ", Abschnitt "
+				+ Data.TITLEDPANE_INVOICERECIPIENT_NAME + ",\n   Feld PLZ");
+		translatorMap.put (EFormElement.INVOICERECIPIENT_TOWN.getID (), "Tab " + Data.TAB_CONTACT_DATA + ", Abschnitt "
+				+ Data.TITLEDPANE_INVOICERECIPIENT_NAME + ",\n   Feld Stadt");
+		translatorMap.put (EFormElement.INVOICERECIPIENT_COUNTRY.getID (), "Tab " + Data.TAB_CONTACT_DATA
+				+ ", Abschnitt " + Data.TITLEDPANE_INVOICERECIPIENT_NAME + ",\n   Feld Land");
 
 		/*
 		 * Payment data
 		 */
-		// Hier weiter arbeiten
+		translatorMap.put (EFormElement.PAYMENT_IBAN.getID (), "Tab " + Data.TAB_PAYMENT_DATA + ", Feld IBAN");
 	}
+
+	/*
+	 * Get id translation from translator map
+	 */
+	public static String getTranslationForID (final String id)
+	{
+		if (translatorMap == null)
+			_initTranslatorMap ();
+
+		return translatorMap.get (id);
+	}
+
+	/*
+	 * Methods for requiredMap
+	 */
 
 	/*
 	 * Add a required field to map on start of application or if an required field
@@ -225,7 +268,7 @@ public final class RequiredAndErrorHelper
 	/*
 	 * Return if all required and error maps are empty
 	 */
-	public static boolean allFieldsArrFilledAndCorrect ()
+	public static boolean allFieldsAreFilledAndCorrect ()
 	{
 		return requiredMap.size () == 0 && errorMap.size () == 0 && lineRequiredMap.size () == 0;
 	}

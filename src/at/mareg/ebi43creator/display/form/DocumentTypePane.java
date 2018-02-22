@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 
+import at.mareg.ebi43creator.display.form.dialogs.ChangeDocumentTypeDialog;
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.invoicedata.enums.EDocumentType;

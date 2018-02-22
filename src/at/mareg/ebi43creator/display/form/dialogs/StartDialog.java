@@ -1,5 +1,6 @@
-package at.mareg.ebi43creator.display.main;
+package at.mareg.ebi43creator.display.form.dialogs;
 
+import at.mareg.ebi43creator.display.main.EBI43CreatorMain;
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.invoicedata.enums.EDocumentType;
 import javafx.beans.value.ChangeListener;

@@ -95,8 +95,6 @@ public class InvoiceData
 		tax = new Tax ();
 
 		paymentMethod = new PaymentMethod ();
-
-		paymentConditions = new PaymentConditions ();
 	}
 
 	@XmlAttribute (name = "DocumentType", namespace = Data.DEFAULT_NAMESPACE)
@@ -355,6 +353,23 @@ public class InvoiceData
 			if (surchargeList.size () == 0)
 				surchargeList = null;
 		}
+	}
+
+	/*
+	 * Add a payment conditions element
+	 */
+	public void addPaymentContitions ()
+	{
+		if (paymentConditions == null)
+			paymentConditions = new PaymentConditions (rm);
+	}
+
+	/*
+	 * Remove the payment conditions element
+	 */
+	public void removePaymentContitions ()
+	{
+		paymentConditions = null;
 	}
 
 	/*

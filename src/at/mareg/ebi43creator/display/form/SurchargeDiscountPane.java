@@ -39,8 +39,10 @@ public class SurchargeDiscountPane extends BorderPane
 	private GridPane grid;
 	private TitledPane tp_Surcharge;
 	private TitledPane tp_Discount;
+	private TitledPane tp_DueDate;
 	private SurchargeArea surchargeArea;
 	private DiscountArea discountArea;
+	private DueDateArea dueDateArea;
 
 	private TextField totalNetField;
 	private TextField totalGrossField;
@@ -74,12 +76,17 @@ public class SurchargeDiscountPane extends BorderPane
 		tp_Surcharge.setContent (surchargeArea);
 		tp_Surcharge.setText (Data.TITLEDPANE_SURCHARGE_NAME);
 
-		tp_Discount = new TitledPane ("Skonto", new DiscountArea (rm));
+		tp_Discount = new TitledPane ();
 		discountArea = new DiscountArea (rm);
 		tp_Discount.setContent (discountArea);
 		tp_Discount.setText (Data.TITLEDPANE_DISCOUNT_NAME);
 
-		ac.getPanes ().addAll (tp_Surcharge, tp_Discount);
+		tp_DueDate = new TitledPane ();
+		dueDateArea = new DueDateArea (rm);
+		tp_DueDate.setContent (dueDateArea);
+		tp_DueDate.setText (Data.TITLEDPANE_DUEDATE_NAME);
+
+		ac.getPanes ().addAll (tp_Surcharge, tp_Discount, tp_DueDate);
 
 		/*
 		 * Right content of BorderPane
@@ -113,7 +120,13 @@ public class SurchargeDiscountPane extends BorderPane
 					if (elementID.equals (EFormElement.SURCHARGE_DISCOUNT_RIGHT_ADDDISCOUNTBUTTON.getID ()))
 					{
 						b.setOnAction (e -> {
+							rm.getInvoiceData ().addPaymentContitions ();
+
 							rm.getInvoiceData ().getPaymentConditions ().addEmptyDiscount ();
+
+							if (rm.getInvoiceData ().getPaymentConditions ().getDiscounts ().size () >= 2)
+								b.disableProperty ().set (true);
+
 							expandDiscountPane ();
 						});
 					}
@@ -199,5 +212,10 @@ public class SurchargeDiscountPane extends BorderPane
 	public SurchargeArea getSurchargeArea ()
 	{
 		return surchargeArea;
+	}
+
+	public DiscountArea getDiscountArea ()
+	{
+		return discountArea;
 	}
 }

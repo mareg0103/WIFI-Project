@@ -2,6 +2,7 @@ package at.mareg.ebi43creator.display.main;
 
 import java.util.Optional;
 
+import at.mareg.ebi43creator.display.form.dialogs.StartDialog;
 import at.mareg.ebi43creator.display.form.help.HelpArea;
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;

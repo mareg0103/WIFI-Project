@@ -46,9 +46,9 @@ public class SurchargeArea extends BasePane
 		super.init ();
 
 		scroll = new ScrollPane ();
-		scroll.setPrefHeight (Data.SURCHARGE_SCROLLPANE_HEIGHT); // to change
+		scroll.setPrefHeight (Data.SURCHARGE_SCROLLPANE_HEIGHT);
 		scroll.setMaxHeight (scroll.getPrefHeight ());
-		scroll.setPrefWidth (Data.SURCHARGE_SCROLLPANE_WIDTH); // to change
+		scroll.setPrefWidth (Data.SURCHARGE_SCROLLPANE_WIDTH);
 		scroll.setMaxWidth (scroll.getPrefWidth ());
 
 		grid = new GridPane ();

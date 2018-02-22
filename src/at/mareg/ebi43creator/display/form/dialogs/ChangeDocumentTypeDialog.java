@@ -1,4 +1,4 @@
-package at.mareg.ebi43creator.display.form;
+package at.mareg.ebi43creator.display.form.dialogs;
 
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.invoicedata.enums.EDocumentType;

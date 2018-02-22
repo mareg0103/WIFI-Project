@@ -77,6 +77,9 @@ public class SurchargeLine extends BasePane
 		init ();
 	}
 
+	/*
+	 * Initialize event handler
+	 */
 	private void initEventHandler ()
 	{
 		onlyNumbersSemicolonMinusTwoDecimalDigits = new EventHandler<KeyEvent> ()

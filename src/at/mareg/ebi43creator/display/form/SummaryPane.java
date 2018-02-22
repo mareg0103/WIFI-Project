@@ -42,12 +42,22 @@ public class SummaryPane extends BasePane
 			showRequired ();
 			showRequiredForLines ();
 			showError ();
+			rm.getInvoiceData ().serializeInvoiceAsXML ("H:\\savedInvoice.xml");
 
 			System.out.println ("Rechnung kann gespeichert werden: "
-					+ (RequiredAndErrorHelper.allFieldsArrFilledAndCorrect () ? "JA" : "NEIN"));
+					+ (RequiredAndErrorHelper.allFieldsAreFilledAndCorrect () ? "JA" : "NEIN"));
 		});
 
-		gridSummary.getChildren ().add (testShowInvoiceData);
+		gridSummary.add (testShowInvoiceData, 0, 0);
+
+		/*
+		 * Button to show dialog with missing required fields
+		 */
+		Button showMissingRequiredFieldsButton = new Button ("Zeige fehlende\nPflichtfelder");
+		showMissingRequiredFieldsButton.setOnAction (e -> {
+
+		});
+		gridSummary.add (showMissingRequiredFieldsButton, 1, 0);
 
 		this.getChildren ().add (gridSummary);
 	}
