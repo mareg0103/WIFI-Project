@@ -130,12 +130,13 @@ public enum EFormElement
 	 * Discount elements
 	 */
 	DISCOUNT_PERCENT ("discountpercent", "Prozent Skonto", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DISCOUNT_NAME),
-	DISCOUNT_VALUE ("discountdate", "bei Bezahlung bis", Data.ELEMENTTYPE_DATEPICKER, true, Data.TITLEDPANE_DISCOUNT_NAME),
+	DISCOUNT_UNTIL_DATE ("discountuntildate", "bei Bezahlung bis", Data.ELEMENTTYPE_DATEPICKER, true, Data.TITLEDPANE_DISCOUNT_NAME),
+	DISCOUNT_REMOVE ("deletethisdiscount", "", Data.ELEMENTTYPE_BUTTON, false, Data.TITLEDPANE_DISCOUNT_NAME),
 	
 	/*
 	 * Due date element
 	 */
-	DUE_DATE ("duedate", "Fälligkeitsdatum netto", Data.ELEMENTTYPE_DATEPICKER, true, Data.TITLEDPANE_DUEDATE_NAME);
+	DUE_DATE ("duedate", "Fälligkeitsdatum netto", Data.ELEMENTTYPE_DATEPICKER, false, Data.TITLEDPANE_DUEDATE_NAME);
 
   /*
    * Variables and methods

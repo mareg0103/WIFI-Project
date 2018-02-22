@@ -102,8 +102,8 @@ public class SurchargeArea extends BasePane
 	{
 		if (surchargeLineList.contains (line))
 		{
-			surchargeLineList.remove (line);
 			rm.getInvoiceData ().removeSurchargeItem (line.getSurcharge ());
+			surchargeLineList.remove (line);
 
 			_refreshArea ();
 		}

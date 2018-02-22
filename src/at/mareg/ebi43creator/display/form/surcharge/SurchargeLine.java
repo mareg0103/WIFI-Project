@@ -246,14 +246,7 @@ public class SurchargeLine extends BasePane
 			helpArea.show (EFormElement.SURCHARGE_REMOVE.getID ());
 		});
 		deleteThisLine.setOnAction (e -> {
-			System.out.println ("surchargeItem in dieser SurchargeLine = " + surchargeItem.toString ());
-			System.out.println ("Alle eingetragenen surchargeItems:");
-			for (Surcharge l : rm.getInvoiceData ().getSurchargeList ())
-				System.out.println (" " + l.toString ());
-			System.out.println ("BaseAmount = " + surchargeItem.getBaseAmount ());
-			System.out.println ("VATRate = " + surchargeItem.getVatRate ());
-			System.out.println ("Comment = " + surchargeItem.getComment ());
-			System.out.println ("Amount = " + surchargeItem.getAmount ());
+			rm.getSurchargeDiscountPane ().getSurchargeArea ().removeSurchargeLine (this);
 		});
 
 		grid.add (deleteThisLine, 4, 0);
@@ -265,6 +258,11 @@ public class SurchargeLine extends BasePane
 				BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID,
 				null, BorderWidths.DEFAULT, new Insets (3, 3, 3, 3))));
 		this.add (grid, 0, 0);
+
+		/*
+		 * Set current over all total net amount as base amount
+		 */
+		surchargeItem.setBaseAmount (rm.getSurchargeDiscountPane ().getOverAllTotalNet ());
 	}
 
 	/*

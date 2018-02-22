@@ -42,7 +42,8 @@ public class SurchargeDiscountPane extends BorderPane
 	private TitledPane tp_DueDate;
 	private SurchargeArea surchargeArea;
 	private DiscountArea discountArea;
-	private DueDateArea dueDateArea;
+	private DueDatePane dueDateArea;
+	private Button addDiscountLine;
 
 	private TextField totalNetField;
 	private TextField totalGrossField;
@@ -82,7 +83,7 @@ public class SurchargeDiscountPane extends BorderPane
 		tp_Discount.setText (Data.TITLEDPANE_DISCOUNT_NAME);
 
 		tp_DueDate = new TitledPane ();
-		dueDateArea = new DueDateArea (rm);
+		dueDateArea = new DueDatePane (rm);
 		tp_DueDate.setContent (dueDateArea);
 		tp_DueDate.setText (Data.TITLEDPANE_DUEDATE_NAME);
 
@@ -119,6 +120,8 @@ public class SurchargeDiscountPane extends BorderPane
 
 					if (elementID.equals (EFormElement.SURCHARGE_DISCOUNT_RIGHT_ADDDISCOUNTBUTTON.getID ()))
 					{
+						addDiscountLine = b;
+
 						b.setOnAction (e -> {
 							rm.getInvoiceData ().addPaymentContitions ();
 
@@ -217,5 +220,15 @@ public class SurchargeDiscountPane extends BorderPane
 	public DiscountArea getDiscountArea ()
 	{
 		return discountArea;
+	}
+
+	public void setAddDiscountButtonToEnable ()
+	{
+		addDiscountLine.disableProperty ().set (false);
+	}
+
+	public Double getOverAllTotalNet ()
+	{
+		return overallTotalNet;
 	}
 }

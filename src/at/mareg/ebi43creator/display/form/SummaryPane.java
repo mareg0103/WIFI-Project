@@ -1,8 +1,11 @@
 package at.mareg.ebi43creator.display.form;
 
+import java.util.List;
+
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.display.utilities.RequiredAndErrorHelper;
 import at.mareg.ebi43creator.invoicedata.InvoiceData;
+import at.mareg.ebi43creator.invoicedata.payment.Discount;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
@@ -39,9 +42,10 @@ public class SummaryPane extends BasePane
 		Button testShowInvoiceData = new Button ("InvoiceData anzeigen");
 		testShowInvoiceData.setOnAction (e -> {
 			// showInvoiceData ();
-			showRequired ();
-			showRequiredForLines ();
-			showError ();
+			// showRequired ();
+			// showRequiredForLines ();
+			// showError ();
+			showDiscounts ();
 			rm.getInvoiceData ().serializeInvoiceAsXML ("H:\\savedInvoice.xml");
 
 			System.out.println ("Rechnung kann gespeichert werden: "
@@ -101,5 +105,21 @@ public class SummaryPane extends BasePane
 		System.out.println ("Required Fields eingetragen:");
 		RequiredAndErrorHelper.showReqMap ();
 		System.out.println ();
+	}
+
+	private void showDiscounts ()
+	{
+		if (rm.getInvoiceData ().getPaymentConditions () != null)
+		{
+			List<Discount> dl = rm.getInvoiceData ().getPaymentConditions ().getDiscounts ();
+
+			if (dl != null)
+				for (final Discount d : dl)
+				{
+					System.out.println (d);
+					System.out.println ("  " + d.getPercentage ());
+				}
+		}
+
 	}
 }

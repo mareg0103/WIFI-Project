@@ -1,24 +1,37 @@
 package at.mareg.ebi43creator.display.form.discount;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import at.mareg.ebi43creator.display.form.BasePane;
 import at.mareg.ebi43creator.display.form.help.HelpArea;
 import at.mareg.ebi43creator.display.resources.Data;
+import at.mareg.ebi43creator.display.resources.InvoiceDateManager;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.display.utilities.FormElementCreator;
+import at.mareg.ebi43creator.display.utilities.TextFieldHelper;
 import at.mareg.ebi43creator.display.utilities.VBoxHelper;
 import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
 import at.mareg.ebi43creator.invoicedata.payment.Discount;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 public class DiscountLine extends BasePane
 {
@@ -28,9 +41,19 @@ public class DiscountLine extends BasePane
 	private Discount discount;
 
 	/*
+	 * DiscountArea instance
+	 */
+	private DiscountArea discountArea;
+
+	/*
 	 * Help area instance
 	 */
 	private HelpArea helpArea;
+
+	/*
+	 * DateManager instance
+	 */
+	private InvoiceDateManager invoiceDateManager;
 
 	/*
 	 * Pane elements
@@ -56,7 +79,9 @@ public class DiscountLine extends BasePane
 		super (rm);
 
 		discount = d;
+		discountArea = rm.getSurchargeDiscountPane ().getDiscountArea ();
 		helpArea = rm.getHelpArea ();
+		invoiceDateManager = rm.getInvoiceDateManager ();
 
 		_initEventHandler ();
 		init ();
@@ -125,6 +150,21 @@ public class DiscountLine extends BasePane
 				if (newValue)
 				{
 					helpArea.show (percentElement.getID ());
+				} else
+				{
+					String text = discountPercentField.getText ();
+					List<Discount> d = rm.getInvoiceData ().getPaymentConditions ().getDiscounts ();
+
+					if (text != null && !text.isEmpty ())
+					{
+						discountPercent = TextFieldHelper.getDoubleFromString (text);
+					} else
+					{
+						discountPercent = null;
+					}
+
+					d.get (d.indexOf (discount)).setPercentage (discountPercent);
+
 				}
 
 			}
@@ -135,7 +175,107 @@ public class DiscountLine extends BasePane
 		VBoxHelper.structureVBox (percentBox);
 		grid.add (percentBox, 0, 0, 2, 1);
 
+		/*
+		 * Discount if paid until date
+		 */
+		EFormElement ifPaidUntilDateElement = EFormElement.DISCOUNT_UNTIL_DATE;
+
+		VBox untilDateBox = new VBox ();
+
+		Label ifPaidUntilDateLabel = FormElementCreator.getStandardLabel (
+				ifPaidUntilDateElement.getLabelText () + (ifPaidUntilDateElement.isRequired () ? "*" : ""), null);
+
+		ifPaidUntilDatePicker = FormElementCreator.getStandardDatePicker (ifPaidUntilDateElement.getID (),
+				ifPaidUntilDateElement.isRequired ());
+		ifPaidUntilDatePicker.focusedProperty ().addListener (new ChangeListener<Boolean> ()
+		{
+			public void changed (ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+			{
+				if (newValue)
+				{
+					helpArea.show (ifPaidUntilDateElement.getID ());
+				} else
+				{
+					int listSize = 0;
+
+					if (discountArea.getDiscountLineList () != null)
+					{
+						listSize = discountArea.getDiscountLineList ().size ();
+
+						if (listSize == 1)
+						{
+
+						}
+
+						if (listSize == 2)
+						{
+							// if (discountArea.getDiscountLine (0) == this)
+							{
+
+							}
+						}
+					}
+				}
+
+			}
+		});
+
+		untilDateBox.getChildren ().addAll (ifPaidUntilDateLabel, ifPaidUntilDatePicker);
+
+		VBoxHelper.structureVBox (untilDateBox);
+		grid.add (untilDateBox, 2, 0, 2, 1);
+
+		/*
+		 * Delete this line button
+		 */
+		EFormElement deleteThisLineElement = EFormElement.DISCOUNT_REMOVE;
+
+		deleteThisLine = new Button (deleteThisLineElement.getLabelText (),
+				new ImageView (new Image ("at/mareg/ebi43creator/display/images/Loeschen_50x33.png")));
+		deleteThisLine.hoverProperty ().addListener ( (observable) -> {
+			helpArea.show (deleteThisLineElement.getID ());
+		});
+		deleteThisLine.setOnAction (e -> {
+			discountArea.removeDiscountLine (this);
+			rm.getSurchargeDiscountPane ().setAddDiscountButtonToEnable ();
+		});
+
+		grid.add (deleteThisLine, 4, 0);
+
+		/*
+		 * Add grid to this
+		 */
+		this.setBorder (new Border (new BorderStroke (Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+				BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID,
+				null, BorderWidths.DEFAULT, new Insets (3, 3, 3, 3))));
 		this.add (grid, 0, 0);
+	}
+
+	/*
+	 * Check if new day cell factorys must be set
+	 */
+	private void _checkDayCellFactorys ()
+	{
+		if (discountArea.getDiscountLineList ().size () == 0)
+		{
+			ifPaidUntilDatePicker.setDayCellFactory (invoiceDateManager.getDayCellFectoryDisableBefore (
+					LocalDate.parse (rm.getInvoiceDateManager ().getCurrentDateAsString ()).plusDays (1l)));
+		} else
+		{
+			System.out.println ("Es ist bereits eine Skontozeile vorhanden");
+
+			DatePicker firstDatePicker = discountArea.getDiscountLineList ().get (0).getifPaidUntilDatePicker ();
+
+			if (firstDatePicker.getValue () == null)
+			{
+				ifPaidUntilDatePicker.setDayCellFactory (invoiceDateManager.getDayCellFectoryDisableBefore (
+						LocalDate.parse (rm.getInvoiceDateManager ().getCurrentDateAsString ()).plusDays (1l)));
+			} else
+			{
+				ifPaidUntilDatePicker.setDayCellFactory (
+						invoiceDateManager.getDayCellFectoryDisableBefore (firstDatePicker.getValue ().plusDays (1l)));
+			}
+		}
 	}
 
 	/*
@@ -144,5 +284,10 @@ public class DiscountLine extends BasePane
 	public Discount getDiscount ()
 	{
 		return discount;
+	}
+
+	public DatePicker getifPaidUntilDatePicker ()
+	{
+		return ifPaidUntilDatePicker;
 	}
 }

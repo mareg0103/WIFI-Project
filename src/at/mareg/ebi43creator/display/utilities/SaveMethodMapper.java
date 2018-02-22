@@ -211,12 +211,24 @@ public final class SaveMethodMapper
 				break;
 
 			/*
+			 * VAT id numbers
+			 */
+			case DETAILS_RIGHT_VATID_BILLER:
+				invoiceData.getBiller ().setVatID (value);
+				break;
+
+			case DETAILS_RIGHT_VATID_INVOICERECIPIENT:
+				invoiceData.getInvoiceRecipient ().setVatID (value);
+				break;
+
+			/*
 			 * On error
 			 */
 			default:
 				checkInputReturnMessage = Data.CHECKMESSAGE_SUCCESS;
-				System.err.println (
-						"Keine Methode für Feld '" + field + "' vorhanden, möglicherweise InvoiceLine-Element!");
+				// System.err.println (
+				// "Keine Methode für Feld '" + field + "' vorhanden, möglicherweise
+				// InvoiceLine-Element!");
 		}
 
 		return checkInputReturnMessage;

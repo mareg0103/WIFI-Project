@@ -18,178 +18,177 @@ import javafx.scene.layout.VBox;
 
 public class OrderPane extends BasePane
 {
-  /**
-   * Pane to enter order specific informations like order id, supplier id,
-   * invoice number, etc.
-   * 
-   * @author Martin Regitnig
-   */
+	/**
+	 * Pane to enter order specific informations like order id, supplier id, invoice
+	 * number, etc.
+	 * 
+	 * @author Martin Regitnig
+	 */
 
-  /*
-   * Pane elements
-   */
-  private Accordion ac;
-  private TitledPane tp_Order;
-  private GridPane grid_Order;
+	/*
+	 * Pane elements
+	 */
+	private Accordion ac;
+	private TitledPane tp_Order;
+	private GridPane grid_Order;
 
-  public OrderPane (final ResourceManager resman)
-  {
+	public OrderPane (final ResourceManager resman)
+	{
 
-    super (resman);
+		super (resman);
 
-    init ();
+		init ();
 
-  }
+	}
 
-  /*
-   * Initialize OrderPane
-   */
-  @Override
-  protected void init ()
-  {
-    super.init ();
+	/*
+	 * Initialize OrderPane
+	 */
+	@Override
+	protected void init ()
+	{
+		super.init ();
 
-    ac = new Accordion ();
+		ac = new Accordion ();
 
-    tp_Order = new TitledPane ();
+		tp_Order = new TitledPane ();
 
-    grid_Order = new GridPane ();
-    grid_Order.setPadding (Data.BASEPANE_PADDING);
-    grid_Order.setHgap (Data.BASEPANE_HVGAP);
-    grid_Order.setVgap (this.getHgap ());
+		grid_Order = new GridPane ();
+		grid_Order.setPadding (Data.BASEPANE_PADDING);
+		grid_Order.setHgap (Data.BASEPANE_HVGAP);
+		grid_Order.setVgap (this.getHgap ());
 
-    VBox v = null;
+		VBox v = null;
 
-    for (final EFormElement eb : EFormElement.values ())
-    {
+		for (final EFormElement eb : EFormElement.values ())
+		{
 
-      if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_ORDER_NAME))
-      {
-        final boolean isRequired = eb.isRequired ();
-        final String elementID = eb.getID ();
-        final String labelText = eb.getLabelText () + (isRequired ? "*" : "");
+			if (eb.getTiteldPaneID ().equals (Data.TITLEDPANE_ORDER_NAME))
+			{
+				final boolean isRequired = eb.isRequired ();
+				final String elementID = eb.getID ();
+				final String labelText = eb.getLabelText () + (isRequired ? "*" : "");
 
-        if (eb.getType () == Data.ELEMENTTYPE_TEXTFIELD)
-        {
-          v = new VBox ();
+				if (eb.getType () == Data.ELEMENTTYPE_TEXTFIELD)
+				{
+					v = new VBox ();
 
-          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
-          TextField t = FormElementCreator.getStandardTextField (elementID, isRequired);
-          v.getChildren ().add (t);
+					v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
+					TextField t = FormElementCreator.getStandardTextField (elementID, isRequired);
+					v.getChildren ().add (t);
 
-          if (eb.getName ().equals ("INVOICE_CURRENCY"))
-          {
-            t.setText (ECurrency.EURO.getInvoiceCurrency ());
-            t.setEditable (false);
-            rm.getInvoiceData ().setInvoiceCurrency (ECurrency.EURO.getInvoiceCurrencyShort ());
-          }
+					if (eb.getName ().equals ("INVOICE_CURRENCY"))
+					{
+						t.setText (ECurrency.EURO.getInvoiceCurrency ());
+						t.setEditable (false);
+						rm.getInvoiceData ().setInvoiceCurrency (ECurrency.EURO.getInvoiceCurrencyShort ());
+					}
 
-          grid_Order.add (v, col, row);
-          VBoxHelper.structureVBox (v);
+					grid_Order.add (v, col, row);
+					VBoxHelper.structureVBox (v);
 
-          incrementCol ();
-        }
+					incrementCol ();
+				}
 
-        if (eb.getType () == Data.ELEMENTTYPE_TEXTAREA)
-        {
-          v = new VBox ();
+				if (eb.getType () == Data.ELEMENTTYPE_TEXTAREA)
+				{
+					v = new VBox ();
 
-          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
-          v.getChildren ().add (FormElementCreator.getStandardTextArea (elementID, isRequired));
+					v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
+					v.getChildren ().add (FormElementCreator.getStandardTextArea (elementID, isRequired));
 
-          while (col != 0)
-            incrementCol ();
+					while (col != 0)
+						incrementCol ();
 
-          grid_Order.add (v, col, row, 2, 3);
-          VBoxHelper.structureVBox (v);
+					grid_Order.add (v, col, row, 2, 3);
+					VBoxHelper.structureVBox (v);
 
-          incrementCol ();
-          incrementCol ();
+					incrementCol ();
+					incrementCol ();
 
-        }
+				}
 
-        if (eb.getType () == Data.ELEMENTTYPE_DATEPICKER)
-        {
-          v = new VBox ();
+				if (eb.getType () == Data.ELEMENTTYPE_DATEPICKER)
+				{
+					v = new VBox ();
 
-          v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
+					v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
 
-          final DatePicker dp = FormElementCreator.getStandardDatePicker (elementID, isRequired);
-          v.getChildren ().add (dp);
+					final DatePicker dp = FormElementCreator.getStandardDatePicker (elementID, isRequired);
+					v.getChildren ().add (dp);
 
-          if (elementID.equals (EFormElement.INVOICE_DATE.getID ()))
-          {
-            System.out.println ("In OrderPane.init() - Elementtype_DatePicker");
-            System.out.println ("   Element ID = " + elementID);
-            System.out.println ("   TitlePane = " + eb.getTiteldPaneID ());
-            dp.setDayCellFactory (rm.getInvoiceDateManager ().getDayCellFactoryForInvoiceDate ());
-            dp.setValue (LocalDate.now ());
-            dp.setStyle ("-fx-control-inner-background: #FFFFFF");
-          }
+					if (elementID.equals (EFormElement.INVOICE_DATE.getID ()))
+					{
+						dp.setDayCellFactory (rm.getInvoiceDateManager ().getDayCellFactoryForInvoiceDate ());
+						dp.setValue (LocalDate.now ());
+						dp.setStyle ("-fx-control-inner-background: #FFFFFF");
+					}
 
-          if (elementID.equals (EFormElement.FROM_DATE.getID ()))
-            while (col != 0)
-              incrementCol ();
+					if (elementID.equals (EFormElement.FROM_DATE.getID ()))
+						while (col != 0)
+							incrementCol ();
 
-          if (elementID.equals (EFormElement.TO_DATE.getID ()))
-            dp.disableProperty ().set (true);
+					if (elementID.equals (EFormElement.TO_DATE.getID ()))
+						dp.disableProperty ().set (true);
 
-          grid_Order.add (v, col, row);
-          VBoxHelper.structureVBox (v);
+					grid_Order.add (v, col, row);
+					VBoxHelper.structureVBox (v);
 
-          incrementCol ();
+					incrementCol ();
 
-        }
+				}
 
-        if (isRequired && !elementID.equals (EFormElement.INVOICE_DATE.getID ()))
-          RequiredAndErrorHelper.addRequiredField (eb.getTiteldPaneID (), elementID);
-      }
+				if (isRequired && !elementID.equals (EFormElement.INVOICE_DATE.getID ()))
+					RequiredAndErrorHelper.addRequiredField (eb.getTiteldPaneID (), elementID);
+			}
 
-    }
+		}
 
-    /*
-     * Add change listener to DatePicker FROM_DATE (Lieferdatum /
-     * Leistungszeitraum von:)
-     */
-    final DatePicker from = FormElementCreator.getDatePickerWithID (grid_Order, EFormElement.FROM_DATE.getID ());
-    if (from != null)
-    {
+		/*
+		 * Add change listener to DatePicker FROM_DATE (Lieferdatum / Leistungszeitraum
+		 * von:)
+		 */
+		final DatePicker from = FormElementCreator.getDatePickerWithID (grid_Order, EFormElement.FROM_DATE.getID ());
+		if (from != null)
+		{
 
-      from.valueProperty ().addListener ( (observable, oldValue, newValue) -> {
+			from.valueProperty ().addListener ( (observable, oldValue, newValue) -> {
 
-        final DatePicker to = FormElementCreator.getDatePickerWithID (grid_Order, EFormElement.TO_DATE.getID ());
+				final DatePicker to = FormElementCreator.getDatePickerWithID (grid_Order,
+						EFormElement.TO_DATE.getID ());
 
-        if (to != null)
-        {
+				if (to != null)
+				{
 
-          to.setDayCellFactory (rm.getInvoiceDateManager ().getDayCellFectoryDisableBefore (from.getValue ()));
-          to.disableProperty ().set (false);
+					to.setDayCellFactory (
+							rm.getInvoiceDateManager ().getDayCellFectoryDisableBefore (from.getValue ()));
+					to.disableProperty ().set (false);
 
-          if (to.getValue () != null && !to.getValue ().toString ().isEmpty ())
-          {
+					if (to.getValue () != null && !to.getValue ().toString ().isEmpty ())
+					{
 
-            if (from.getValue ().isAfter (to.getValue ()))
-              to.setValue (null);
+						if (from.getValue ().isAfter (to.getValue ()))
+							to.setValue (null);
 
-          }
+					}
 
-        }
+				}
 
-      });
+			});
 
-    }
+		}
 
-    tp_Order.setContent (grid_Order);
-    tp_Order.setCollapsible (false);
+		tp_Order.setContent (grid_Order);
+		tp_Order.setCollapsible (false);
 
-    ac.getPanes ().add (tp_Order);
-    ac.setExpandedPane (tp_Order);
+		ac.getPanes ().add (tp_Order);
+		ac.setExpandedPane (tp_Order);
 
-    this.add (ac, 0, 0);
-  }
+		this.add (ac, 0, 0);
+	}
 
-  public GridPane getGridPaneOrder ()
-  {
-    return grid_Order;
-  }
+	public GridPane getGridPaneOrder ()
+	{
+		return grid_Order;
+	}
 }

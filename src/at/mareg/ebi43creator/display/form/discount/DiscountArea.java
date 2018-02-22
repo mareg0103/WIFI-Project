@@ -8,7 +8,6 @@ import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.invoicedata.payment.Discount;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 
 public class DiscountArea extends BasePane
@@ -21,7 +20,6 @@ public class DiscountArea extends BasePane
 	/*
 	 * Pane elements
 	 */
-	private ScrollPane scroll;
 	private GridPane grid;
 	private int areaRow;
 
@@ -49,9 +47,9 @@ public class DiscountArea extends BasePane
 	{
 		areaRow = 0;
 
-		for (final DiscountLine sl : discountLineList)
+		for (final DiscountLine dl : discountLineList)
 		{
-			grid.add (sl, 0, areaRow);
+			grid.add (dl, 0, areaRow);
 			areaRow++;
 		}
 	}
@@ -68,34 +66,43 @@ public class DiscountArea extends BasePane
 	}
 
 	/*
-	 * Add a new surcharge item to list
+	 * Add a new discount item to list
 	 */
 	public void addEmptyDiscountLine (final Discount discount)
 	{
 		if (discountLineList == null)
 			discountLineList = new ArrayList<> ();
 
-		discountLineList.add (new DiscountLine (rm, discount));
+		DiscountLine dl = new DiscountLine (rm, discount);
+		discountLineList.add (dl);
 
 		_refreshArea ();
 	}
 
 	/*
-	 * Remove a surcharge line
+	 * Remove a discount line
 	 */
 	public void removeDiscountLine (final DiscountLine line)
 	{
 		if (discountLineList.contains (line))
 		{
-			discountLineList.remove (line);
 			rm.getInvoiceData ().getPaymentConditions ().removeDiscount (line.getDiscount ());
+			discountLineList.remove (line);
 
 			_refreshArea ();
 		}
 	}
 
 	/*
-	 * Create surcharge line list after loading a XML
+	 * Get an dicount line
+	 */
+	public DiscountLine getDiscountLine (final DiscountLine line)
+	{
+		return discountLineList.get (discountLineList.indexOf (line));
+	}
+
+	/*
+	 * Create discount line list after loading a XML
 	 */
 	public void createSurchargeLineAfterLoading ()
 	{
@@ -119,4 +126,9 @@ public class DiscountArea extends BasePane
 		return discountLineList;
 	}
 
+	public void showInvoiceLineList ()
+	{
+		for (final DiscountLine dl : discountLineList)
+			System.out.println (((DiscountLine) dl).toString ());
+	}
 }
