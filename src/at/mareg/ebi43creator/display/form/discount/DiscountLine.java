@@ -209,9 +209,23 @@ public class DiscountLine extends BasePane
 
 						if (listSize == 2)
 						{
-							// if (discountArea.getDiscountLine (0) == this)
+							// if (discountArea.getDiscountLine (this))
 							{
-
+								/*
+								 * Hier verstehe ich nicht ganz -> Wenn ich das oberhalb stehene if aktiviere,
+								 * wird es rot unterringelt und eclipse sagt mir
+								 * 
+								 * "The method getDiscountLine(DiscountLine) in the type DiscountArea is not applicable for the arguments (new ChangeListener<Boolean>(){})"
+								 * 
+								 * Ich kapier nicht ganz, wo das ChangeListener<Boolean> herkommt?!? this sollte
+								 * hier doch diese InvoiceLine sein, auch wenn ich mich hier in einem
+								 * ChangeListener bezüglich FocusProperty befinde.
+								 * 
+								 * Komischerweise wenn ich im "deleteThisLine"-Button gleich unterhalb die
+								 * Funktion discountArea.removeDiscountLine (this); aufrufe, gibt es keine
+								 * Probleme, die Zeile und der dazugeöhrige Discount in
+								 * InvoiceData/PaymentConditions/discountList wird entfernt.
+								 */
 							}
 						}
 					}

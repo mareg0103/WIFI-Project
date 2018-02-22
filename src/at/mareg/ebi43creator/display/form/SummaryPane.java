@@ -2,6 +2,7 @@ package at.mareg.ebi43creator.display.form;
 
 import java.util.List;
 
+import at.mareg.ebi43creator.display.form.discount.DiscountLine;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.display.utilities.RequiredAndErrorHelper;
 import at.mareg.ebi43creator.invoicedata.InvoiceData;
@@ -39,17 +40,17 @@ public class SummaryPane extends BasePane
 
 		gridSummary = new GridPane ();
 
-		Button testShowInvoiceData = new Button ("InvoiceData anzeigen");
+		Button testShowInvoiceData = new Button ("Discounts anzeigen");
 		testShowInvoiceData.setOnAction (e -> {
 			// showInvoiceData ();
 			// showRequired ();
 			// showRequiredForLines ();
 			// showError ();
 			showDiscounts ();
-			rm.getInvoiceData ().serializeInvoiceAsXML ("H:\\savedInvoice.xml");
+			// rm.getInvoiceData ().serializeInvoiceAsXML ("H:\\savedInvoice.xml");
 
-			System.out.println ("Rechnung kann gespeichert werden: "
-					+ (RequiredAndErrorHelper.allFieldsAreFilledAndCorrect () ? "JA" : "NEIN"));
+			// System.out.println ("Rechnung kann gespeichert werden: "
+			// + (RequiredAndErrorHelper.allFieldsAreFilledAndCorrect () ? "JA" : "NEIN"));
 		});
 
 		gridSummary.add (testShowInvoiceData, 0, 0);
@@ -59,7 +60,7 @@ public class SummaryPane extends BasePane
 		 */
 		Button showMissingRequiredFieldsButton = new Button ("Zeige fehlende\nPflichtfelder");
 		showMissingRequiredFieldsButton.setOnAction (e -> {
-
+			System.out.println ("Noch nicht implementiert!");
 		});
 		gridSummary.add (showMissingRequiredFieldsButton, 1, 0);
 
@@ -112,14 +113,28 @@ public class SummaryPane extends BasePane
 		if (rm.getInvoiceData ().getPaymentConditions () != null)
 		{
 			List<Discount> dl = rm.getInvoiceData ().getPaymentConditions ().getDiscounts ();
+			List<DiscountLine> dll = rm.getSurchargeDiscountPane ().getDiscountArea ().getDiscountLineList ();
 
 			if (dl != null)
+			{
+				System.out.println ("Eingetragene Discounts in InvoiceData/PaymentConditions/discountList:");
 				for (final Discount d : dl)
 				{
-					System.out.println (d);
-					System.out.println ("  " + d.getPercentage ());
+					System.out.println ("  " + d);
 				}
-		}
+				System.out.println ();
 
+				if (dl != null)
+				{
+					System.out.println (
+							"Eingetragene InvoiceLines in SurchargeDiscountPane/DiscountArea/discountLineList:");
+					for (final DiscountLine d : dll)
+					{
+						System.out.println ("  " + d);
+					}
+				}
+			}
+
+		}
 	}
 }
