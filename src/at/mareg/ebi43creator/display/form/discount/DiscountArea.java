@@ -96,9 +96,9 @@ public class DiscountArea extends BasePane
 	/*
 	 * Get an dicount line
 	 */
-	public DiscountLine getDiscountLine (final DiscountLine line)
+	public DiscountLine getDiscountLine (final int index)
 	{
-		return discountLineList.get (discountLineList.indexOf (line));
+		return discountLineList.get (index);
 	}
 
 	/*

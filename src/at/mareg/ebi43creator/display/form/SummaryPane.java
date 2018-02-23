@@ -47,7 +47,7 @@ public class SummaryPane extends BasePane
 			// showRequiredForLines ();
 			// showError ();
 			showDiscounts ();
-			// rm.getInvoiceData ().serializeInvoiceAsXML ("H:\\savedInvoice.xml");
+			rm.getInvoiceData ().serializeInvoiceAsXML ("H:\\temporaryInvoice.xml");
 
 			// System.out.println ("Rechnung kann gespeichert werden: "
 			// + (RequiredAndErrorHelper.allFieldsAreFilledAndCorrect () ? "JA" : "NEIN"));
@@ -130,7 +130,7 @@ public class SummaryPane extends BasePane
 							"Eingetragene InvoiceLines in SurchargeDiscountPane/DiscountArea/discountLineList:");
 					for (final DiscountLine d : dll)
 					{
-						System.out.println ("  " + d);
+						System.out.println ("  " + d.toString ());
 					}
 				}
 			}

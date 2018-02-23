@@ -222,6 +222,21 @@ public final class SaveMethodMapper
 				break;
 
 			/*
+			 * Due date
+			 */
+			case DUE_DATE:
+				if (value != null)
+				{
+					invoiceData.addPaymentContitions ();
+					invoiceData.getPaymentConditions ().setDueDate (value);
+				} else
+				{
+					if (invoiceData.getPaymentConditions () != null)
+						invoiceData.getPaymentConditions ().setDueDate (value);
+				}
+				break;
+
+			/*
 			 * On error
 			 */
 			default:

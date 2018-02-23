@@ -198,6 +198,17 @@ public class DiscountLine extends BasePane
 				{
 					int listSize = 0;
 
+					ifPaidUntil = (ifPaidUntilDatePicker.getValue () == null ? null
+							: ifPaidUntilDatePicker.getValue ().toString ());
+					discount.setPaymentDate (ifPaidUntil);
+
+					if (ifPaidUntil == null)
+						// Insert entry to required map in RequiredAndErrorHelper
+						System.out.println ();
+					else
+						// Remove entry
+						System.out.println ();
+
 					if (discountArea.getDiscountLineList () != null)
 					{
 						listSize = discountArea.getDiscountLineList ().size ();
@@ -209,23 +220,18 @@ public class DiscountLine extends BasePane
 
 						if (listSize == 2)
 						{
-							// if (discountArea.getDiscountLine (this))
+							if (discountArea.getDiscountLine (0).toString ().equals (DiscountLine.this.toString ()))
 							{
-								/*
-								 * Hier verstehe ich nicht ganz -> Wenn ich das oberhalb stehene if aktiviere,
-								 * wird es rot unterringelt und eclipse sagt mir
-								 * 
-								 * "The method getDiscountLine(DiscountLine) in the type DiscountArea is not applicable for the arguments (new ChangeListener<Boolean>(){})"
-								 * 
-								 * Ich kapier nicht ganz, wo das ChangeListener<Boolean> herkommt?!? this sollte
-								 * hier doch diese InvoiceLine sein, auch wenn ich mich hier in einem
-								 * ChangeListener bezüglich FocusProperty befinde.
-								 * 
-								 * Komischerweise wenn ich im "deleteThisLine"-Button gleich unterhalb die
-								 * Funktion discountArea.removeDiscountLine (this); aufrufe, gibt es keine
-								 * Probleme, die Zeile und der dazugeöhrige Discount in
-								 * InvoiceData/PaymentConditions/discountList wird entfernt.
-								 */
+								System.out.println ("Zeile an Index-Position 0 entspricht dieser Zeile");
+
+								DiscountLine secondLine = discountArea.getDiscountLine (1);
+								if (LocalDate.parse (secondLine.getIfPaidUntil ())
+										.isBefore (LocalDate.parse (ifPaidUntil)))
+									secondLine.setIfPaidUntilToNull ();
+
+							} else
+							{
+								System.out.println ("Zeile an Index-Position 0 entspricht nicht dieser Zeile");
 							}
 						}
 					}
@@ -233,6 +239,8 @@ public class DiscountLine extends BasePane
 
 			}
 		});
+
+		_checkDayCellFactorys ();
 
 		untilDateBox.getChildren ().addAll (ifPaidUntilDateLabel, ifPaidUntilDatePicker);
 
@@ -293,6 +301,15 @@ public class DiscountLine extends BasePane
 	}
 
 	/*
+	 * To string method
+	 */
+	@Override
+	public String toString ()
+	{
+		return "DiscountLine@" + Integer.toHexString (this.hashCode ());
+	}
+
+	/*
 	 * Getter / Setter
 	 */
 	public Discount getDiscount ()
@@ -304,4 +321,21 @@ public class DiscountLine extends BasePane
 	{
 		return ifPaidUntilDatePicker;
 	}
+
+	public Double getDiscountPercent ()
+	{
+		return discountPercent;
+	}
+
+	public String getIfPaidUntil ()
+	{
+		return ifPaidUntil;
+	}
+
+	public void setIfPaidUntilToNull ()
+	{
+		ifPaidUntil = null;
+		ifPaidUntilDatePicker.setValue (null);
+	}
+
 }
