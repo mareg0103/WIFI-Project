@@ -9,59 +9,58 @@ import at.mareg.ebi43creator.display.resources.Data;
 public class BeneficiaryAccount
 {
 
-	// <eb:BeneficiaryAccount>
-	// <eb:BIC>BKAUATWW</eb:BIC>
-	// <eb:IBAN>AT611904300234573201</eb:IBAN>
-	// <eb:BankAccountOwner>Max Mustermann</eb:BankAccountOwner>
-	// </eb:BeneficiaryAccount>
+  // <eb:BeneficiaryAccount>
+  // <eb:BIC>BKAUATWW</eb:BIC>
+  // <eb:IBAN>AT611904300234573201</eb:IBAN>
+  // <eb:BankAccountOwner>Max Mustermann</eb:BankAccountOwner>
+  // </eb:BeneficiaryAccount>
 
-	private String bic;
-	private String iban;
-	private String bankAccountOwner;
+  private String bic;
+  private String iban;
+  private String bankAccountOwner;
 
-	public BeneficiaryAccount ()
-	{
-	}
+  public BeneficiaryAccount ()
+  {}
 
-	@XmlElement (name = "BIC", namespace = Data.DEFAULT_NAMESPACE)
-	public String getBic ()
-	{
+  @XmlElement (name = "BIC", namespace = Data.DEFAULT_NAMESPACE)
+  public String getBic ()
+  {
 
-		return bic;
+    return bic;
 
-	}
+  }
 
-	public void setBic (String bic)
-	{
+  public void setBic (String bic)
+  {
 
-		this.bic = bic;
+    this.bic = bic;
 
-	}
+  }
 
-	@XmlElement (name = "IBAN", namespace = Data.DEFAULT_NAMESPACE)
-	public String getIban ()
-	{
+  @XmlElement (name = "IBAN", namespace = Data.DEFAULT_NAMESPACE)
+  public String getIban ()
+  {
 
-		return iban;
+    return iban;
 
-	}
+  }
 
-	public void setIban (String iban)
-	{
-		this.iban = iban;
-	}
+  public void setIban (String iban)
+  {
+    this.iban = iban;
+  }
 
-	@XmlElement (name = "BankAccountOwner", namespace = Data.DEFAULT_NAMESPACE)
-	public String getBankAccountOwner ()
-	{
+  @XmlElement (name = "BankAccountOwner", namespace = Data.DEFAULT_NAMESPACE)
+  public String getBankAccountOwner ()
+  {
 
-		return bankAccountOwner;
+    return bankAccountOwner;
 
-	}
+  }
 
-	public void setBankAccountOwner (String bankAccountOwner)
-	{
-		this.bankAccountOwner = bankAccountOwner;
-	}
+  public void setBankAccountOwner (String bankAccountOwner)
+  {
+    this.bankAccountOwner = bankAccountOwner;
+  }
 
 }

@@ -7,17 +7,17 @@ import at.mareg.ebi43creator.invoicedata.InvoiceData;
 public class CreateXMLStructureTestMain
 {
 
-	public static void main (final String[] args)
-	{
-		final String path = "H:\\test.xml";
-		final InvoiceDateManager idm = new InvoiceDateManager ();
-		final ResourceManager rm = new ResourceManager (null, "Invoice", null);
-		final InvoiceData id = new InvoiceData (idm, "Invoice", rm);
+  public static void main (final String [] args)
+  {
+    final String path = "H:\\test.xml";
+    final InvoiceDateManager idm = new InvoiceDateManager ();
+    final ResourceManager rm = new ResourceManager (null, "Invoice", null);
+    final InvoiceData id = new InvoiceData (idm, "Invoice", rm);
 
-		id.setTempData ();
-		id.serializeInvoiceAsXML (path);
+    id.setTempData ();
+    id.serializeInvoiceAsXML (path);
 
-		System.out.println ("Fertig");
-	}
+    System.out.println ("Fertig");
+  }
 
 }

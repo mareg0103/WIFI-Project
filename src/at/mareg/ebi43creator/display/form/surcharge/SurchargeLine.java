@@ -5,13 +5,13 @@ import at.mareg.ebi43creator.display.form.help.HelpArea;
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.display.utilities.FormElementCreator;
+import at.mareg.ebi43creator.display.utilities.RequiredAndErrorHelper;
 import at.mareg.ebi43creator.display.utilities.TextFieldHelper;
 import at.mareg.ebi43creator.display.utilities.VBoxHelper;
 import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
 import at.mareg.ebi43creator.invoicedata.enums.EVATRate;
 import at.mareg.ebi43creator.invoicedata.reductionandsurcharge.Surcharge;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -32,270 +32,284 @@ import javafx.scene.paint.Color;
 
 public class SurchargeLine extends BasePane
 {
-	/*
-	 * Save list line item this line belongs to
-	 */
-	private Surcharge surchargeItem;
+  /*
+   * Save list line item this line belongs to
+   */
+  private final Surcharge surchargeItem;
 
-	/*
-	 * Help area instance
-	 */
-	private HelpArea helpArea;
+  /*
+   * Help area instance
+   */
+  private final HelpArea helpArea;
 
-	/*
-	 * Pane elements
-	 */
-	private GridPane grid;
-	private TextField surchargeField;
-	private ComboBox<String> vatRateComboBox;
-	private TextField commentField;
-	private Button deleteThisLine;
+  /*
+   * Pane elements
+   */
+  private GridPane grid;
+  private TextField surchargeField;
+  private ComboBox <String> vatRateComboBox;
+  private TextField commentField;
+  private Button deleteThisLine;
 
-	/*
-	 * Line variables
-	 */
-	private Double surchargeValue;
-	private Integer vatRate;
-	private String comment;
-	private Double totalGross;
+  /*
+   * Line variables
+   */
+  private Double surchargeValue;
+  private Integer vatRate;
+  private String comment;
+  private Double totalGross;
 
-	/*
-	 * EventHandler
-	 */
-	private EventHandler<KeyEvent> onlyNumbersSemicolonMinusTwoDecimalDigits;
+  /*
+   * EventHandler
+   */
+  private EventHandler <KeyEvent> onlyNumbersSemicolonMinusTwoDecimalDigits;
 
-	protected SurchargeLine (final ResourceManager resman, final Surcharge surcharge)
-	{
-		super (resman);
+  protected SurchargeLine (final ResourceManager resman, final Surcharge surcharge)
+  {
+    super (resman);
 
-		helpArea = resman.getHelpArea ();
-		this.surchargeItem = surcharge;
+    helpArea = resman.getHelpArea ();
+    this.surchargeItem = surcharge;
 
-		vatRate = EVATRate.getFromIDOrNull (Data.DEFAULT_VAT_RATE).getVatRateInteger ();
+    vatRate = EVATRate.getFromIDOrNull (Data.DEFAULT_VAT_RATE).getVatRateInteger ();
 
-		initEventHandler ();
-		init ();
-	}
+    initEventHandler ();
+    init ();
+  }
 
-	/*
-	 * Initialize event handler
-	 */
-	private void initEventHandler ()
-	{
-		onlyNumbersSemicolonMinusTwoDecimalDigits = new EventHandler<KeyEvent> ()
-		{
-			@Override
-			public void handle (KeyEvent event)
-			{
-				String text = ((TextField) event.getTarget ()).getText ();
+  /*
+   * Initialize event handler
+   */
+  private void initEventHandler ()
+  {
+    onlyNumbersSemicolonMinusTwoDecimalDigits = event -> {
+      final String text = ((TextField) event.getTarget ()).getText ();
 
-				if ((text.length () > 0) && (event.getCharacter ().equals ("-")))
-					event.consume ();
+      if ((text.length () > 0) && (event.getCharacter ().equals ("-")))
+        event.consume ();
 
-				if ((!(event.getCharacter ().matches ("[0-9]")) && (!(event.getCharacter ().equals (",")))
-						&& (!(event.getCharacter ().equals ("-")))))
-					event.consume ();
+      if ((!(event.getCharacter ().matches ("[0-9]")) &&
+           (!(event.getCharacter ().equals (","))) &&
+           (!(event.getCharacter ().equals ("-")))))
+        event.consume ();
 
-				int indexOfSemicolon = text.indexOf (",");
-				if (indexOfSemicolon != -1)
-					if (text.substring (indexOfSemicolon + 1).length () == 2)
-						event.consume ();
-			}
-		};
-	}
+      final int indexOfSemicolon = text.indexOf (",");
+      if (indexOfSemicolon != -1)
+        if (text.substring (indexOfSemicolon + 1).length () == 2)
+          event.consume ();
+    };
+  }
 
-	/*
-	 * Initialize surcharge line
-	 */
-	@Override
-	protected void init ()
-	{
-		super.init ();
+  /*
+   * Initialize surcharge line
+   */
+  @Override
+  protected void init ()
+  {
+    super.init ();
 
-		grid = new GridPane ();
-		for (int i = 0; i < 4; i++)
-		{
-			ColumnConstraints column = new ColumnConstraints ((Data.SURCHARGE_SCROLLPANE_WIDTH - 255) / 4);
-			grid.getColumnConstraints ().add (column);
-		}
-		grid.setPadding (Data.LINE_PADDING);
-		grid.setHgap (Data.LINE_HVGAP);
-		grid.setVgap (grid.getHgap ());
+    grid = new GridPane ();
+    for (int i = 0; i < 4; i++)
+    {
+      final ColumnConstraints column = new ColumnConstraints ((Data.SURCHARGE_SCROLLPANE_WIDTH - 255) / 4);
+      grid.getColumnConstraints ().add (column);
+    }
+    grid.setPadding (Data.LINE_PADDING);
+    grid.setHgap (Data.LINE_HVGAP);
+    grid.setVgap (grid.getHgap ());
 
-		/*
-		 * Manual build of surcharge line
-		 */
+    /*
+     * Manual build of surcharge line
+     */
 
-		/*
-		 * Surcharge value
-		 */
-		EFormElement surchargeElement = EFormElement.SURCHARGE_VALUE;
+    /*
+     * Surcharge value
+     */
+    final EFormElement surchargeElement = EFormElement.SURCHARGE_VALUE;
 
-		VBox surchargeBox = new VBox ();
+    final VBox surchargeBox = new VBox ();
 
-		Label surchargeLabel = FormElementCreator.getStandardLabel (
-				surchargeElement.getLabelText () + (surchargeElement.isRequired () ? "*" : ""), null);
+    final Label surchargeLabel = FormElementCreator.getStandardLabel (surchargeElement.getLabelText () +
+                                                                      (surchargeElement.isRequired () ? "*" : ""),
+                                                                      null);
 
-		surchargeField = FormElementCreator.getStandardTextField (surchargeElement.getID (),
-				surchargeElement.isRequired ());
-		surchargeField.addEventHandler (KeyEvent.KEY_TYPED, onlyNumbersSemicolonMinusTwoDecimalDigits);
-		surchargeField.focusedProperty ().addListener (new ChangeListener<Boolean> ()
-		{
-			public void changed (ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
-			{
-				if (newValue)
-				{
-					helpArea.show (surchargeElement.getID ());
-				} else
-				{
-					if (!surchargeField.getText ().isEmpty ())
-					{
-						surchargeValue = TextFieldHelper.getDoubleFromString (surchargeField.getText ());
-						surchargeField.setText (TextFieldHelper.getTwoDecimalsStringFromDouble (surchargeValue));
-						surchargeItem.setAmount (surchargeValue);
-					} else
-					{
-						surchargeValue = null;
-						surchargeItem.setAmount (null);
-					}
+    surchargeField = FormElementCreator.getStandardTextField (surchargeElement.getID (),
+                                                              surchargeElement.isRequired ());
+    surchargeField.addEventHandler (KeyEvent.KEY_TYPED, onlyNumbersSemicolonMinusTwoDecimalDigits);
+    surchargeField.focusedProperty ().addListener ((ChangeListener <Boolean>) (observable, oldValue, newValue) -> {
+      if (newValue)
+      {
+        helpArea.show (surchargeElement.getID ());
+      }
+      else
+      {
+        if (!surchargeField.getText ().isEmpty ())
+        {
+          surchargeValue = TextFieldHelper.getDoubleFromString (surchargeField.getText ());
+          surchargeField.setText (TextFieldHelper.getTwoDecimalsStringFromDouble (surchargeValue));
+          surchargeItem.setAmount (surchargeValue);
 
-					calculateLine ();
-				}
-			}
-		});
+          RequiredAndErrorHelper.removeRequiredFieldForSurchargeLine (this.toString (), surchargeField.getId ());
+        }
+        else
+        {
+          surchargeValue = null;
+          surchargeItem.setAmount (null);
 
-		surchargeBox.getChildren ().addAll (surchargeLabel, surchargeField);
+          RequiredAndErrorHelper.addRequiredFieldForSurchargeLine (this.toString (), surchargeField.getId ());
+        }
 
-		VBoxHelper.structureVBox (surchargeBox);
-		grid.add (surchargeBox, 0, 0);
+        calculateLine ();
+      }
+    });
 
-		/*
-		 * VAT rate combo box
-		 */
-		EFormElement vatRateElement = EFormElement.SURCHARGE_VAT;
+    RequiredAndErrorHelper.addRequiredFieldForSurchargeLine (this.toString (), surchargeField.getId ());
 
-		VBox vatRateBox = new VBox ();
+    surchargeBox.getChildren ().addAll (surchargeLabel, surchargeField);
 
-		Label vatRateLabel = FormElementCreator
-				.getStandardLabel (vatRateElement.getLabelText () + (vatRateElement.isRequired () ? "*" : ""), null);
+    VBoxHelper.structureVBox (surchargeBox);
+    grid.add (surchargeBox, 0, 0);
 
-		vatRateComboBox = FormElementCreator.getVatRateComboBox (vatRateElement.getID ());
-		surchargeItem.setVatRate (EVATRate.getFromIDOrNull (Data.DEFAULT_VAT_RATE).getVatRateInteger ());
-		vatRateComboBox.setOnAction (e -> {
-			vatRate = EVATRate.getFromIDOrNull (vatRateComboBox.getSelectionModel ().getSelectedItem ())
-					.getVatRateInteger ();
-			surchargeItem.setVatRate (vatRate);
+    /*
+     * VAT rate combo box
+     */
+    final EFormElement vatRateElement = EFormElement.SURCHARGE_VAT;
 
-			calculateLine ();
-		});
-		vatRateComboBox.focusedProperty ().addListener (new ChangeListener<Boolean> ()
-		{
-			public void changed (ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
-			{
-				if (newValue)
-				{
-					helpArea.show (vatRateElement.getID ());
-				}
-			}
-		});
+    final VBox vatRateBox = new VBox ();
 
-		vatRateBox.getChildren ().addAll (vatRateLabel, vatRateComboBox);
+    final Label vatRateLabel = FormElementCreator.getStandardLabel (vatRateElement.getLabelText () +
+                                                                    (vatRateElement.isRequired () ? "*" : ""),
+                                                                    null);
 
-		VBoxHelper.structureVBox (vatRateBox);
-		grid.add (vatRateBox, 1, 0);
+    vatRateComboBox = FormElementCreator.getVatRateComboBox (vatRateElement.getID ());
+    surchargeItem.setVatRate (EVATRate.getFromIDOrNull (Data.DEFAULT_VAT_RATE).getVatRateInteger ());
+    vatRateComboBox.setOnAction (e -> {
+      vatRate = EVATRate.getFromIDOrNull (vatRateComboBox.getSelectionModel ().getSelectedItem ()).getVatRateInteger ();
+      surchargeItem.setVatRate (vatRate);
 
-		/*
-		 * Surcharge comment
-		 */
-		EFormElement commentElement = EFormElement.SURCHARGE_COMMENT;
+      calculateLine ();
+    });
+    vatRateComboBox.focusedProperty ().addListener ((ChangeListener <Boolean>) (observable, oldValue, newValue) -> {
+      if (newValue)
+      {
+        helpArea.show (vatRateElement.getID ());
+      }
+    });
 
-		VBox commentBox = new VBox ();
+    vatRateBox.getChildren ().addAll (vatRateLabel, vatRateComboBox);
 
-		Label commentLabel = FormElementCreator
-				.getStandardLabel (commentElement.getLabelText () + (commentElement.isRequired () ? "*" : ""), null);
+    VBoxHelper.structureVBox (vatRateBox);
+    grid.add (vatRateBox, 1, 0);
 
-		commentField = FormElementCreator.getStandardTextField (commentElement.getID (), commentElement.isRequired ());
-		commentField.focusedProperty ().addListener (new ChangeListener<Boolean> ()
-		{
-			public void changed (ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
-			{
-				if (newValue)
-				{
-					helpArea.show (commentElement.getID ());
-				} else
-				{
-					comment = commentField.getText ();
-					surchargeItem.setComment (comment);
+    /*
+     * Surcharge comment
+     */
+    final EFormElement commentElement = EFormElement.SURCHARGE_COMMENT;
 
-					// calculateLine ();
-				}
-			}
-		});
+    final VBox commentBox = new VBox ();
 
-		commentBox.getChildren ().addAll (commentLabel, commentField);
+    final Label commentLabel = FormElementCreator.getStandardLabel (commentElement.getLabelText () +
+                                                                    (commentElement.isRequired () ? "*" : ""),
+                                                                    null);
 
-		VBoxHelper.structureVBox (commentBox);
-		grid.add (commentBox, 2, 0, 2, 1);
+    commentField = FormElementCreator.getStandardTextField (commentElement.getID (), commentElement.isRequired ());
+    commentField.focusedProperty ().addListener ((ChangeListener <Boolean>) (observable, oldValue, newValue) -> {
+      if (newValue)
+      {
+        helpArea.show (commentElement.getID ());
+      }
+      else
+      {
+        comment = commentField.getText ();
+        surchargeItem.setComment (comment);
 
-		/*
-		 * Delete this line
-		 */
-		deleteThisLine = new Button (EFormElement.SURCHARGE_REMOVE.getLabelText (),
-				new ImageView (new Image ("at/mareg/ebi43creator/display/images/Loeschen_50x33.png")));
-		deleteThisLine.hoverProperty ().addListener ( (observable) -> {
-			helpArea.show (EFormElement.SURCHARGE_REMOVE.getID ());
-		});
-		deleteThisLine.setOnAction (e -> {
-			rm.getSurchargeDiscountPane ().getSurchargeArea ().removeSurchargeLine (this);
-		});
+        // calculateLine ();
+      }
+    });
 
-		grid.add (deleteThisLine, 4, 0);
+    commentBox.getChildren ().addAll (commentLabel, commentField);
 
-		/*
-		 * Add grid to line
-		 */
-		this.setBorder (new Border (new BorderStroke (Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
-				BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID,
-				null, BorderWidths.DEFAULT, new Insets (3, 3, 3, 3))));
-		this.add (grid, 0, 0);
+    VBoxHelper.structureVBox (commentBox);
+    grid.add (commentBox, 2, 0, 2, 1);
 
-		/*
-		 * Set current over all total net amount as base amount
-		 */
-		surchargeItem.setBaseAmount (rm.getSurchargeDiscountPane ().getOverAllTotalNet ());
-	}
+    /*
+     * Delete this line
+     */
+    deleteThisLine = new Button (EFormElement.SURCHARGE_REMOVE.getLabelText (),
+                                 new ImageView (new Image ("at/mareg/ebi43creator/display/images/Loeschen_50x33.png")));
+    deleteThisLine.hoverProperty ().addListener ( (observable) -> {
+      helpArea.show (EFormElement.SURCHARGE_REMOVE.getID ());
+    });
+    deleteThisLine.setOnAction (e -> {
+      rm.getSurchargeDiscountPane ().getSurchargeArea ().removeSurchargeLine (this);
+    });
 
-	/*
-	 * Calculate this line and refresh total net and total gross in SurchargeArea
-	 */
-	private void calculateLine ()
-	{
-		if (surchargeValue == null)
-			surchargeValue = Double.valueOf (0);
+    grid.add (deleteThisLine, 4, 0);
 
-		double netAumount = surchargeValue.doubleValue ();
-		double rate = 1 + ((double) vatRate / 100);
+    /*
+     * Add grid to line
+     */
+    this.setBorder (new Border (new BorderStroke (Color.BLACK,
+                                                  Color.BLACK,
+                                                  Color.BLACK,
+                                                  Color.BLACK,
+                                                  BorderStrokeStyle.SOLID,
+                                                  BorderStrokeStyle.SOLID,
+                                                  BorderStrokeStyle.SOLID,
+                                                  BorderStrokeStyle.SOLID,
+                                                  null,
+                                                  BorderWidths.DEFAULT,
+                                                  new Insets (3, 3, 3, 3))));
+    this.add (grid, 0, 0);
 
-		totalGross = netAumount * rate;
+    /*
+     * Set current over all total net amount as base amount
+     */
+    surchargeItem.setBaseAmount (rm.getSurchargeDiscountPane ().getOverAllTotalNet ());
 
-		rm.getSurchargeDiscountPane ().refreshTotalNetandTotalGross ();
-	}
+    calculateLine ();
+  }
 
-	/*
-	 * Getter / Setter
-	 */
-	public Surcharge getSurcharge ()
-	{
-		return surchargeItem;
-	}
+  /*
+   * To string method
+   */
+  @Override
+  public String toString ()
+  {
+    return "SurchargeLine@" + Integer.toHexString (this.hashCode ());
+  }
 
-	public Double getSurchargeLineTotalNet ()
-	{
-		return surchargeValue;
-	}
+  /*
+   * Calculate this line and refresh total net and total gross in SurchargeArea
+   */
+  private void calculateLine ()
+  {
+    if (surchargeValue == null)
+      surchargeValue = Double.valueOf (0);
 
-	public Double getSurchargeLineTotalGross ()
-	{
-		return totalGross;
-	}
+    final double netAumount = surchargeValue.doubleValue ();
+    final double rate = 1 + ((double) vatRate / 100);
+
+    totalGross = netAumount * rate;
+
+    rm.getSurchargeDiscountPane ().refreshTotalNetandTotalGross ();
+  }
+
+  /*
+   * Getter / Setter
+   */
+  public Surcharge getSurcharge ()
+  {
+    return surchargeItem;
+  }
+
+  public Double getSurchargeLineTotalNet ()
+  {
+    return surchargeValue;
+  }
+
+  public Double getSurchargeLineTotalGross ()
+  {
+    return totalGross;
+  }
 }

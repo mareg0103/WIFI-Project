@@ -9,42 +9,42 @@ import at.mareg.ebi43creator.display.resources.Data;
 public class Discount
 {
 
-	private String paymentDate;
-	private Double percentage;
+  private String paymentDate;
+  private Double percentage;
 
-	public Discount ()
-	{
+  public Discount ()
+  {
 
-	}
+  }
 
-	@XmlElement (name = "PaymentDate", namespace = Data.DEFAULT_NAMESPACE)
-	public String getPaymentDate ()
-	{
+  @XmlElement (name = "PaymentDate", namespace = Data.DEFAULT_NAMESPACE)
+  public String getPaymentDate ()
+  {
 
-		return paymentDate;
+    return paymentDate;
 
-	}
+  }
 
-	public void setPaymentDate (final String paymentDate)
-	{
+  public void setPaymentDate (final String paymentDate)
+  {
 
-		this.paymentDate = paymentDate;
+    this.paymentDate = paymentDate;
 
-	}
+  }
 
-	@XmlElement (name = "Percentage", namespace = Data.DEFAULT_NAMESPACE)
-	public Double getPercentage ()
-	{
+  @XmlElement (name = "Percentage", namespace = Data.DEFAULT_NAMESPACE)
+  public Double getPercentage ()
+  {
 
-		return percentage;
+    return percentage;
 
-	}
+  }
 
-	public void setPercentage (final Double percentage)
-	{
+  public void setPercentage (final Double percentage)
+  {
 
-		this.percentage = percentage;
+    this.percentage = percentage;
 
-	}
+  }
 
 }

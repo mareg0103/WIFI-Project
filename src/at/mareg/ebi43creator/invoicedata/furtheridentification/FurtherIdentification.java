@@ -12,9 +12,9 @@ public class FurtherIdentification
 
   private String identificationType;
   private String furtherIdentification;
-  
+
   protected FurtherIdentification ()
-  { }
+  {}
 
   public FurtherIdentification (final String identification, final String type)
   {

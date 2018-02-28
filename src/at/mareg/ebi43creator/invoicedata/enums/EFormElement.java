@@ -11,7 +11,7 @@ import at.mareg.ebi43creator.display.resources.Data;
  * <li>Field is required</li>
  * <li>TitledPane to add to</li>
  * </ul>
- * 
+ *
  * @author Martin Regitnig
  */
 
@@ -109,7 +109,7 @@ public enum EFormElement
   DETAILS_LINE_TAXEXEMPTION_REASON ("taxexemptionreason", "Steuerbefreiungsgrund", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DETAILS_NAME),
   DETAILS_LINE_TOTALGROSS ("totalgrossamount", "Gesamtbrutto", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DETAILS_NAME),
   DETAILS_LINE_REMOVE ("deletethisline", "", Data.ELEMENTTYPE_BUTTON, false, Data.TITLEDPANE_DETAILS_NAME),
-  
+
   /*
    * Reduction/Surcharge/Discount - right area
    */
@@ -125,18 +125,18 @@ public enum EFormElement
   SURCHARGE_VAT ("surchargevat", "Steuersatz", Data.ELEMENTTYPE_COMBOBOX, true, Data.TITLEDPANE_SURCHARGE_NAME),
   SURCHARGE_COMMENT ("surchargecomment", "Kommentar", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_SURCHARGE_NAME),
   SURCHARGE_REMOVE ("deletethissurcharge", "", Data.ELEMENTTYPE_BUTTON, false, Data.TITLEDPANE_SURCHARGE_NAME),
-	
-	/*
-	 * Discount elements
-	 */
-	DISCOUNT_PERCENT ("discountpercent", "Prozent Skonto", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DISCOUNT_NAME),
-	DISCOUNT_UNTIL_DATE ("discountuntildate", "bei Bezahlung bis", Data.ELEMENTTYPE_DATEPICKER, true, Data.TITLEDPANE_DISCOUNT_NAME),
-	DISCOUNT_REMOVE ("deletethisdiscount", "", Data.ELEMENTTYPE_BUTTON, false, Data.TITLEDPANE_DISCOUNT_NAME),
-	
-	/*
-	 * Due date element
-	 */
-	DUE_DATE ("duedate", "Fälligkeitsdatum netto", Data.ELEMENTTYPE_DATEPICKER, false, Data.TITLEDPANE_DUEDATE_NAME);
+
+  /*
+   * Discount elements
+   */
+  DISCOUNT_PERCENT ("discountpercent", "Prozent Skonto", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DISCOUNT_NAME),
+  DISCOUNT_UNTIL_DATE ("discountuntildate", "bei Bezahlung bis", Data.ELEMENTTYPE_DATEPICKER, true, Data.TITLEDPANE_DISCOUNT_NAME),
+  DISCOUNT_REMOVE ("deletethisdiscount", "", Data.ELEMENTTYPE_BUTTON, false, Data.TITLEDPANE_DISCOUNT_NAME),
+
+  /*
+   * Due date element
+   */
+  DUE_DATE ("duedate", "Fälligkeitsdatum netto", Data.ELEMENTTYPE_DATEPICKER, false, Data.TITLEDPANE_DUEDATE_NAME);
 
   /*
    * Variables and methods
@@ -180,10 +180,10 @@ public enum EFormElement
   {
     return bRequired;
   }
-  
+
   public void setIsRequired (final boolean required)
   {
-	  bRequired = required;
+    bRequired = required;
   }
 
   public String getTiteldPaneID ()

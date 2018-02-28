@@ -9,37 +9,37 @@ import at.mareg.ebi43creator.display.resources.Data;
 public class PaymentMethod
 {
 
-	private UniversalBankTransaction universalBankTransaction;
+  private UniversalBankTransaction universalBankTransaction;
 
-	public PaymentMethod ()
-	{
+  public PaymentMethod ()
+  {
 
-		universalBankTransaction = new UniversalBankTransaction ();
+    universalBankTransaction = new UniversalBankTransaction ();
 
-	}
+  }
 
-	@XmlElement (name = "UniversalBankTransaction", namespace = Data.DEFAULT_NAMESPACE)
-	public UniversalBankTransaction getUniversalBankTransaction ()
-	{
+  @XmlElement (name = "UniversalBankTransaction", namespace = Data.DEFAULT_NAMESPACE)
+  public UniversalBankTransaction getUniversalBankTransaction ()
+  {
 
-		return universalBankTransaction;
+    return universalBankTransaction;
 
-	}
+  }
 
-	public void setUniversalBankTransaction (UniversalBankTransaction universalBankTransaction)
-	{
+  public void setUniversalBankTransaction (UniversalBankTransaction universalBankTransaction)
+  {
 
-		this.universalBankTransaction = universalBankTransaction;
+    this.universalBankTransaction = universalBankTransaction;
 
-	}
+  }
 
-	public void setTempData ()
-	{
+  public void setTempData ()
+  {
 
-		this.getUniversalBankTransaction ().getBeneficiaryAccount ().setBic ("BKAUATWW");
-		this.getUniversalBankTransaction ().getBeneficiaryAccount ().setIban ("AT611904300234573201");
-		this.getUniversalBankTransaction ().getBeneficiaryAccount ().setBankAccountOwner ("Max Mustermann");
+    this.getUniversalBankTransaction ().getBeneficiaryAccount ().setBic ("BKAUATWW");
+    this.getUniversalBankTransaction ().getBeneficiaryAccount ().setIban ("AT611904300234573201");
+    this.getUniversalBankTransaction ().getBeneficiaryAccount ().setBankAccountOwner ("Max Mustermann");
 
-	}
+  }
 
 }

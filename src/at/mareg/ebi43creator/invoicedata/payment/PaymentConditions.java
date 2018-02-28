@@ -13,89 +13,88 @@ import at.mareg.ebi43creator.display.resources.ResourceManager;
 @XmlType (propOrder = { "dueDate", "discounts" })
 public class PaymentConditions
 {
-	// <eb:DueDate>2017-09-15</eb:DueDate>
-	// <eb:Discount>
-	// <eb:PaymentDate>2017-09-04</eb:PaymentDate>
-	// <eb:Percentage>10</eb:Percentage>
-	// </eb:Discount>
-	// <eb:Discount>
-	// <eb:PaymentDate>2017-09-07</eb:PaymentDate>
-	// <eb:Percentage>5</eb:Percentage>
-	// </eb:Discount>
-	/*
-	 * ResourceManager instance
-	 */
-	private ResourceManager rm;
+  // <eb:DueDate>2017-09-15</eb:DueDate>
+  // <eb:Discount>
+  // <eb:PaymentDate>2017-09-04</eb:PaymentDate>
+  // <eb:Percentage>10</eb:Percentage>
+  // </eb:Discount>
+  // <eb:Discount>
+  // <eb:PaymentDate>2017-09-07</eb:PaymentDate>
+  // <eb:Percentage>5</eb:Percentage>
+  // </eb:Discount>
+  /*
+   * ResourceManager instance
+   */
+  private ResourceManager rm;
 
-	private String dueDate;
-	private List<Discount> discounts;
+  private String dueDate;
+  private List <Discount> discounts;
 
-	public PaymentConditions ()
-	{
-	}
+  public PaymentConditions ()
+  {}
 
-	public PaymentConditions (final ResourceManager resman)
-	{
-		rm = resman;
-	}
+  public PaymentConditions (final ResourceManager resman)
+  {
+    rm = resman;
+  }
 
-	@XmlElement (name = "DueDate", namespace = Data.DEFAULT_NAMESPACE)
-	public String getDueDate ()
-	{
+  @XmlElement (name = "DueDate", namespace = Data.DEFAULT_NAMESPACE)
+  public String getDueDate ()
+  {
 
-		return dueDate;
+    return dueDate;
 
-	}
+  }
 
-	public void setDueDate (final String dueDate)
-	{
+  public void setDueDate (final String dueDate)
+  {
 
-		this.dueDate = dueDate;
+    this.dueDate = dueDate;
 
-	}
+  }
 
-	@XmlElement (name = "Discount", namespace = Data.DEFAULT_NAMESPACE)
-	public List<Discount> getDiscounts ()
-	{
+  @XmlElement (name = "Discount", namespace = Data.DEFAULT_NAMESPACE)
+  public List <Discount> getDiscounts ()
+  {
 
-		return discounts;
+    return discounts;
 
-	}
+  }
 
-	public void setDiscounts (final List<Discount> discounts)
-	{
+  public void setDiscounts (final List <Discount> discounts)
+  {
 
-		this.discounts = discounts;
+    this.discounts = discounts;
 
-	}
+  }
 
-	public void addEmptyDiscount ()
-	{
-		if (discounts == null)
-			discounts = new ArrayList<> ();
+  public void addEmptyDiscount ()
+  {
+    if (discounts == null)
+      discounts = new ArrayList <> ();
 
-		Discount d = new Discount ();
-		discounts.add (d);
-		rm.getSurchargeDiscountPane ().getDiscountArea ().addEmptyDiscountLine (d);
-	}
+    Discount d = new Discount ();
+    discounts.add (d);
+    rm.getSurchargeDiscountPane ().getDiscountArea ().addEmptyDiscountLine (d);
+  }
 
-	public void removeDiscount (final Discount discount)
-	{
-		if (discounts.indexOf (discount) >= 0)
-			discounts.remove (discount);
+  public void removeDiscount (final Discount discount)
+  {
+    if (discounts.indexOf (discount) >= 0)
+      discounts.remove (discount);
 
-		if (discounts.size () == 0)
-			discounts = null;
-	}
+    if (discounts.size () == 0)
+      discounts = null;
+  }
 
-	public void setTempData ()
-	{
+  public void setTempData ()
+  {
 
-		dueDate = LocalDate.now ().plusDays (20).toString ();
-		this.addEmptyDiscount ();
-		discounts.get (0).setPaymentDate (LocalDate.now ().plusDays (10).toString ());
-		discounts.get (0).setPercentage (Double.valueOf (5d));
+    dueDate = LocalDate.now ().plusDays (20).toString ();
+    this.addEmptyDiscount ();
+    discounts.get (0).setPaymentDate (LocalDate.now ().plusDays (10).toString ());
+    discounts.get (0).setPercentage (Double.valueOf (5d));
 
-	}
+  }
 
 }

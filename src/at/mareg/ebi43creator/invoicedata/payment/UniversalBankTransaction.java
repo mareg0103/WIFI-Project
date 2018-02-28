@@ -9,28 +9,28 @@ import at.mareg.ebi43creator.display.resources.Data;
 public class UniversalBankTransaction
 {
 
-	private BeneficiaryAccount beneficiaryAccount;
+  private BeneficiaryAccount beneficiaryAccount;
 
-	public UniversalBankTransaction ()
-	{
+  public UniversalBankTransaction ()
+  {
 
-		beneficiaryAccount = new BeneficiaryAccount ();
+    beneficiaryAccount = new BeneficiaryAccount ();
 
-	}
+  }
 
-	@XmlElement (name = "BeneficiaryAccount", namespace = Data.DEFAULT_NAMESPACE)
-	public BeneficiaryAccount getBeneficiaryAccount ()
-	{
+  @XmlElement (name = "BeneficiaryAccount", namespace = Data.DEFAULT_NAMESPACE)
+  public BeneficiaryAccount getBeneficiaryAccount ()
+  {
 
-		return beneficiaryAccount;
+    return beneficiaryAccount;
 
-	}
+  }
 
-	public void setBeneficiaryAccount (BeneficiaryAccount beneficiaryAccount)
-	{
+  public void setBeneficiaryAccount (BeneficiaryAccount beneficiaryAccount)
+  {
 
-		this.beneficiaryAccount = beneficiaryAccount;
+    this.beneficiaryAccount = beneficiaryAccount;
 
-	}
+  }
 
 }

@@ -9,12 +9,12 @@ import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.InvoiceDateManager;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.display.utilities.FormElementCreator;
+import at.mareg.ebi43creator.display.utilities.RequiredAndErrorHelper;
 import at.mareg.ebi43creator.display.utilities.TextFieldHelper;
 import at.mareg.ebi43creator.display.utilities.VBoxHelper;
 import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
 import at.mareg.ebi43creator.invoicedata.payment.Discount;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -35,307 +35,402 @@ import javafx.scene.paint.Color;
 
 public class DiscountLine extends BasePane
 {
-	/*
-	 * Save discount item this line belongs to
-	 */
-	private Discount discount;
+  /*
+   * Save discount item this line belongs to
+   */
+  private final Discount discount;
 
-	/*
-	 * DiscountArea instance
-	 */
-	private DiscountArea discountArea;
+  /*
+   * DiscountArea instance
+   */
+  private final DiscountArea discountArea;
 
-	/*
-	 * Help area instance
-	 */
-	private HelpArea helpArea;
+  /*
+   * Help area instance
+   */
+  private final HelpArea helpArea;
 
-	/*
-	 * DateManager instance
-	 */
-	private InvoiceDateManager invoiceDateManager;
+  /*
+   * DateManager instance
+   */
+  private final InvoiceDateManager invoiceDateManager;
 
-	/*
-	 * Pane elements
-	 */
-	private GridPane grid;
-	private TextField discountPercentField;
-	private DatePicker ifPaidUntilDatePicker;
-	private Button deleteThisLine;
+  /*
+   * Pane elements
+   */
+  private GridPane grid;
+  private TextField discountPercentField;
+  private DatePicker ifPaidUntilDatePicker;
+  private Button deleteThisLine;
 
-	/*
-	 * Line variables
-	 */
-	private Double discountPercent;
-	private String ifPaidUntil;
+  /*
+   * Line variables
+   */
+  private Double discountPercent;
+  private String ifPaidUntil;
 
-	/*
-	 * EventHandler
-	 */
-	private EventHandler<KeyEvent> onlyNumbersSemicolonTwoDecimalDigits;
+  /*
+   * EventHandler
+   */
+  private EventHandler <KeyEvent> onlyNumbersSemicolonTwoDecimalDigits;
 
-	public DiscountLine (final ResourceManager rm, final Discount d)
-	{
-		super (rm);
+  public DiscountLine (final ResourceManager rm, final Discount d)
+  {
+    super (rm);
 
-		discount = d;
-		discountArea = rm.getSurchargeDiscountPane ().getDiscountArea ();
-		helpArea = rm.getHelpArea ();
-		invoiceDateManager = rm.getInvoiceDateManager ();
+    discount = d;
+    discountArea = rm.getSurchargeDiscountPane ().getDiscountArea ();
+    helpArea = rm.getHelpArea ();
+    invoiceDateManager = rm.getInvoiceDateManager ();
 
-		_initEventHandler ();
-		init ();
-	}
+    _initEventHandler ();
+    init ();
+  }
 
-	/*
-	 * Initialize event handler
-	 */
-	private void _initEventHandler ()
-	{
-		onlyNumbersSemicolonTwoDecimalDigits = new EventHandler<KeyEvent> ()
-		{
-			@Override
-			public void handle (KeyEvent event)
-			{
-				String text = ((TextField) event.getTarget ()).getText ();
+  /*
+   * Initialize event handler
+   */
+  private void _initEventHandler ()
+  {
+    onlyNumbersSemicolonTwoDecimalDigits = event -> {
+      final String text = ((TextField) event.getTarget ()).getText ();
 
-				if ((!(event.getCharacter ().matches ("[0-9]")) && (!(event.getCharacter ().equals (",")))))
-					event.consume ();
+      if ((!(event.getCharacter ().matches ("[0-9]")) && (!(event.getCharacter ().equals (",")))))
+        event.consume ();
 
-				int indexOfSemicolon = text.indexOf (",");
-				if (indexOfSemicolon != -1)
-					if (text.substring (indexOfSemicolon + 1).length () == 2)
-						event.consume ();
+      final int indexOfSemicolon = text.indexOf (",");
+      if (indexOfSemicolon != -1)
+        if (text.substring (indexOfSemicolon + 1).length () == 2)
+          event.consume ();
 
-				System.out.println ("CursorPosition: " + ((TextField) event.getTarget ()).getCaretPosition ());
-			}
-		};
-	}
+      System.out.println ("CursorPosition: " + ((TextField) event.getTarget ()).getCaretPosition ());
+    };
+  }
 
-	/*
-	 * Initialize discount line
-	 */
-	@Override
-	protected void init ()
-	{
-		// super.init ();
+  /*
+   * Initialize discount line
+   */
+  @Override
+  protected void init ()
+  {
+    // super.init ();
 
-		grid = new GridPane ();
-		for (int i = 0; i < 4; i++)
-		{
-			ColumnConstraints column = new ColumnConstraints ((Data.SURCHARGE_SCROLLPANE_WIDTH - 255) / 4);
-			grid.getColumnConstraints ().add (column);
-		}
-		grid.setPadding (Data.LINE_PADDING);
-		grid.setHgap (Data.LINE_HVGAP);
-		grid.setVgap (grid.getHgap ());
+    grid = new GridPane ();
+    for (int i = 0; i < 4; i++)
+    {
+      final ColumnConstraints column = new ColumnConstraints ((Data.SURCHARGE_SCROLLPANE_WIDTH - 255) / 4);
+      grid.getColumnConstraints ().add (column);
+    }
+    grid.setPadding (Data.LINE_PADDING);
+    grid.setHgap (Data.LINE_HVGAP);
+    grid.setVgap (grid.getHgap ());
 
-		/*
-		 * Discount percent
-		 */
-		EFormElement percentElement = EFormElement.DISCOUNT_PERCENT;
+    /*
+     * Discount percent
+     */
+    final EFormElement percentElement = EFormElement.DISCOUNT_PERCENT;
 
-		VBox percentBox = new VBox ();
+    final VBox percentBox = new VBox ();
 
-		Label percentLabel = FormElementCreator
-				.getStandardLabel (percentElement.getLabelText () + (percentElement.isRequired () ? "*" : ""), null);
+    final Label percentLabel = FormElementCreator.getStandardLabel (percentElement.getLabelText () +
+                                                                    (percentElement.isRequired () ? "*" : ""),
+                                                                    null);
 
-		discountPercentField = FormElementCreator.getStandardTextField (percentElement.getID (),
-				percentElement.isRequired ());
-		discountPercentField.addEventHandler (KeyEvent.KEY_TYPED, onlyNumbersSemicolonTwoDecimalDigits);
-		discountPercentField.focusedProperty ().addListener (new ChangeListener<Boolean> ()
-		{
-			public void changed (ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
-			{
-				if (newValue)
-				{
-					helpArea.show (percentElement.getID ());
-				} else
-				{
-					String text = discountPercentField.getText ();
-					List<Discount> d = rm.getInvoiceData ().getPaymentConditions ().getDiscounts ();
+    discountPercentField = FormElementCreator.getStandardTextField (percentElement.getID (),
+                                                                    percentElement.isRequired ());
+    discountPercentField.addEventHandler (KeyEvent.KEY_TYPED, onlyNumbersSemicolonTwoDecimalDigits);
+    discountPercentField.focusedProperty ()
+                        .addListener ((ChangeListener <Boolean>) (observable, oldValue, newValue) -> {
+                          if (newValue)
+                          {
+                            helpArea.show (percentElement.getID ());
+                          }
+                          else
+                          {
+                            final List <DiscountLine> dll = discountArea.getDiscountLineList ();
+                            final DiscountLine firstLine = dll.get (0);
+                            String text = discountPercentField.getText ();
 
-					if (text != null && !text.isEmpty ())
-					{
-						discountPercent = TextFieldHelper.getDoubleFromString (text);
-					} else
-					{
-						discountPercent = null;
-					}
+                            if (text != null && !text.isEmpty ())
+                              if (!firstLine.toString ().equals (DiscountLine.this.toString ()))
+                              {
+                                final Double firstLineValue = firstLine.getDiscountPercent ();
+                                System.out.println ("Wert der ersten Zeile: " + firstLineValue);
+                                System.out.println ("Aktuell eingetragener Wert dieser Zeile: " +
+                                                    TextFieldHelper.getDoubleFromString (text));
 
-					d.get (d.indexOf (discount)).setPercentage (discountPercent);
+                                if (firstLineValue != null)
+                                  if (TextFieldHelper.getDoubleFromString (text) >= firstLineValue)
+                                    text = null;
+                              }
 
-				}
+                            if (text != null && !text.isEmpty ())
+                              discountPercent = _checkPercentValues (text);
+                            else
+                              discountPercent = null;
 
-			}
-		});
+                            if (discountPercent == null)
+                              RequiredAndErrorHelper.addRequiredFieldForDiscountLine (DiscountLine.this.toString (),
+                                                                                      discountPercentField.getId ());
+                            else
+                              RequiredAndErrorHelper.removeRequiredFieldForDiscountLine (DiscountLine.this.toString (),
+                                                                                         discountPercentField.getId ());
 
-		percentBox.getChildren ().addAll (percentLabel, discountPercentField);
+                            if (discountPercent == null)
+                              discountPercentField.setText ("");
 
-		VBoxHelper.structureVBox (percentBox);
-		grid.add (percentBox, 0, 0, 2, 1);
+                            discount.setPercentage (discountPercent);
+                          }
 
-		/*
-		 * Discount if paid until date
-		 */
-		EFormElement ifPaidUntilDateElement = EFormElement.DISCOUNT_UNTIL_DATE;
+                        });
 
-		VBox untilDateBox = new VBox ();
+    RequiredAndErrorHelper.addRequiredFieldForDiscountLine (this.toString (), discountPercentField.getId ());
 
-		Label ifPaidUntilDateLabel = FormElementCreator.getStandardLabel (
-				ifPaidUntilDateElement.getLabelText () + (ifPaidUntilDateElement.isRequired () ? "*" : ""), null);
+    percentBox.getChildren ().addAll (percentLabel, discountPercentField);
 
-		ifPaidUntilDatePicker = FormElementCreator.getStandardDatePicker (ifPaidUntilDateElement.getID (),
-				ifPaidUntilDateElement.isRequired ());
-		ifPaidUntilDatePicker.focusedProperty ().addListener (new ChangeListener<Boolean> ()
-		{
-			public void changed (ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
-			{
-				if (newValue)
-				{
-					helpArea.show (ifPaidUntilDateElement.getID ());
-				} else
-				{
-					int listSize = 0;
+    VBoxHelper.structureVBox (percentBox);
+    grid.add (percentBox, 0, 0, 2, 1);
 
-					ifPaidUntil = (ifPaidUntilDatePicker.getValue () == null ? null
-							: ifPaidUntilDatePicker.getValue ().toString ());
-					discount.setPaymentDate (ifPaidUntil);
+    /*
+     * Discount if paid until date
+     */
+    final EFormElement ifPaidUntilDateElement = EFormElement.DISCOUNT_UNTIL_DATE;
 
-					if (ifPaidUntil == null)
-						// Insert entry to required map in RequiredAndErrorHelper
-						System.out.println ();
-					else
-						// Remove entry
-						System.out.println ();
+    final VBox untilDateBox = new VBox ();
 
-					if (discountArea.getDiscountLineList () != null)
-					{
-						listSize = discountArea.getDiscountLineList ().size ();
+    final Label ifPaidUntilDateLabel = FormElementCreator.getStandardLabel (ifPaidUntilDateElement.getLabelText () +
+                                                                            (ifPaidUntilDateElement.isRequired () ? "*"
+                                                                                                                  : ""),
+                                                                            null);
+    ifPaidUntilDatePicker = FormElementCreator.getStandardDatePicker (ifPaidUntilDateElement.getID (),
+                                                                      ifPaidUntilDateElement.isRequired ());
 
-						if (listSize == 1)
-						{
+    ifPaidUntilDatePicker.focusedProperty ()
+                         .addListener ((ChangeListener <Boolean>) (observable, oldValue, newValue) -> {
+                           if (newValue)
+                           {
+                             helpArea.show (ifPaidUntilDateElement.getID ());
+                           }
+                         });
 
-						}
+    ifPaidUntilDatePicker.valueProperty ().addListener ( (observable, oldValue, newValue) -> {
 
-						if (listSize == 2)
-						{
-							if (discountArea.getDiscountLine (0).toString ().equals (DiscountLine.this.toString ()))
-							{
-								System.out.println ("Zeile an Index-Position 0 entspricht dieser Zeile");
+      ifPaidUntil = (ifPaidUntilDatePicker.getValue () == null ? null : ifPaidUntilDatePicker.getValue ().toString ());
+      discount.setPaymentDate (ifPaidUntil);
 
-								DiscountLine secondLine = discountArea.getDiscountLine (1);
-								if (LocalDate.parse (secondLine.getIfPaidUntil ())
-										.isBefore (LocalDate.parse (ifPaidUntil)))
-									secondLine.setIfPaidUntilToNull ();
+      if (ifPaidUntil == null)
+        RequiredAndErrorHelper.addRequiredFieldForDiscountLine (DiscountLine.this.toString (),
+                                                                ifPaidUntilDatePicker.getId ());
+      else
+        RequiredAndErrorHelper.removeRequiredFieldForDiscountLine (DiscountLine.this.toString (),
+                                                                   ifPaidUntilDatePicker.getId ());
 
-							} else
-							{
-								System.out.println ("Zeile an Index-Position 0 entspricht nicht dieser Zeile");
-							}
-						}
-					}
-				}
+      final String dueDateValue = rm.getSurchargeDiscountPane ().getDueDatePane ().getDueDate ();
+      if (dueDateValue != null)
+        if (LocalDate.parse (ifPaidUntil).isAfter (LocalDate.parse (dueDateValue)))
+          rm.getSurchargeDiscountPane ().getDueDatePane ().setDueDatePickerToNull ();
 
-			}
-		});
+      final int listSize = (discountArea.getDiscountLineList () == null ? 0
+                                                                        : discountArea.getDiscountLineList ().size ());
+      if (listSize == 2)
+        _checkDateValues ();
 
-		_checkDayCellFactorys ();
+      discountArea.setDueDatePickerToRequiredOrOptional ();
+    });
 
-		untilDateBox.getChildren ().addAll (ifPaidUntilDateLabel, ifPaidUntilDatePicker);
+    _addDayCellFactorysToDatePickers ();
 
-		VBoxHelper.structureVBox (untilDateBox);
-		grid.add (untilDateBox, 2, 0, 2, 1);
+    RequiredAndErrorHelper.addRequiredFieldForDiscountLine (this.toString (), ifPaidUntilDatePicker.getId ());
 
-		/*
-		 * Delete this line button
-		 */
-		EFormElement deleteThisLineElement = EFormElement.DISCOUNT_REMOVE;
+    untilDateBox.getChildren ().addAll (ifPaidUntilDateLabel, ifPaidUntilDatePicker);
 
-		deleteThisLine = new Button (deleteThisLineElement.getLabelText (),
-				new ImageView (new Image ("at/mareg/ebi43creator/display/images/Loeschen_50x33.png")));
-		deleteThisLine.hoverProperty ().addListener ( (observable) -> {
-			helpArea.show (deleteThisLineElement.getID ());
-		});
-		deleteThisLine.setOnAction (e -> {
-			discountArea.removeDiscountLine (this);
-			rm.getSurchargeDiscountPane ().setAddDiscountButtonToEnable ();
-		});
+    VBoxHelper.structureVBox (untilDateBox);
+    grid.add (untilDateBox, 2, 0, 2, 1);
 
-		grid.add (deleteThisLine, 4, 0);
+    /*
+     * Delete this line button
+     */
+    final EFormElement deleteThisLineElement = EFormElement.DISCOUNT_REMOVE;
 
-		/*
-		 * Add grid to this
-		 */
-		this.setBorder (new Border (new BorderStroke (Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
-				BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID,
-				null, BorderWidths.DEFAULT, new Insets (3, 3, 3, 3))));
-		this.add (grid, 0, 0);
-	}
+    deleteThisLine = new Button (deleteThisLineElement.getLabelText (),
+                                 new ImageView (new Image ("at/mareg/ebi43creator/display/images/Loeschen_50x33.png")));
+    deleteThisLine.hoverProperty ().addListener ( (observable) -> {
+      helpArea.show (deleteThisLineElement.getID ());
+    });
+    deleteThisLine.setOnAction (e -> {
+      discountArea.removeDiscountLine (this);
 
-	/*
-	 * Check if new day cell factorys must be set
-	 */
-	private void _checkDayCellFactorys ()
-	{
-		if (discountArea.getDiscountLineList ().size () == 0)
-		{
-			ifPaidUntilDatePicker.setDayCellFactory (invoiceDateManager.getDayCellFectoryDisableBefore (
-					LocalDate.parse (rm.getInvoiceDateManager ().getCurrentDateAsString ()).plusDays (1l)));
-		} else
-		{
-			System.out.println ("Es ist bereits eine Skontozeile vorhanden");
+      RequiredAndErrorHelper.removeLineFromDiscountLineRequiredMap (this.toString ());
 
-			DatePicker firstDatePicker = discountArea.getDiscountLineList ().get (0).getifPaidUntilDatePicker ();
+      rm.getSurchargeDiscountPane ().setAddDiscountButtonToEnable ();
 
-			if (firstDatePicker.getValue () == null)
-			{
-				ifPaidUntilDatePicker.setDayCellFactory (invoiceDateManager.getDayCellFectoryDisableBefore (
-						LocalDate.parse (rm.getInvoiceDateManager ().getCurrentDateAsString ()).plusDays (1l)));
-			} else
-			{
-				ifPaidUntilDatePicker.setDayCellFactory (
-						invoiceDateManager.getDayCellFectoryDisableBefore (firstDatePicker.getValue ().plusDays (1l)));
-			}
-		}
-	}
+      ifPaidUntilDatePicker.setDayCellFactory (invoiceDateManager.getDayCellFectoryDisableBefore (LocalDate.parse (rm.getInvoiceDateManager ()
+                                                                                                                     .getCurrentDateAsString ())
+                                                                                                           .plusDays (1l)));
+    });
 
-	/*
-	 * To string method
-	 */
-	@Override
-	public String toString ()
-	{
-		return "DiscountLine@" + Integer.toHexString (this.hashCode ());
-	}
+    grid.add (deleteThisLine, 4, 0);
 
-	/*
-	 * Getter / Setter
-	 */
-	public Discount getDiscount ()
-	{
-		return discount;
-	}
+    /*
+     * Add grid to this
+     */
+    this.setBorder (new Border (new BorderStroke (Color.BLACK,
+                                                  Color.BLACK,
+                                                  Color.BLACK,
+                                                  Color.BLACK,
+                                                  BorderStrokeStyle.SOLID,
+                                                  BorderStrokeStyle.SOLID,
+                                                  BorderStrokeStyle.SOLID,
+                                                  BorderStrokeStyle.SOLID,
+                                                  null,
+                                                  BorderWidths.DEFAULT,
+                                                  new Insets (3, 3, 3, 3))));
+    this.add (grid, 0, 0);
+  }
 
-	public DatePicker getifPaidUntilDatePicker ()
-	{
-		return ifPaidUntilDatePicker;
-	}
+  /*
+   * Add a day cell factory to newly created line
+   */
+  private void _addDayCellFactorysToDatePickers ()
+  {
+    final int discountListSize = discountArea.getDiscountLineList ().size ();
 
-	public Double getDiscountPercent ()
-	{
-		return discountPercent;
-	}
+    if (discountListSize == 0)
+    {
+      ifPaidUntilDatePicker.setDayCellFactory (invoiceDateManager.getDayCellFectoryDisableBefore (LocalDate.parse (rm.getInvoiceDateManager ()
+                                                                                                                     .getCurrentDateAsString ())
+                                                                                                           .plusDays (1l)));
+    }
+    else
+      if (discountListSize == 1)
+      {
+        final DatePicker firstDatePicker = discountArea.getDiscountLineList ().get (0).getifPaidUntilDatePicker ();
 
-	public String getIfPaidUntil ()
-	{
-		return ifPaidUntil;
-	}
+        if (firstDatePicker.getValue () == null)
+        {
+          ifPaidUntilDatePicker.setDayCellFactory (invoiceDateManager.getDayCellFectoryDisableBefore (LocalDate.parse (rm.getInvoiceDateManager ()
+                                                                                                                         .getCurrentDateAsString ())
+                                                                                                               .plusDays (1l)));
+        }
+        else
+        {
+          ifPaidUntilDatePicker.setDayCellFactory (invoiceDateManager.getDayCellFectoryDisableBefore (firstDatePicker.getValue ()
+                                                                                                                     .plusDays (1l)));
+        }
+      }
+  }
 
-	public void setIfPaidUntilToNull ()
-	{
-		ifPaidUntil = null;
-		ifPaidUntilDatePicker.setValue (null);
-	}
+  /*
+   * Check percent values
+   */
+  private Double _checkPercentValues (final String text)
+  {
+    Double value = TextFieldHelper.getDoubleFromString (text);
 
+    if (value <= 0 || value >= 100)
+    {
+      value = null;
+    }
+
+    if (value != null)
+    {
+      final List <DiscountLine> dll = discountArea.getDiscountLineList ();
+      if (dll.size () == 2)
+      {
+        if (dll.get (0).toString ().equals (this.toString ()))
+        {
+          final DiscountLine secondLine = dll.get (1);
+          final Double secondLineValue = secondLine.getDiscountPercent ();
+
+          if (secondLineValue != null)
+          {
+            if (secondLine.getDiscountPercent () > value)
+            {
+              secondLine.setPercentValueToNull ();
+            }
+          }
+        }
+      }
+    }
+
+    return value;
+  }
+
+  /*
+   * Check discount lines, if two discount lines are set check dates of the
+   * first and second line, if first date is after second date, set second date
+   * to null
+   */
+  private void _checkDateValues ()
+  {
+    if (discountArea.getDiscountLine (0).toString ().equals (DiscountLine.this.toString ()))
+    {
+      final DiscountLine secondLine = discountArea.getDiscountLine (1);
+      final String secondLineIfPaidUntil = secondLine.getIfPaidUntil ();
+
+      if (secondLineIfPaidUntil != null)
+      {
+        if (LocalDate.parse (ifPaidUntil).isAfter (LocalDate.parse (secondLineIfPaidUntil)))
+        {
+          secondLine.setIfPaidUntilToNull ();
+
+          FormElementCreator.setVisibleDatePickerStatus (secondLine.getifPaidUntilDatePicker (),
+                                                         EFormElement.DISCOUNT_UNTIL_DATE);
+        }
+      }
+    }
+  }
+
+  /*
+   * To string method
+   */
+  @Override
+  public String toString ()
+  {
+    return "DiscountLine@" + Integer.toHexString (this.hashCode ());
+  }
+
+  /*
+   * Getter / Setter
+   */
+  public Discount getDiscount ()
+  {
+    return discount;
+  }
+
+  public DatePicker getifPaidUntilDatePicker ()
+  {
+    return ifPaidUntilDatePicker;
+  }
+
+  public Double getDiscountPercent ()
+  {
+    return discountPercent;
+  }
+
+  public String getIfPaidUntil ()
+  {
+    return ifPaidUntil;
+  }
+
+  public void setIfPaidUntilToNull ()
+  {
+    ifPaidUntil = null;
+    discount.setPaymentDate (ifPaidUntil);
+
+    ifPaidUntilDatePicker.setValue (null);
+    ifPaidUntilDatePicker.setDayCellFactory (invoiceDateManager.getDayCellFectoryDisableBefore (LocalDate.parse (discountArea.getDiscountLine (0)
+                                                                                                                             .getIfPaidUntil ())
+                                                                                                         .plusDays (1l)));
+    FormElementCreator.setVisibleDatePickerStatus (ifPaidUntilDatePicker, EFormElement.DISCOUNT_UNTIL_DATE);
+  }
+
+  public void setPercentValueToNull ()
+  {
+    discountPercent = null;
+    discount.setPercentage (discountPercent);
+
+    discountPercentField.setText ("");
+    FormElementCreator.setVisibleTextFieldStatus (discountPercentField, EFormElement.DISCOUNT_PERCENT);
+  }
 }

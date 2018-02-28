@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.mareg.ebi43creator.display.form.BasePane;
+import at.mareg.ebi43creator.display.form.DueDatePane;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
+import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
 import at.mareg.ebi43creator.invoicedata.payment.Discount;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -12,123 +14,176 @@ import javafx.scene.layout.GridPane;
 
 public class DiscountArea extends BasePane
 {
-	/*
-	 * Discount lines
-	 */
-	private List<DiscountLine> discountLineList;
+  /*
+   * Discount lines
+   */
+  private List <DiscountLine> discountLineList;
 
-	/*
-	 * Pane elements
-	 */
-	private GridPane grid;
-	private int areaRow;
+  /*
+   * Pane elements
+   */
+  private GridPane grid;
+  private int areaRow;
 
-	public DiscountArea (ResourceManager resman)
-	{
-		super (resman);
+  public DiscountArea (final ResourceManager resman)
+  {
+    super (resman);
 
-		init ();
-	}
+    init ();
+  }
 
-	@Override
-	protected void init ()
-	{
-		super.init ();
+  @Override
+  protected void init ()
+  {
+    super.init ();
 
-		grid = new GridPane ();
+    grid = new GridPane ();
 
-		this.getChildren ().add (grid);
-	}
+    this.getChildren ().add (grid);
+  }
 
-	/*
-	 * (Re) Build discount line area
-	 */
-	private void _buildArea ()
-	{
-		areaRow = 0;
+  /*
+   * (Re) Build discount line area
+   */
+  private void _buildArea ()
+  {
+    areaRow = 0;
 
-		for (final DiscountLine dl : discountLineList)
-		{
-			grid.add (dl, 0, areaRow);
-			areaRow++;
-		}
-	}
+    if (discountLineList != null)
+      for (final DiscountLine dl : discountLineList)
+      {
+        grid.add (dl, 0, areaRow);
+        areaRow++;
+      }
+  }
 
-	/*
-	 * Remove all nodes an rebuild grid
-	 */
-	private void _refreshArea ()
-	{
-		ObservableList<Node> nodes = grid.getChildren ();
-		grid.getChildren ().removeAll (nodes);
+  /*
+   * Remove all nodes an rebuild grid
+   */
+  private void _refreshArea ()
+  {
+    final ObservableList <Node> nodes = grid.getChildren ();
+    grid.getChildren ().removeAll (nodes);
 
-		_buildArea ();
-	}
+    _buildArea ();
+  }
 
-	/*
-	 * Add a new discount item to list
-	 */
-	public void addEmptyDiscountLine (final Discount discount)
-	{
-		if (discountLineList == null)
-			discountLineList = new ArrayList<> ();
+  /*
+   * Add a new discount item to list
+   */
+  public void addEmptyDiscountLine (final Discount discount)
+  {
+    if (discountLineList == null)
+      discountLineList = new ArrayList <> ();
 
-		DiscountLine dl = new DiscountLine (rm, discount);
-		discountLineList.add (dl);
+    final DiscountLine dl = new DiscountLine (rm, discount);
+    discountLineList.add (dl);
 
-		_refreshArea ();
-	}
+    _refreshArea ();
+  }
 
-	/*
-	 * Remove a discount line
-	 */
-	public void removeDiscountLine (final DiscountLine line)
-	{
-		if (discountLineList.contains (line))
-		{
-			rm.getInvoiceData ().getPaymentConditions ().removeDiscount (line.getDiscount ());
-			discountLineList.remove (line);
+  /*
+   * Remove a discount line
+   */
+  public void removeDiscountLine (final DiscountLine line)
+  {
+    if (discountLineList.contains (line))
+    {
+      rm.getInvoiceData ().getPaymentConditions ().removeDiscount (line.getDiscount ());
+      discountLineList.remove (line);
 
-			_refreshArea ();
-		}
-	}
+      if (discountLineList.size () == 0)
+      {
+        discountLineList = null;
 
-	/*
-	 * Get an dicount line
-	 */
-	public DiscountLine getDiscountLine (final int index)
-	{
-		return discountLineList.get (index);
-	}
+        EFormElement.DUE_DATE.setIsRequired (false);
+      }
 
-	/*
-	 * Create discount line list after loading a XML
-	 */
-	public void createSurchargeLineAfterLoading ()
-	{
-		for (final Discount d : rm.getInvoiceData ().getPaymentConditions ().getDiscounts ())
-		{
-			DiscountLine dl = new DiscountLine (rm, d);
+      _refreshArea ();
+    }
 
-			// InvoiceLineFiller.fillLineWithLoadedData (il);
+    setDueDatePickerToRequiredOrOptional ();
+  }
 
-			discountLineList.add (dl);
-		}
+  /*
+   * Set due date date picker
+   */
+  public void setDueDatePickerToRequiredOrOptional ()
+  {
+    final DueDatePane ddp = rm.getSurchargeDiscountPane ().getDueDatePane ();
 
-		_refreshArea ();
-	}
+    if (discountLineList == null)
+    {
+      ddp.setDueDatePickerToOptional ();
+    }
+    else
+    {
+      if (discountLineList.size () == 1)
+      {
+        final String value = discountLineList.get (0).getIfPaidUntil ();
 
-	/*
-	 * Getter / Setter
-	 */
-	public List<DiscountLine> getDiscountLineList ()
-	{
-		return discountLineList;
-	}
+        if (value == null)
+          ddp.setDueDatePickerToOptional ();
+        else
+          rm.getSurchargeDiscountPane ()
+            .getDueDatePane ()
+            .setDueDatePickerAsRequired (discountLineList.get (0).getIfPaidUntil ());
+      }
 
-	public void showInvoiceLineList ()
-	{
-		for (final DiscountLine dl : discountLineList)
-			System.out.println (((DiscountLine) dl).toString ());
-	}
+      if (discountLineList.size () == 2)
+      {
+        final String dateValueLineOne = discountLineList.get (0).getIfPaidUntil ();
+        final String dateValueLineTwo = discountLineList.get (1).getIfPaidUntil ();
+
+        if (dateValueLineOne == null && dateValueLineTwo == null)
+          ddp.setDueDatePickerToOptional ();
+
+        if (dateValueLineOne != null && dateValueLineTwo == null)
+          ddp.setDueDatePickerAsRequired (dateValueLineOne);
+
+        if ((dateValueLineOne == null && dateValueLineTwo != null) ||
+            (dateValueLineOne != null && dateValueLineTwo != null))
+          ddp.setDueDatePickerAsRequired (dateValueLineTwo);
+      }
+    }
+  }
+
+  /*
+   * Get an discount line
+   */
+  public DiscountLine getDiscountLine (final int index)
+  {
+    return discountLineList.get (index);
+  }
+
+  /*
+   * Create discount line list after loading a XML
+   */
+  public void createSurchargeLineAfterLoading ()
+  {
+    for (final Discount d : rm.getInvoiceData ().getPaymentConditions ().getDiscounts ())
+    {
+      final DiscountLine dl = new DiscountLine (rm, d);
+
+      // InvoiceLineFiller.fillLineWithLoadedData (il);
+
+      discountLineList.add (dl);
+    }
+
+    _refreshArea ();
+  }
+
+  /*
+   * Getter / Setter
+   */
+  public List <DiscountLine> getDiscountLineList ()
+  {
+    return discountLineList;
+  }
+
+  public void showInvoiceLineList ()
+  {
+    for (final DiscountLine dl : discountLineList)
+      System.out.println (dl.toString ());
+  }
 }

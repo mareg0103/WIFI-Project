@@ -15,7 +15,7 @@ public class VATItem
 
   protected VATItem ()
   {}
-  
+
   public VATItem (final Integer vr)
   {
 

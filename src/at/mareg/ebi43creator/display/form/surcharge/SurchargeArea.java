@@ -14,123 +14,123 @@ import javafx.scene.layout.GridPane;
 
 public class SurchargeArea extends BasePane
 {
-	/**
-	 * Class to add surcharge lines to the current document (negative surcharge is
-	 * an reduction)
-	 * 
-	 * @author Martin Regitnig
-	 */
+  /**
+   * Class to add surcharge lines to the current document (negative surcharge is
+   * an reduction)
+   * 
+   * @author Martin Regitnig
+   */
 
-	/*
-	 * Surcharge lines
-	 */
-	private List<SurchargeLine> surchargeLineList;
+  /*
+   * Surcharge lines
+   */
+  private List <SurchargeLine> surchargeLineList;
 
-	/*
-	 * Pane elements
-	 */
-	private ScrollPane scroll;
-	private GridPane grid;
-	private int areaRow;
+  /*
+   * Pane elements
+   */
+  private ScrollPane scroll;
+  private GridPane grid;
+  private int areaRow;
 
-	public SurchargeArea (final ResourceManager resman)
-	{
-		super (resman);
+  public SurchargeArea (final ResourceManager resman)
+  {
+    super (resman);
 
-		init ();
-	}
+    init ();
+  }
 
-	@Override
-	protected void init ()
-	{
-		super.init ();
+  @Override
+  protected void init ()
+  {
+    super.init ();
 
-		scroll = new ScrollPane ();
-		scroll.setPrefHeight (Data.SURCHARGE_SCROLLPANE_HEIGHT);
-		scroll.setMaxHeight (scroll.getPrefHeight ());
-		scroll.setPrefWidth (Data.SURCHARGE_SCROLLPANE_WIDTH);
-		scroll.setMaxWidth (scroll.getPrefWidth ());
+    scroll = new ScrollPane ();
+    scroll.setPrefHeight (Data.SURCHARGE_SCROLLPANE_HEIGHT);
+    scroll.setMaxHeight (scroll.getPrefHeight ());
+    scroll.setPrefWidth (Data.SURCHARGE_SCROLLPANE_WIDTH);
+    scroll.setMaxWidth (scroll.getPrefWidth ());
 
-		grid = new GridPane ();
+    grid = new GridPane ();
 
-		scroll.setContent (grid);
-		this.getChildren ().add (scroll);
-	}
+    scroll.setContent (grid);
+    this.getChildren ().add (scroll);
+  }
 
-	/*
-	 * (Re) Build invoice line area
-	 */
-	private void _buildArea ()
-	{
-		areaRow = 0;
+  /*
+   * (Re) Build invoice line area
+   */
+  private void _buildArea ()
+  {
+    areaRow = 0;
 
-		for (final SurchargeLine sl : surchargeLineList)
-		{
-			grid.add (sl, 0, areaRow);
-			areaRow++;
-		}
-	}
+    for (final SurchargeLine sl : surchargeLineList)
+    {
+      grid.add (sl, 0, areaRow);
+      areaRow++;
+    }
+  }
 
-	/*
-	 * Remove all nodes an rebuild grid
-	 */
-	private void _refreshArea ()
-	{
-		ObservableList<Node> nodes = grid.getChildren ();
-		grid.getChildren ().removeAll (nodes);
+  /*
+   * Remove all nodes an rebuild grid
+   */
+  private void _refreshArea ()
+  {
+    ObservableList <Node> nodes = grid.getChildren ();
+    grid.getChildren ().removeAll (nodes);
 
-		_buildArea ();
-	}
+    _buildArea ();
+  }
 
-	/*
-	 * Add a new surcharge item to list
-	 */
-	public void addEmptySurchargeLine (final Surcharge surcharge)
-	{
-		if (surchargeLineList == null)
-			surchargeLineList = new ArrayList<> ();
+  /*
+   * Add a new surcharge item to list
+   */
+  public void addEmptySurchargeLine (final Surcharge surcharge)
+  {
+    if (surchargeLineList == null)
+      surchargeLineList = new ArrayList <> ();
 
-		surchargeLineList.add (new SurchargeLine (rm, surcharge));
+    surchargeLineList.add (new SurchargeLine (rm, surcharge));
 
-		_refreshArea ();
-	}
+    _refreshArea ();
+  }
 
-	/*
-	 * Remove a surcharge line
-	 */
-	public void removeSurchargeLine (final SurchargeLine line)
-	{
-		if (surchargeLineList.contains (line))
-		{
-			rm.getInvoiceData ().removeSurchargeItem (line.getSurcharge ());
-			surchargeLineList.remove (line);
+  /*
+   * Remove a surcharge line
+   */
+  public void removeSurchargeLine (final SurchargeLine line)
+  {
+    if (surchargeLineList.contains (line))
+    {
+      rm.getInvoiceData ().removeSurchargeItem (line.getSurcharge ());
+      surchargeLineList.remove (line);
 
-			_refreshArea ();
-		}
-	}
+      _refreshArea ();
+    }
+  }
 
-	/*
-	 * Create surcharge line list after loading a XML
-	 */
-	public void createSurchargeLineAfterLoading ()
-	{
-		for (final Surcharge s : rm.getInvoiceData ().getSurchargeList ())
-		{
-			SurchargeLine sl = new SurchargeLine (rm, s);
+  /*
+   * Create surcharge line list after loading a XML
+   */
+  public void createSurchargeLineAfterLoading ()
+  {
+    for (final Surcharge s : rm.getInvoiceData ().getSurchargeList ())
+    {
+      SurchargeLine sl = new SurchargeLine (rm, s);
 
-			// InvoiceLineFiller.fillLineWithLoadedData (il);
+      // InvoiceLineFiller.fillLineWithLoadedData (il);
 
-			surchargeLineList.add (sl);
-		}
+      surchargeLineList.add (sl);
+    }
 
-		_refreshArea ();
-	}
+    _refreshArea ();
+  }
 
-	/*
-	 * Getter / Setter
-	 */
-	public List<SurchargeLine> getSurchargeLineList ()
-	{
-		return surchargeLineList;
-	}
+  /*
+   * Getter / Setter
+   */
+  public List <SurchargeLine> getSurchargeLineList ()
+  {
+    return surchargeLineList;
+  }
 }

@@ -14,10 +14,10 @@ public class DeliveryPeriod
 
   private String fromDate;
   private String toDate;
-  
-  protected DeliveryPeriod () 
-  { 
-	  idm = null;
+
+  protected DeliveryPeriod ()
+  {
+    idm = null;
   }
 
   public DeliveryPeriod (final String from, final String to, final InvoiceDateManager manager)
