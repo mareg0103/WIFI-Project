@@ -107,7 +107,7 @@ public class Tax
       if (taxExemption == null)
       {
         for (final VATItem v : vatItems)
-          if (v.getVatRate () == vatRate)
+          if (v.getVatRate () != null && v.getVatRate () == vatRate)
           {
             vi = v;
             break;
@@ -116,7 +116,7 @@ public class Tax
       else
       {
         for (final VATItem v : vatItems)
-          if (v.getTaxExemption ().equals (taxExemption))
+          if (v.getTaxExemption () != null && v.getTaxExemption ().equals (taxExemption))
           {
             vi = v;
             break;

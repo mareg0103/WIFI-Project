@@ -203,4 +203,20 @@ public class DetailsPane extends BorderPane
   {
     return totalGross;
   }
+  
+  public void setVatIdBillerFieldText (final String text)
+  {
+	  if (text == null)
+		  vatidBillerField.setText ("");
+	  else
+		  vatidBillerField.setText (text);
+  }
+  
+  public void setVatIdInvoiceRecipientFieldText (final String text)
+  {
+	  if (text == null)
+		  vatidInvoiceRecipientField.setText ("");
+	  else
+		  vatidInvoiceRecipientField.setText (text);
+  }
 }

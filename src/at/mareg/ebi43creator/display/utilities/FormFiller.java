@@ -2,6 +2,7 @@ package at.mareg.ebi43creator.display.utilities;
 
 import java.time.LocalDate;
 
+import at.mareg.ebi43creator.display.form.DetailsPane;
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.invoicedata.InvoiceData;
@@ -63,7 +64,10 @@ public final class FormFiller
     /*
      * Fill details pane
      */
-    rm.getDetailsPane ().getInvoiceLineArea ().createInvoiceLineAfterLoading ();
+    DetailsPane dp = rm.getDetailsPane ();
+    dp.getInvoiceLineArea ().createInvoiceLineAfterLoading ();
+    dp.setVatIdBillerFieldText (invoiceData.getBiller ().getVatID ());
+    dp.setVatIdInvoiceRecipientFieldText (invoiceData.getInvoiceRecipient ().getVatID ());
 
     /*
      * Fill surcharge area

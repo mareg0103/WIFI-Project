@@ -190,7 +190,7 @@ public final class LoadMethodMapper
                            .getBeneficiaryAccount ()
                            .getBankAccountOwner ();
         break;
-
+        
       /*
        * Default return value
        */
