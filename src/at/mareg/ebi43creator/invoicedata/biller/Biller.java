@@ -5,16 +5,12 @@ import javax.xml.bind.annotation.XmlType;
 
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.invoicedata.address.Address;
-import at.mareg.ebi43creator.invoicedata.furtheridentification.FurtherIdentification;
 
-@XmlType (propOrder = { "vatID", "furtherFN", "furtherFS", "furtherFBG", "address", "supplierID" })
+@XmlType (propOrder = { "vatID", "address", "supplierID" })
 public class Biller
 {
 
   private String vatID;
-  private FurtherIdentification furtherFN;
-  private FurtherIdentification furtherFS;
-  private FurtherIdentification furtherFBG;
   private Address address;
   private String supplierID;
 
@@ -33,42 +29,6 @@ public class Biller
   public void setVatID (final String vatID)
   {
     this.vatID = vatID;
-  }
-
-  @XmlElement (name = "FurtherIdentification", namespace = Data.DEFAULT_NAMESPACE)
-  public FurtherIdentification getFurtherFN ()
-  {
-    return furtherFN;
-  }
-
-  @SuppressWarnings ("hiding")
-  public void setFurtherFN (final FurtherIdentification furtherFN)
-  {
-    this.furtherFN = furtherFN;
-  }
-
-  @XmlElement (name = "FurtherIdentification", namespace = Data.DEFAULT_NAMESPACE)
-  public FurtherIdentification getFurtherFS ()
-  {
-    return furtherFS;
-  }
-
-  @SuppressWarnings ("hiding")
-  public void setFurtherFS (final FurtherIdentification furtherFS)
-  {
-    this.furtherFS = furtherFS;
-  }
-
-  @XmlElement (name = "FurtherIdentification", namespace = Data.DEFAULT_NAMESPACE)
-  public FurtherIdentification getFurtherFBG ()
-  {
-    return furtherFBG;
-  }
-
-  @SuppressWarnings ("hiding")
-  public void setFurtherFBN (final FurtherIdentification furtherFBG)
-  {
-    this.furtherFBG = furtherFBG;
   }
 
   @XmlElement (name = "Address", namespace = Data.DEFAULT_NAMESPACE)

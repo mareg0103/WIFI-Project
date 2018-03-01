@@ -132,11 +132,6 @@ public class SurchargeArea extends BasePane
     _refreshArea ();
 
     rm.getSurchargeDiscountPane ().refreshTotalNetandTotalGross ();
-
-    for (final SurchargeLine sl : surchargeLineList)
-      System.out.println (sl.getSurcharge ());
-    for (final Surcharge s : rm.getInvoiceData ().getSurchargeList ())
-      System.out.println (s.toString ());
   }
 
   /*

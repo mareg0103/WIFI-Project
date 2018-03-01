@@ -95,6 +95,11 @@ public class Delivery
     {
       final String to = deliveryPeriod.getToDate ();
 
+      System.out.println ("***" + deliveryPeriod.toString ());
+      System.out.println ("*****" + from);
+      System.out.println ("*****" + to);
+      System.out.println (idm);
+      
       if (idm.isFromDateAfterToDate (from, to))
       {
         deliveryDate = from;

@@ -71,11 +71,8 @@ public final class FormFiller
     rm.getSurchargeDiscountPane ().getSurchargeArea ().createSurchargeLineAfterLoading ();
 
     /*
-     * Delete vat items, total gross, payable amount and payment conditions
+     * Delete payment conditions
      */
-    invoiceData.getTax ().clearVATItemList ();
-    invoiceData.setTotalGrossAmount (null);
-    invoiceData.setPayableAmount (null);
     invoiceData.setPaymentContitions (null);
   }
 

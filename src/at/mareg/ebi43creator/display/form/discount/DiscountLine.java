@@ -100,10 +100,8 @@ public class DiscountLine extends BasePane
 
       final int indexOfSemicolon = text.indexOf (",");
       if (indexOfSemicolon != -1)
-        if (text.substring (indexOfSemicolon + 1).length () == 2)
+        if (text.substring (indexOfSemicolon + 1).length () == 2 && ((TextField) event.getTarget ()).getCaretPosition () > indexOfSemicolon)
           event.consume ();
-
-      System.out.println ("CursorPosition: " + ((TextField) event.getTarget ()).getCaretPosition ());
     };
   }
 
@@ -155,9 +153,6 @@ public class DiscountLine extends BasePane
                               if (!firstLine.toString ().equals (DiscountLine.this.toString ()))
                               {
                                 final Double firstLineValue = firstLine.getDiscountPercent ();
-                                System.out.println ("Wert der ersten Zeile: " + firstLineValue);
-                                System.out.println ("Aktuell eingetragener Wert dieser Zeile: " +
-                                                    TextFieldHelper.getDoubleFromString (text));
 
                                 if (firstLineValue != null)
                                   if (TextFieldHelper.getDoubleFromString (text) >= firstLineValue)

@@ -150,7 +150,7 @@ public class InvoiceLine extends BasePane
 
       final int indexOfSemicolon = text.indexOf (",");
       if (indexOfSemicolon != -1)
-        if (text.substring (indexOfSemicolon + 1).length () == 2)
+        if (text.substring (indexOfSemicolon + 1).length () == 2 && ((TextField) event.getTarget ()).getCaretPosition () > indexOfSemicolon)
           event.consume ();
     };
 
@@ -170,10 +170,8 @@ public class InvoiceLine extends BasePane
       final int indexOfSemicolon = text.indexOf (",");
 
       if (indexOfSemicolon != -1)
-        if (text.substring (indexOfSemicolon + 1).length () == 4)
+        if (text.substring (indexOfSemicolon + 1).length () == 4 && ((TextField) event.getTarget ()).getCaretPosition () > indexOfSemicolon)
           event.consume ();
-
-      System.out.println (text);
     };
   }
 

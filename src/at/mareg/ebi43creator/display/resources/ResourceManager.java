@@ -73,6 +73,7 @@ public class ResourceManager
     {
       invoiceData = new InvoiceData ().readXMLInvoice (loadPath);
       invoiceData.setResourceManagerInternal (this);
+      invoiceData.setInvoiceDateManagerInternal (invoiceDateManager);
       formFiller = new FormFiller (invoiceData, this);
     }
     SaveMethodMapper.setInvoiceData (invoiceData);

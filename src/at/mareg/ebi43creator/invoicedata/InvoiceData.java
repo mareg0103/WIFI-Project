@@ -43,7 +43,7 @@ import at.mareg.ebi43creator.invoicedata.tax.Tax;
                         "comment" })
 public class InvoiceData
 {
-  private InvoiceDateManager idm = null;
+  private InvoiceDateManager idm;
 
   private ResourceManager rm;
 
@@ -336,6 +336,15 @@ public class InvoiceData
     rm = resman;
     invoiceRecipient.setResourceManagerInOrderReferenceInternal (resman);
     tax.setResourceManagerInternal (resman);
+  }
+  
+  /*
+   * Set invoice date manager after loading an XML
+   */
+  public void setInvoiceDateManagerInternal (final InvoiceDateManager invdatman)
+  {
+	  idm = invdatman;
+	  delivery.setInvoiceDateManager (invdatman);
   }
 
   /*

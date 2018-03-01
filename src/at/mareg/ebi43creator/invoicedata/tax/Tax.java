@@ -47,8 +47,7 @@ public class Tax
     {
       final VATItem vi = new VATItem (vr, null);
       vi.setTaxedAmount (Double.valueOf (0d));
-      System.out.println ("VATItem mit VATRate \"" + vr + "\" wird hinzugefügt");
-
+ 
       vatItems.add (vi);
     }
   }
@@ -84,6 +83,13 @@ public class Tax
   {
     final InvoiceData id = rm.getInvoiceData ();
     VATItem vi = null;
+    
+    /*
+     * Delete vat items, total gross an payable amount and recalculate
+     */
+    vatItems.clear ();
+    id.setTotalGrossAmount (null);
+    id.setPayableAmount (null);
 
     /*
      * List line items
@@ -160,15 +166,7 @@ public class Tax
     id.setPayableAmount (totalGrossAmount);
   }
 
-  /*
-   * Clear Vat item list
-   */
-  public void clearVATItemList ()
-  {
-    vatItems.clear ();
-  }
-
-  /*
+   /*
    * Getters / Setters
    */
   @XmlElementWrapper (name = "VAT", namespace = Data.DEFAULT_NAMESPACE)

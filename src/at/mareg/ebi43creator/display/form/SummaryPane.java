@@ -13,7 +13,7 @@ import javafx.scene.layout.GridPane;
 public class SummaryPane extends BasePane
 {
   /**
-   * Pane to show a summary of the entered data and save them to an XML file
+   * Pane to show a summary of the entered data and to save them to an XML file
    *
    * @author Martin Regitnig
    */
@@ -40,24 +40,24 @@ public class SummaryPane extends BasePane
 
     gridSummary = new GridPane ();
 
-    final Button testShowInvoiceData = new Button ("Discounts anzeigen");
+    final Button testShowInvoiceData = new Button ("Rechnung speichern");
     testShowInvoiceData.setOnAction (e -> {
-      // showInvoiceData ();
-      showRequired ();
-      showRequiredForLines ();
-      showError ();
-      showDiscounts ();
-      showDiscountLineRequired ();
-      showSurchargeLineRequired ();
+//      showInvoiceData ();
+//      showRequired ();
+//      showRequiredForLines ();
+//      showError ();
+//      showDiscounts ();
+//      showDiscountLineRequired ();
+//      showSurchargeLineRequired ();
       rm.getInvoiceData ().getTax ().calculateVATItems ();
       rm.getInvoiceData ().serializeInvoiceAsXML ("H:\\temporaryInvoice.xml");
 
       System.out.println ("Rechnung kann gespeichert werden: " +
                           (RequiredAndErrorHelper.allFieldsAreFilledAndCorrect () &&
                            rm.getInvoiceData ().getDetails ().getListLineItems ().size () > 0 ? "JA" : "NEIN"));
-      System.out.println ("    Alle Felder befüllt und korrekt: " +
-                          RequiredAndErrorHelper.allFieldsAreFilledAndCorrect ());
-      System.out.println ("    Zeilen eingetragen: " + rm.getInvoiceData ().getDetails ().getListLineItems ().size ());
+//      System.out.println ("    Alle Felder befüllt und korrekt: " +
+//                          RequiredAndErrorHelper.allFieldsAreFilledAndCorrect ());
+//      System.out.println ("    Zeilen eingetragen: " + rm.getInvoiceData ().getDetails ().getListLineItems ().size ());
     });
 
     gridSummary.add (testShowInvoiceData, 0, 0);
