@@ -94,24 +94,4 @@ public class Biller
   {
     this.supplierID = supplierID;
   }
-
-  public void setTempData ()
-  {
-    this.setVatID ("ATU00000000");
-    this.furtherFN = new FurtherIdentification ("123456FN", Data.FURTERIDENTIFICATION_TYPE_FN);
-    this.furtherFS = new FurtherIdentification ("Wien", Data.FURTERIDENTIFICATION_TYPE_FS);
-    this.furtherFBG = new FurtherIdentification ("Wien", Data.FURTERIDENTIFICATION_TYPE_FBG);
-    this.setAddress (new Address ("Firma",
-                                  "Test Ersteller",
-                                  "Teststr. 34",
-                                  "Wien",
-                                  "1234",
-                                  "Österreich",
-                                  "01 / 987 65 43",
-                                  "test@ersteller.at",
-                                  "Herr Mayer"));
-    this.setSupplierID ("0050012345");
-
-  }
-
 }

@@ -15,8 +15,8 @@ import javafx.scene.layout.VBox;
 
 public final class FormFiller
 {
-  private InvoiceData invoiceData;
-  private ResourceManager rm;
+  private final InvoiceData invoiceData;
+  private final ResourceManager rm;
 
   public FormFiller (final InvoiceData id, final ResourceManager resman)
   {
@@ -49,7 +49,11 @@ public final class FormFiller
     /*
      * Fill contact pane - delivery
      */
-    gridWorker (rm.getContactPane ().getGridPaneDelivery ());
+    if (invoiceData.getDelivery ().getAddress () != null)
+    {
+      rm.getContactPane ().setCheckBoxDeliveryUseAsSelected (true);
+      gridWorkerDelivery (rm.getContactPane ().getGridPaneDelivery ());
+    }
 
     /*
      * Fill payment pane
@@ -60,6 +64,19 @@ public final class FormFiller
      * Fill details pane
      */
     rm.getDetailsPane ().getInvoiceLineArea ().createInvoiceLineAfterLoading ();
+
+    /*
+     * Fill surcharge area
+     */
+    rm.getSurchargeDiscountPane ().getSurchargeArea ().createSurchargeLineAfterLoading ();
+
+    /*
+     * Delete vat items, total gross, payable amount and payment conditions
+     */
+    invoiceData.getTax ().clearVATItemList ();
+    invoiceData.setTotalGrossAmount (null);
+    invoiceData.setPayableAmount (null);
+    invoiceData.setPaymentContitions (null);
   }
 
   /*
@@ -73,18 +90,18 @@ public final class FormFiller
       {
         for (final Node vn : ((VBox) n).getChildren ())
         {
-          String elementID = vn.getId ();
-          EFormElement element = EFormElement.getFromIDOrNull (elementID);
+          final String elementID = vn.getId ();
+          final EFormElement element = EFormElement.getFromIDOrNull (elementID);
 
           if (element != null)
           {
-            String returnValue = LoadMethodMapper.callMethodFor (element);
+            final String returnValue = LoadMethodMapper.callMethodFor (element);
 
             if (returnValue != null)
             {
               if (vn.getClass () == TextField.class)
               {
-                TextField t = (TextField) vn;
+                final TextField t = (TextField) vn;
 
                 t.setText (returnValue);
                 t.setStyle ("-fx-control-inner-background: #" + Data.BACKGROUND_HEX_OK);
@@ -92,7 +109,7 @@ public final class FormFiller
 
               if (vn.getClass () == TextArea.class)
               {
-                TextArea t = (TextArea) vn;
+                final TextArea t = (TextArea) vn;
 
                 t.setText (returnValue);
                 t.setStyle ("-fx-control-inner-background: #" + Data.BACKGROUND_HEX_OK);
@@ -100,7 +117,7 @@ public final class FormFiller
 
               if (vn.getClass () == DatePicker.class)
               {
-                DatePicker dp = (DatePicker) vn;
+                final DatePicker dp = (DatePicker) vn;
 
                 dp.setValue (LocalDate.parse (returnValue));
                 dp.setStyle ("-fx-control-inner-background: #" + Data.BACKGROUND_HEX_OK);
@@ -113,6 +130,58 @@ public final class FormFiller
         }
       }
     }
+  }
 
+  /*
+   * Run through pane an fill elements
+   */
+  private void gridWorkerDelivery (final GridPane g)
+  {
+    for (final Node n : g.getChildren ())
+    {
+      if (n.getClass () == VBox.class)
+      {
+        for (final Node vn : ((VBox) n).getChildren ())
+        {
+          final String elementID = vn.getId ();
+          final EFormElement element = EFormElement.getFromIDOrNull (elementID);
+
+          if (element != null)
+          {
+            final String returnValue = LoadMethodMapper.callMethodFor (element);
+
+            if (returnValue != null)
+            {
+              if (vn.getClass () == TextField.class)
+              {
+                final TextField t = (TextField) vn;
+
+                t.setText (returnValue);
+                t.setStyle ("-fx-control-inner-background: #" + Data.BACKGROUND_HEX_OK);
+              }
+
+              if (vn.getClass () == TextArea.class)
+              {
+                final TextArea t = (TextArea) vn;
+
+                t.setText (returnValue);
+                t.setStyle ("-fx-control-inner-background: #" + Data.BACKGROUND_HEX_OK);
+              }
+
+              if (vn.getClass () == DatePicker.class)
+              {
+                final DatePicker dp = (DatePicker) vn;
+
+                dp.setValue (LocalDate.parse (returnValue));
+                dp.setStyle ("-fx-control-inner-background: #" + Data.BACKGROUND_HEX_OK);
+              }
+
+              if (element.isRequired ())
+                RequiredAndErrorHelper.removeRequiredField (element.getTiteldPaneID (), elementID);
+            }
+          }
+        }
+      }
+    }
   }
 }

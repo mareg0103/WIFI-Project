@@ -1,5 +1,7 @@
 package at.mareg.ebi43creator.display.form;
 
+import java.util.List;
+
 import at.mareg.ebi43creator.display.form.invoicelines.InvoiceLine;
 import at.mareg.ebi43creator.display.form.invoicelines.InvoiceLineArea;
 import at.mareg.ebi43creator.display.resources.Data;
@@ -19,13 +21,13 @@ public class DetailsPane extends BorderPane
 {
   /**
    * Pane to enter the detail lines of the document
-   * 
+   *
    * @author Martin Regitnig
    */
   /*
    * Instance of ResourceManager because this pane doesn't extend BasePane
    */
-  private ResourceManager rm;
+  private final ResourceManager rm;
 
   /*
    * Pane elements
@@ -77,12 +79,12 @@ public class DetailsPane extends BorderPane
     {
       if (eb.getTiteldPaneID ().equals (Data.DETAILS_RIGHT_AREA))
       {
-        String elementID = eb.getID ();
-        String labelText = eb.getLabelText ();
+        final String elementID = eb.getID ();
+        final String labelText = eb.getLabelText ();
 
         if (eb.getType ().equals (Data.ELEMENTTYPE_BUTTON))
         {
-          Button b = FormElementCreator.getStandardButton (elementID, labelText);
+          final Button b = FormElementCreator.getStandardButton (elementID, labelText);
           b.setPrefWidth (Data.DETAILS_RIGHT_AREA_COMPONENT_WIDTH);
           b.setOnAction (e -> {
             rm.getInvoiceData ().getDetails ().addEmptyListLineItem ();
@@ -94,7 +96,7 @@ public class DetailsPane extends BorderPane
 
         if (eb.getType ().equals (Data.ELEMENTTYPE_TEXTFIELD))
         {
-          VBox v = new VBox ();
+          final VBox v = new VBox ();
 
           // v.getChildren ()
           // .add (FormElementCreator.getStandardLabel (labelText, new Insets
@@ -103,7 +105,7 @@ public class DetailsPane extends BorderPane
           // v.getChildren ().add (FormElementCreator.getStandardLabel
           // (labelText, null));
 
-          TextField t = FormElementCreator.getStandardTextField (elementID, eb.isRequired ());
+          final TextField t = FormElementCreator.getStandardTextField (elementID, eb.isRequired ());
           t.setPrefWidth (Data.DETAILS_RIGHT_AREA_COMPONENT_WIDTH);
 
           if (elementID.equals (EFormElement.DETAILS_RIGHT_TOTALNETAMOUND.getID ()))
@@ -158,14 +160,17 @@ public class DetailsPane extends BorderPane
     totalNet = Double.valueOf (0);
     totalGross = Double.valueOf (0);
 
-    for (final InvoiceLine il : invoiceLineArea.getInvoiceLineList ())
-    {
-      totalNet = Double.valueOf (totalNet.doubleValue () + il.getTotalNetAmountWithSurcharge ());
-      totalGross = Double.valueOf (totalGross.doubleValue () + il.getTotalGrossAmount ());
-    }
+    final List <InvoiceLine> ill = invoiceLineArea.getInvoiceLineList ();
 
-    EFormElement vatidBiller = EFormElement.DETAILS_RIGHT_VATID_BILLER;
-    EFormElement vatidInvoiceRecipient = EFormElement.DETAILS_RIGHT_VATID_INVOICERECIPIENT;
+    if (ill != null && ill.size () > 0)
+      for (final InvoiceLine il : invoiceLineArea.getInvoiceLineList ())
+      {
+        totalNet = Double.valueOf (totalNet.doubleValue () + il.getTotalNetAmountWithSurcharge ());
+        totalGross = Double.valueOf (totalGross.doubleValue () + il.getTotalGrossAmount ());
+      }
+
+    final EFormElement vatidBiller = EFormElement.DETAILS_RIGHT_VATID_BILLER;
+    final EFormElement vatidInvoiceRecipient = EFormElement.DETAILS_RIGHT_VATID_INVOICERECIPIENT;
 
     vatidBiller.setIsRequired (totalGross.doubleValue () >= 400 ? true : false);
     vatidInvoiceRecipient.setIsRequired (totalGross.doubleValue () >= 10000 ? true : false);

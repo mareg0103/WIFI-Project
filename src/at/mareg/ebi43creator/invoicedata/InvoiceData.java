@@ -335,6 +335,7 @@ public class InvoiceData
   {
     rm = resman;
     invoiceRecipient.setResourceManagerInOrderReferenceInternal (resman);
+    tax.setResourceManagerInternal (resman);
   }
 
   /*
@@ -345,7 +346,7 @@ public class InvoiceData
     if (surchargeList == null)
       surchargeList = new ArrayList <> ();
 
-    Surcharge s = new Surcharge ();
+    final Surcharge s = new Surcharge ();
     surchargeList.add (s);
 
     rm.getSurchargeDiscountPane ().getSurchargeArea ().addEmptySurchargeLine (s);
@@ -428,43 +429,4 @@ public class InvoiceData
 
     return null;
   }
-
-  public void setTempData ()
-  {
-    documentType = "Invoice";
-    invoiceCurrency = "EUR";
-    invoiceNumber = "TestInvoice123";
-    invoiceDate = idm.getCurrentDateAsString ();
-
-    delivery.setTempData ();
-
-    biller.setTempData ();
-
-    invoiceRecipient.setTempData ();
-
-    details.setTempData ();
-
-    this.addEmptySurchargeItem ();
-    final Surcharge reduction = surchargeList.get (0);
-    reduction.setBaseAmount (Double.valueOf (240));
-    reduction.setAmount (Double.valueOf (-10));
-    reduction.setVatRate (Integer.valueOf (20));
-
-    this.addEmptySurchargeItem ();
-    final Surcharge surcharge = surchargeList.get (1);
-    surcharge.setBaseAmount (Double.valueOf (230));
-    surcharge.setAmount (Double.valueOf (10));
-    surcharge.setVatRate (Integer.valueOf (20));
-
-    tax.setTempData ();
-
-    totalGrossAmount = Double.valueOf (tax.getVatItems ().get (0).getTaxedAmount () +
-                                       tax.getVatItems ().get (0).getAmount ());
-    payableAmount = totalGrossAmount;
-    paymentMethod.setTempData ();
-    paymentConditions.setTempData ();
-
-    comment = "Testrechnung erstellt mittels JAXB";
-  }
-
 }

@@ -14,7 +14,7 @@ public class CreateXMLStructureTestMain
     final ResourceManager rm = new ResourceManager (null, "Invoice", null);
     final InvoiceData id = new InvoiceData (idm, "Invoice", rm);
 
-    id.setTempData ();
+    // id.setTempData ();
     id.serializeInvoiceAsXML (path);
 
     System.out.println ("Fertig");

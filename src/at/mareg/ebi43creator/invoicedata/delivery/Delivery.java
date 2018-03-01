@@ -21,13 +21,11 @@ public class Delivery
 
   public Delivery ()
   {
-
     deliveryID = null;
     deliveryDate = null;
     deliveryPeriod = null;
 
     address = null;
-
   }
 
   @XmlElement (name = "DeliveryID", namespace = Data.DEFAULT_NAMESPACE)
@@ -95,7 +93,7 @@ public class Delivery
     }
     else
     {
-      String to = deliveryPeriod.getToDate ();
+      final String to = deliveryPeriod.getToDate ();
 
       if (idm.isFromDateAfterToDate (from, to))
       {
@@ -129,33 +127,11 @@ public class Delivery
   public void enableDeliveryAddress (final boolean activate)
   {
     if (activate)
-      address = new Address ();
+    {
+      if (address == null)
+        address = new Address ();
+    }
     else
       address = null;
   }
-
-  // Set invoice data temporary (for testing purposes only)
-  public void setTempData ()
-  {
-    final String fromDate = "20.10.2017";
-    final String toDate = "23.10.2017";
-
-    this.deliveryID = "LS123";
-    this.setDeliveryDate (fromDate);
-    this.setDeliveryPeriod (new DeliveryPeriod (fromDate, toDate, idm));
-
-    // "salutation", "name", "street", "town", "zip", "country", "phone",
-    // "email", "contact"
-
-    this.setAddress (new Address ("Firma",
-                                  "Test Leistung",
-                                  "Teststr. 12",
-                                  "Wien",
-                                  "1234",
-                                  "Österreich",
-                                  "01 / 123 45 67",
-                                  "test@leistung.at",
-                                  "Frau Liebstöckl"));
-  }
-
 }

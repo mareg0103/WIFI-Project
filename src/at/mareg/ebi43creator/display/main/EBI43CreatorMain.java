@@ -265,6 +265,8 @@ public class EBI43CreatorMain extends Application
       dp.setTooltip (new Tooltip (valueCheckMessage));
     }
 
+    if (elementID.equals (EFormElement.DUE_DATE.getID ()))
+      System.out.println ("!!! DueDate ist erforderlich: " + fieldIsRequired);
     if (fieldIsRequired)
     {
       if (elementIsEmpty)

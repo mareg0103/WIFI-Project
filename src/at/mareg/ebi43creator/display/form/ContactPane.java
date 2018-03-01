@@ -20,7 +20,7 @@ public class ContactPane extends BasePane
   /**
    * Pane to enter contact specific data for biller, invoice recipient and
    * delivery
-   * 
+   *
    * @author Martin Regitnig
    */
 
@@ -39,6 +39,11 @@ public class ContactPane extends BasePane
   private GridPane grid_Biller;
   private GridPane grid_InvoiceRecipient;
   private GridPane grid_Delivery;
+
+  /*
+   * Special case use delivery address
+   */
+  private CheckBox useDeliveryAddress;
 
   public ContactPane (final ResourceManager resman)
   {
@@ -167,7 +172,7 @@ public class ContactPane extends BasePane
 
           v.getChildren ().add (FormElementCreator.getStandardLabel ("", null));
 
-          CheckBox cb = FormElementCreator.getStandardCheckBox (elementID, isRequired, labelText);
+          final CheckBox cb = FormElementCreator.getStandardCheckBox (elementID, isRequired, labelText);
 
           if (eb.getName ().equals ("DELIVERY_USE"))
           {
@@ -175,7 +180,7 @@ public class ContactPane extends BasePane
               rm.getInvoiceData ().getDelivery ().enableDeliveryAddress (newValue);
 
               if (newValue)
-                _enableDeliveryAddress ();
+                enableDeliveryAddress ();
               else
                 _disableDeliveryAddress ();
 
@@ -183,6 +188,8 @@ public class ContactPane extends BasePane
             cb.hoverProperty ().addListener (observable -> {
               rm.getHelpArea ().show (cb.getId ());
             });
+
+            useDeliveryAddress = cb;
           }
 
           v.getChildren ().add (cb);
@@ -245,12 +252,12 @@ public class ContactPane extends BasePane
 
           if (sn.getClass () == TextField.class)
           {
-            EFormElement e = EFormElement.getFromIDOrNull (sn.getId ());
-            String elementID = sn.getId ();
+            final EFormElement e = EFormElement.getFromIDOrNull (sn.getId ());
+            final String elementID = sn.getId ();
 
             if (!elementID.equals (EFormElement.DELIVERY_ID.getID ()))
             {
-              TextField t = (TextField) sn;
+              final TextField t = (TextField) sn;
 
               FormElementCreator.showLabelAsDisabled (l, e);
               FormElementCreator.disableTextField (t, e);
@@ -269,7 +276,7 @@ public class ContactPane extends BasePane
    * If CheckBox "DELIVERY_USE" (Abweichende Lieferanschrift verwenden) is set
    * to selected, enable all fields for delivery address
    */
-  private void _enableDeliveryAddress ()
+  public void enableDeliveryAddress ()
   {
     /*
      * Label to save found label while processing the grid
@@ -303,7 +310,7 @@ public class ContactPane extends BasePane
 
           if (sn.getClass () == TextField.class)
           {
-            EFormElement e = EFormElement.getFromIDOrNull (sn.getId ());
+            final EFormElement e = EFormElement.getFromIDOrNull (sn.getId ());
 
             FormElementCreator.showLabelAsEnabled (l, e);
             FormElementCreator.enableTextField ((TextField) sn, e);
@@ -346,6 +353,9 @@ public class ContactPane extends BasePane
     }
   }
 
+  /*
+   * Getters / Setters
+   */
   public GridPane getGridPaneBiller ()
   {
     return grid_Biller;
@@ -359,5 +369,10 @@ public class ContactPane extends BasePane
   public GridPane getGridPaneDelivery ()
   {
     return grid_Delivery;
+  }
+
+  public void setCheckBoxDeliveryUseAsSelected (final boolean select)
+  {
+    useDeliveryAddress.selectedProperty ().set (select);
   }
 }

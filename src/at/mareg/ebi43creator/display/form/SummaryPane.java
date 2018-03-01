@@ -43,17 +43,21 @@ public class SummaryPane extends BasePane
     final Button testShowInvoiceData = new Button ("Discounts anzeigen");
     testShowInvoiceData.setOnAction (e -> {
       // showInvoiceData ();
-      // showRequired ();
-      // showRequiredForLines ();
-      // showError ();
-      // showDiscounts ();
+      showRequired ();
+      showRequiredForLines ();
+      showError ();
+      showDiscounts ();
       showDiscountLineRequired ();
       showSurchargeLineRequired ();
+      rm.getInvoiceData ().getTax ().calculateVATItems ();
       rm.getInvoiceData ().serializeInvoiceAsXML ("H:\\temporaryInvoice.xml");
 
-      // System.out.println ("Rechnung kann gespeichert werden: "
-      // + (RequiredAndErrorHelper.allFieldsAreFilledAndCorrect () ? "JA" :
-      // "NEIN"));
+      System.out.println ("Rechnung kann gespeichert werden: " +
+                          (RequiredAndErrorHelper.allFieldsAreFilledAndCorrect () &&
+                           rm.getInvoiceData ().getDetails ().getListLineItems ().size () > 0 ? "JA" : "NEIN"));
+      System.out.println ("    Alle Felder befüllt und korrekt: " +
+                          RequiredAndErrorHelper.allFieldsAreFilledAndCorrect ());
+      System.out.println ("    Zeilen eingetragen: " + rm.getInvoiceData ().getDetails ().getListLineItems ().size ());
     });
 
     gridSummary.add (testShowInvoiceData, 0, 0);
@@ -92,7 +96,6 @@ public class SummaryPane extends BasePane
     System.out.println ("Required Fields von Zeilen eingetragen:");
     RequiredAndErrorHelper.showLineReqMap ();
 
-    System.out.println ("Größe: " + RequiredAndErrorHelper.getLineRequiredMapSize ());
     System.out.println ();
   }
 
@@ -143,7 +146,7 @@ public class SummaryPane extends BasePane
 
         if (dl != null)
         {
-          System.out.println ("Eingetragene InvoiceLines in SurchargeDiscountPane/DiscountArea/discountLineList:");
+          System.out.println ("Eingetragene DiscountLines in SurchargeDiscountPane/DiscountArea/discountLineList:");
           for (final DiscountLine d : dll)
           {
             System.out.println ("  " + d.toString ());

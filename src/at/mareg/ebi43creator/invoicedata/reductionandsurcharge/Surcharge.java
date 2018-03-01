@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import at.mareg.ebi43creator.display.resources.Data;
 
-@XmlType (propOrder = { "baseAmount", "amount", "vatRate", "comment" })
+@XmlType (propOrder = { "baseAmount", "amount", "comment", "vatRate" })
 public class Surcharge
 {
   private Double baseAmount;
@@ -59,7 +59,7 @@ public class Surcharge
   }
 
   @SuppressWarnings ("hiding")
-  public void setComment (String comment)
+  public void setComment (final String comment)
   {
     this.comment = comment;
   }

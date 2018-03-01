@@ -5,11 +5,9 @@ import javax.xml.bind.annotation.XmlType;
 
 import at.mareg.ebi43creator.display.resources.Data;
 
-@XmlType (propOrder = { "salutation", "name", "street", "town", "zip", "country", "phone", "email", "contact" })
+@XmlType (propOrder = { "name", "street", "town", "zip", "country", "phone", "email", "contact" })
 public class Address
 {
-
-  private String salutation;
   private String name;
   private String street;
   private String town;
@@ -22,8 +20,7 @@ public class Address
   public Address ()
   {}
 
-  public Address (final String salut,
-                  final String n,
+  public Address (final String n,
                   final String s,
                   final String t,
                   final String z,
@@ -33,7 +30,6 @@ public class Address
                   final String co)
   {
 
-    salutation = salut;
     name = n;
     street = s;
     town = t;
@@ -43,18 +39,6 @@ public class Address
     email = e;
     contact = co;
 
-  }
-
-  @XmlElement (name = "Salutation", namespace = Data.DEFAULT_NAMESPACE)
-  public String getSalutation ()
-  {
-    return salutation;
-  }
-
-  @SuppressWarnings ("hiding")
-  public void setSalutation (final String salutation)
-  {
-    this.salutation = salutation;
   }
 
   @XmlElement (name = "Name", namespace = Data.DEFAULT_NAMESPACE)

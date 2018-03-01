@@ -23,7 +23,7 @@ public class SurchargeDiscountPane extends BorderPane
 {
   /**
    * Class to show help texts to form elements
-   * 
+   *
    * @author Martin Regitnig
    */
 
@@ -102,12 +102,12 @@ public class SurchargeDiscountPane extends BorderPane
     {
       if (eb.getTiteldPaneID ().equals (Data.SURCHARGE_RIGHT_AREA))
       {
-        String elementID = eb.getID ();
-        String labelText = eb.getLabelText ();
+        final String elementID = eb.getID ();
+        final String labelText = eb.getLabelText ();
 
         if (eb.getType ().equals (Data.ELEMENTTYPE_BUTTON))
         {
-          Button b = FormElementCreator.getStandardButton (elementID, labelText);
+          final Button b = FormElementCreator.getStandardButton (elementID, labelText);
           b.setPrefWidth (Data.SURCHARGE_RIGHT_AREA_COMPONENT_WIDTH);
 
           if (elementID.equals (EFormElement.SURCHARGE_DISCOUNT_RIGHT_ADDSURCHARGEBUTTON.getID ()))
@@ -141,9 +141,9 @@ public class SurchargeDiscountPane extends BorderPane
 
         if (eb.getType ().equals (Data.ELEMENTTYPE_TEXTFIELD))
         {
-          VBox v = new VBox ();
+          final VBox v = new VBox ();
 
-          TextField t = FormElementCreator.getStandardTextField (elementID, eb.isRequired ());
+          final TextField t = FormElementCreator.getStandardTextField (elementID, eb.isRequired ());
           t.setPrefWidth (Data.SURCHARGE_RIGHT_AREA_COMPONENT_WIDTH);
 
           if (elementID.equals (EFormElement.SURCHARGE_DISCOUNT_RIGHT_TOTALNETAMOUNT.getID ()))
@@ -193,7 +193,7 @@ public class SurchargeDiscountPane extends BorderPane
     overallTotalNet = rm.getDetailsPane ().getInvoiceLinesTotalNet ();
     overallTotalGross = rm.getDetailsPane ().getInvoiceLinesTotalGross ();
 
-    List <SurchargeLine> surchargeLineList = getSurchargeArea ().getSurchargeLineList ();
+    final List <SurchargeLine> surchargeLineList = getSurchargeArea ().getSurchargeLineList ();
 
     if (surchargeLineList != null)
       for (final SurchargeLine sl : getSurchargeArea ().getSurchargeLineList ())
@@ -206,11 +206,6 @@ public class SurchargeDiscountPane extends BorderPane
 
     totalNetField.setText (TextFieldHelper.getTwoDecimalsStringFromDouble (overallTotalNet));
     totalGrossField.setText (TextFieldHelper.getTwoDecimalsStringFromDouble (overallTotalGross));
-  }
-
-  public void setDueDateToRequired (final String discountDate)
-  {
-
   }
 
   /*

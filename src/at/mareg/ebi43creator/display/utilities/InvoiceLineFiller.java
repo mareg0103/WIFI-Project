@@ -29,9 +29,9 @@ public final class InvoiceLineFiller
   @SuppressWarnings ("unchecked")
   public static void fillLineWithLoadedData (final InvoiceLine il)
   {
-    ListLineItem lli = il.getListLineItem ();
-    List <SurchargeListLineItem> l = lli.getSurcharge ();
-    GridPane grid = il.getGrid ();
+    final ListLineItem lli = il.getListLineItem ();
+    final List <SurchargeListLineItem> l = lli.getSurcharge ();
+    final GridPane grid = il.getGridPane ();
 
     for (final Node n : grid.getChildren ())
     {
@@ -41,60 +41,60 @@ public final class InvoiceLineFiller
         {
           if (vn.getClass () != Label.class)
           {
-            String elementID = vn.getId ();
-            EFormElement element = EFormElement.getFromIDOrNull (elementID);
+            final String elementID = vn.getId ();
+            final EFormElement element = EFormElement.getFromIDOrNull (elementID);
             String value = "";
 
             if (element != null)
             {
-              boolean elementIsRequired = element.isRequired ();
+              final boolean elementIsRequired = element.isRequired ();
 
               switch (element)
               {
                 case DETAILS_LINE_ORDERPOSITIONNUMER:
-                  Integer ilo = lli.getOrderPositionNumber ();
+                  final Integer ilo = lli.getOrderPositionNumber ();
                   il.setOrderPositionNumber (ilo);
                   value = (ilo == null ? null : String.valueOf (ilo.intValue ()));
                   break;
 
                 case DETAILS_LINE_QUANTITY:
-                  Double dlq = lli.getQuantity ().getQuantity ();
+                  final Double dlq = lli.getQuantity ().getQuantity ();
                   il.setQuantity (dlq);
                   value = (dlq == null ? null : TextFieldHelper.getFourDecimalsStringFromDouble (dlq.doubleValue ()));
                   break;
 
                 case DETAILS_LINE_UNIT:
-                  String s = lli.getQuantity ().getUnit ();
+                  final String s = lli.getQuantity ().getUnit ();
                   il.setUnit (s);
                   value = s;
                   break;
 
                 case DETAILS_LINE_UNITPRICE:
-                  Double dlu = lli.getUnitPrice ();
+                  final Double dlu = lli.getUnitPrice ();
                   il.setUnitprice (dlu);
                   value = (dlu == null ? null : TextFieldHelper.getFourDecimalsStringFromDouble (dlu.doubleValue ()));
                   break;
 
                 case DETAILS_LINE_DESCRIPTION:
                   value = lli.getDescription ();
-                  String sld = lli.getDescription ();
+                  final String sld = lli.getDescription ();
                   value = sld;
                   break;
 
                 case DETAILS_LINE_SURCHARGE:
-                  Double dls = (l == null ? null : l.get (0).getAmount ());
+                  final Double dls = (l == null ? null : l.get (0).getAmount ());
                   il.setSurcharge (dls);
                   value = (dls == null ? null : TextFieldHelper.getTwoDecimalsStringFromDouble (dls.doubleValue ()));
                   break;
 
                 case DETAILS_LINE_SURCHARGE_DESCRIPTION:
-                  String dlsc = (l == null ? null : l.get (0).getComment ());
+                  final String dlsc = (l == null ? null : l.get (0).getComment ());
                   il.setComment (dlsc);
                   value = dlsc;
                   break;
 
                 case DETAILS_LINE_VAT:
-                  Integer ilv = lli.getVatRate ();
+                  final Integer ilv = lli.getVatRate ();
                   il.setVatRate (ilv);
                   value = lli.getVatRate ().toString ();
                   break;
@@ -107,9 +107,13 @@ public final class InvoiceLineFiller
                   value = null;
               }
 
+              if (elementIsRequired)
+                RequiredAndErrorHelper.removeRequiredFieldForLine (Integer.valueOf (il.getInvoiceLineNumber ()),
+                                                                   elementID);
+
               if (vn.getClass () == TextField.class)
               {
-                TextField t = (TextField) vn;
+                final TextField t = (TextField) vn;
                 t.setText (value);
                 t.setStyle ("-fx-control-inner-background: #" +
                             (value == null ? (elementIsRequired ? Data.BACKROUND_HEX_REQUIRED : Data.BACKGROUND_HEX_OK)
@@ -118,7 +122,7 @@ public final class InvoiceLineFiller
 
               if (vn.getClass () == TextArea.class)
               {
-                TextArea t = (TextArea) vn;
+                final TextArea t = (TextArea) vn;
                 t.setText (value);
                 t.setStyle ("-fx-control-inner-background: #" +
                             (value == null ? (elementIsRequired ? Data.BACKROUND_HEX_REQUIRED : Data.BACKGROUND_HEX_OK)

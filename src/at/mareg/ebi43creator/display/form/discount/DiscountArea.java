@@ -157,23 +157,6 @@ public class DiscountArea extends BasePane
   }
 
   /*
-   * Create discount line list after loading a XML
-   */
-  public void createSurchargeLineAfterLoading ()
-  {
-    for (final Discount d : rm.getInvoiceData ().getPaymentConditions ().getDiscounts ())
-    {
-      final DiscountLine dl = new DiscountLine (rm, d);
-
-      // InvoiceLineFiller.fillLineWithLoadedData (il);
-
-      discountLineList.add (dl);
-    }
-
-    _refreshArea ();
-  }
-
-  /*
    * Getter / Setter
    */
   public List <DiscountLine> getDiscountLineList ()

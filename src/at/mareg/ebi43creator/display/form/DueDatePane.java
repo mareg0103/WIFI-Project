@@ -45,6 +45,10 @@ public class DueDatePane extends BasePane
                                        .getDayCellFectoryDisableBefore (LocalDate.parse (rm.getInvoiceDateManager ()
                                                                                            .getCurrentDateAsString ())));
 
+    dueDatePicker.valueProperty ().addListener ( (observable, oldValue, newValue) -> {
+      RequiredAndErrorHelper.removeRequiredField (Data.TAB_DISCOUNT_DATA, dueDateElement.getID ());
+    });
+
     dueDateBox.getChildren ().addAll (dueDateLabel, dueDatePicker);
 
     VBoxHelper.structureVBox (dueDateBox);

@@ -38,6 +38,11 @@ public class SurchargeLine extends BasePane
   private final Surcharge surchargeItem;
 
   /*
+   * SurchargeArea instance
+   */
+  private final SurchargeArea surchargeArea;
+
+  /*
    * Help area instance
    */
   private final HelpArea helpArea;
@@ -70,6 +75,7 @@ public class SurchargeLine extends BasePane
 
     helpArea = resman.getHelpArea ();
     this.surchargeItem = surcharge;
+    surchargeArea = rm.getSurchargeDiscountPane ().getSurchargeArea ();
 
     vatRate = EVATRate.getFromIDOrNull (Data.DEFAULT_VAT_RATE).getVatRateInteger ();
 
@@ -241,7 +247,9 @@ public class SurchargeLine extends BasePane
       helpArea.show (EFormElement.SURCHARGE_REMOVE.getID ());
     });
     deleteThisLine.setOnAction (e -> {
-      rm.getSurchargeDiscountPane ().getSurchargeArea ().removeSurchargeLine (this);
+      surchargeArea.removeSurchargeLine (this);
+
+      RequiredAndErrorHelper.removeLineFromSurchargeLineRequiredMap (this.toString ());
     });
 
     grid.add (deleteThisLine, 4, 0);
@@ -282,7 +290,7 @@ public class SurchargeLine extends BasePane
   /*
    * Calculate this line and refresh total net and total gross in SurchargeArea
    */
-  private void calculateLine ()
+  public void calculateLine ()
   {
     if (surchargeValue == null)
       surchargeValue = Double.valueOf (0);
@@ -303,6 +311,11 @@ public class SurchargeLine extends BasePane
     return surchargeItem;
   }
 
+  public GridPane getGridPane ()
+  {
+    return grid;
+  }
+
   public Double getSurchargeLineTotalNet ()
   {
     return surchargeValue;
@@ -311,5 +324,35 @@ public class SurchargeLine extends BasePane
   public Double getSurchargeLineTotalGross ()
   {
     return totalGross;
+  }
+
+  public Double getSurchargeValue ()
+  {
+    return surchargeValue;
+  }
+
+  public void setSurchargeValue (final Double surchargeValue)
+  {
+    this.surchargeValue = surchargeValue;
+  }
+
+  public Integer getVatRate ()
+  {
+    return vatRate;
+  }
+
+  public void setVatRate (final Integer vatRate)
+  {
+    this.vatRate = vatRate;
+  }
+
+  public String getComment ()
+  {
+    return comment;
+  }
+
+  public void setComment (final String comment)
+  {
+    this.comment = comment;
   }
 }

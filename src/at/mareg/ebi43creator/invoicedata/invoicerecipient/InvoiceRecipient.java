@@ -75,24 +75,4 @@ public class InvoiceRecipient
   {
     orderReference.setResourceManagerInternal (resman);
   }
-
-  public void setTempData ()
-  {
-    this.setVatID ("ATU00000000");
-    this.getOrderReference ().setOrderId ("Z01");
-    this.getOrderReference ().setReferenceDate ("2017-10-01");
-    this.getOrderReference ().setDescription ("Telefonische Order");
-    this.setAddress (new Address ("Firma",
-                                  "Test Empfanger",
-                                  "Teststr. 201",
-                                  "Wien",
-                                  "1234",
-                                  "Österreich",
-                                  "01 / 654 12 38",
-                                  "test@empfaenger.at",
-                                  "Mutzi Rene"));
-    this.setBillerID ("13469");
-
-  }
-
 }

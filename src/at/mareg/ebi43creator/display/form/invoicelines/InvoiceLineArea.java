@@ -17,7 +17,7 @@ public class InvoiceLineArea extends BasePane
 {
   /**
    * Class to add invoice lines to the current document
-   * 
+   *
    * @author Martin Regitnig
    */
 
@@ -31,7 +31,7 @@ public class InvoiceLineArea extends BasePane
   /*
    * List to save invoice lines
    */
-  private List <InvoiceLine> invoiceLineList;
+  private final List <InvoiceLine> invoiceLineList;
 
   public InvoiceLineArea (final ResourceManager resman)
   {
@@ -73,6 +73,8 @@ public class InvoiceLineArea extends BasePane
       grid.add (il, 0, areaRow);
       areaRow++;
     }
+
+    rm.getDetailsPane ().refreshTotalNetAndGrossAmount ();
   }
 
   /*
@@ -80,7 +82,7 @@ public class InvoiceLineArea extends BasePane
    */
   private void _refreshArea ()
   {
-    ObservableList <Node> nodes = grid.getChildren ();
+    final ObservableList <Node> nodes = grid.getChildren ();
     grid.getChildren ().removeAll (nodes);
 
     _buildArea ();
@@ -128,7 +130,7 @@ public class InvoiceLineArea extends BasePane
   {
     for (final ListLineItem l : rm.getInvoiceData ().getDetails ().getListLineItems ())
     {
-      InvoiceLine il = new InvoiceLine (rm, l);
+      final InvoiceLine il = new InvoiceLine (rm, l);
 
       InvoiceLineFiller.fillLineWithLoadedData (il);
 
@@ -136,6 +138,8 @@ public class InvoiceLineArea extends BasePane
     }
 
     _refreshArea ();
+
+    rm.getDetailsPane ().refreshTotalNetAndGrossAmount ();
   }
 
   /*

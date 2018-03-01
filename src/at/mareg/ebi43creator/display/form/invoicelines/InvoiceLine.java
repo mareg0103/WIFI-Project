@@ -12,7 +12,6 @@ import at.mareg.ebi43creator.invoicedata.details.ListLineItem;
 import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
 import at.mareg.ebi43creator.invoicedata.enums.EVATRate;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -45,15 +44,20 @@ public class InvoiceLine extends BasePane
   /*
    * Save list line item this line belongs to
    */
-  private ListLineItem listLineItem;
+  private final ListLineItem listLineItem;
+
+  /*
+   * InvoiceLineArea instance
+   */
+  private final InvoiceLineArea invoiceLineArea;
 
   /*
    * Help area instance
    */
-  private HelpArea helpArea;
+  private final HelpArea helpArea;
 
   /*
-   * 
+   *
    */
 
   /*
@@ -81,7 +85,7 @@ public class InvoiceLine extends BasePane
   /*
    * Line variables
    */
-  private int lineNumber;
+  private final int lineNumber;
   private Integer orderPositionNumber;
   private Double quantity;
   private String unit;
@@ -109,6 +113,7 @@ public class InvoiceLine extends BasePane
     lineNumber = invoiceLineCounter;
 
     listLineItem = li;
+    invoiceLineArea = rm.getDetailsPane ().getInvoiceLineArea ();
 
     // quantity = Double.valueOf (0);
     // unitprice = Double.valueOf (0);
@@ -125,65 +130,50 @@ public class InvoiceLine extends BasePane
    */
   private void _initEventHandler ()
   {
-    onlyNumbersEventHandler = new EventHandler <KeyEvent> ()
-    {
-      @Override
-      public void handle (KeyEvent event)
+    onlyNumbersEventHandler = event -> {
+      if (!(event.getCharacter ().matches ("[0-9]")))
       {
-        if (!(event.getCharacter ().matches ("[0-9]")))
-        {
-          event.consume ();
-        }
+        event.consume ();
       }
     };
 
-    onlyNumbersSemicolonMinusTwoDecimalDigits = new EventHandler <KeyEvent> ()
-    {
-      @Override
-      public void handle (KeyEvent event)
-      {
-        String text = ((TextField) event.getTarget ()).getText ();
+    onlyNumbersSemicolonMinusTwoDecimalDigits = event -> {
+      final String text = ((TextField) event.getTarget ()).getText ();
 
-        if ((text.length () > 0) && (event.getCharacter ().equals ("-")))
+      if ((text.length () > 0) && (event.getCharacter ().equals ("-")))
+        event.consume ();
+
+      if ((!(event.getCharacter ().matches ("[0-9]")) &&
+           (!(event.getCharacter ().equals (","))) &&
+           (!(event.getCharacter ().equals ("-")))))
+        event.consume ();
+
+      final int indexOfSemicolon = text.indexOf (",");
+      if (indexOfSemicolon != -1)
+        if (text.substring (indexOfSemicolon + 1).length () == 2)
           event.consume ();
-
-        if ((!(event.getCharacter ().matches ("[0-9]")) &&
-             (!(event.getCharacter ().equals (","))) &&
-             (!(event.getCharacter ().equals ("-")))))
-          event.consume ();
-
-        int indexOfSemicolon = text.indexOf (",");
-        if (indexOfSemicolon != -1)
-          if (text.substring (indexOfSemicolon + 1).length () == 2)
-            event.consume ();
-      }
     };
 
-    onlyNumbersSemicolonMinusFourDecimalDigits = new EventHandler <KeyEvent> ()
-    {
-      @Override
-      public void handle (KeyEvent event)
+    onlyNumbersSemicolonMinusFourDecimalDigits = event -> {
+      final String text = ((TextField) event.getTarget ()).getText ();
+
+      if ((text.length () > 0) && (event.getCharacter ().equals ("-")))
+        event.consume ();
+
+      if ((!(event.getCharacter ().matches ("[0-9]")) &&
+           (!(event.getCharacter ().equals (","))) &&
+           (!(event.getCharacter ().equals ("-")))))
       {
-        String text = ((TextField) event.getTarget ()).getText ();
-
-        if ((text.length () > 0) && (event.getCharacter ().equals ("-")))
-          event.consume ();
-
-        if ((!(event.getCharacter ().matches ("[0-9]")) &&
-             (!(event.getCharacter ().equals (","))) &&
-             (!(event.getCharacter ().equals ("-")))))
-        {
-          event.consume ();
-        }
-
-        int indexOfSemicolon = text.indexOf (",");
-
-        if (indexOfSemicolon != -1)
-          if (text.substring (indexOfSemicolon + 1).length () == 4)
-            event.consume ();
-
-        System.out.println (text);
+        event.consume ();
       }
+
+      final int indexOfSemicolon = text.indexOf (",");
+
+      if (indexOfSemicolon != -1)
+        if (text.substring (indexOfSemicolon + 1).length () == 4)
+          event.consume ();
+
+      System.out.println (text);
     };
   }
 
@@ -200,7 +190,7 @@ public class InvoiceLine extends BasePane
     grid = new GridPane ();
     for (int i = 0; i < 4; i++)
     {
-      ColumnConstraints column = new ColumnConstraints ((Data.DETAILS_SCROLLPANE_WIDTH - 255) / 4);
+      final ColumnConstraints column = new ColumnConstraints ((Data.DETAILS_SCROLLPANE_WIDTH - 255) / 4);
       grid.getColumnConstraints ().add (column);
     }
     grid.setPadding (Data.LINE_PADDING);
@@ -211,11 +201,11 @@ public class InvoiceLine extends BasePane
     /*
      * Order Position Number
      */
-    VBox opnBox = new VBox ();
+    final VBox opnBox = new VBox ();
 
-    EFormElement opnElement = EFormElement.DETAILS_LINE_ORDERPOSITIONNUMER;
-    String opnID = opnElement.getID ();
-    boolean opnRequired = opnElement.isRequired ();
+    final EFormElement opnElement = EFormElement.DETAILS_LINE_ORDERPOSITIONNUMER;
+    final String opnID = opnElement.getID ();
+    final boolean opnRequired = opnElement.isRequired ();
 
     if (rm.getInvoiceData ().getInvoiceRecipient ().getOrderReference ().isOrderIDGovernmentOrderNumber ())
     {
@@ -232,31 +222,27 @@ public class InvoiceLine extends BasePane
       RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), opnID);
 
     opnField.addEventHandler (KeyEvent.KEY_TYPED, onlyNumbersEventHandler);
-    opnField.focusedProperty ().addListener (new ChangeListener <Boolean> ()
-    {
-      public void changed (ObservableValue <? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+    opnField.focusedProperty ().addListener ((ChangeListener <Boolean>) (observable, oldValue, newValue) -> {
+      if (newValue)
       {
-        if (newValue)
+        helpArea.show (EFormElement.DETAILS_LINE_ORDERPOSITIONNUMER.getID ());
+      }
+      else
+      {
+        if (!opnField.getText ().isEmpty ())
         {
-          helpArea.show (EFormElement.DETAILS_LINE_ORDERPOSITIONNUMER.getID ());
+          orderPositionNumber = TextFieldHelper.getIntegerFromString (opnField.getText ());
+          listLineItem.setOrderPositionNumber (orderPositionNumber);
+
+          RequiredAndErrorHelper.removeRequiredFieldForLine (Integer.valueOf (lineNumber), opnID);
         }
         else
         {
-          if (!opnField.getText ().isEmpty ())
-          {
-            orderPositionNumber = TextFieldHelper.getIntegerFromString (opnField.getText ());
-            listLineItem.setOrderPositionNumber (orderPositionNumber);
+          orderPositionNumber = null;
+          listLineItem.setOrderPositionNumber (null);
 
-            RequiredAndErrorHelper.removeRequiredFieldForLine (Integer.valueOf (lineNumber), opnID);
-          }
-          else
-          {
-            orderPositionNumber = null;
-            listLineItem.setOrderPositionNumber (null);
-
-            if (opnRequired)
-              RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), opnID);
-          }
+          if (opnRequired)
+            RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), opnID);
         }
       }
     });
@@ -269,50 +255,46 @@ public class InvoiceLine extends BasePane
     /*
      * Quantity
      */
-    EFormElement quantityElement = EFormElement.DETAILS_LINE_QUANTITY;
-    String quantityID = quantityElement.getID ();
-    boolean quantityRequired = quantityElement.isRequired ();
+    final EFormElement quantityElement = EFormElement.DETAILS_LINE_QUANTITY;
+    final String quantityID = quantityElement.getID ();
+    final boolean quantityRequired = quantityElement.isRequired ();
 
-    VBox quantityBox = new VBox ();
+    final VBox quantityBox = new VBox ();
 
-    Label quantityLabel = FormElementCreator.getStandardLabel (quantityElement.getLabelText () +
-                                                               (quantityRequired ? "*" : ""),
-                                                               null);
+    final Label quantityLabel = FormElementCreator.getStandardLabel (quantityElement.getLabelText () +
+                                                                     (quantityRequired ? "*" : ""),
+                                                                     null);
     quantityField = FormElementCreator.getStandardTextField (quantityID, quantityRequired);
 
     if (quantityRequired)
       RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), quantityID);
 
     quantityField.addEventHandler (KeyEvent.KEY_TYPED, onlyNumbersSemicolonMinusFourDecimalDigits);
-    quantityField.focusedProperty ().addListener (new ChangeListener <Boolean> ()
-    {
-      public void changed (ObservableValue <? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+    quantityField.focusedProperty ().addListener ((ChangeListener <Boolean>) (observable, oldValue, newValue) -> {
+      if (newValue)
       {
-        if (newValue)
+        helpArea.show (EFormElement.DETAILS_LINE_QUANTITY.getID ());
+      }
+      else
+      {
+        if (!quantityField.getText ().isEmpty ())
         {
-          helpArea.show (EFormElement.DETAILS_LINE_QUANTITY.getID ());
+          quantity = TextFieldHelper.getDoubleFromString (quantityField.getText ());
+          quantityField.setText (TextFieldHelper.getFourDecimalsStringFromDouble (quantity));
+          listLineItem.getQuantity ().setQuantity (quantity);
+
+          RequiredAndErrorHelper.removeRequiredFieldForLine (Integer.valueOf (lineNumber), quantityID);
         }
         else
         {
-          if (!quantityField.getText ().isEmpty ())
-          {
-            quantity = TextFieldHelper.getDoubleFromString (quantityField.getText ());
-            quantityField.setText (TextFieldHelper.getFourDecimalsStringFromDouble (quantity));
-            listLineItem.getQuantity ().setQuantity (quantity);
+          quantity = null;
+          listLineItem.getQuantity ().setQuantity (null);
 
-            RequiredAndErrorHelper.removeRequiredFieldForLine (Integer.valueOf (lineNumber), quantityID);
-          }
-          else
-          {
-            quantity = null;
-            listLineItem.getQuantity ().setQuantity (null);
-
-            if (quantityRequired)
-              RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), quantityID);
-          }
-
-          calculateLine ();
+          if (quantityRequired)
+            RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), quantityID);
         }
+
+        calculateLine ();
       }
     });
 
@@ -324,27 +306,23 @@ public class InvoiceLine extends BasePane
     /*
      * Unit
      */
-    VBox unitBox = new VBox ();
+    final VBox unitBox = new VBox ();
 
-    Label unitLabel = FormElementCreator.getStandardLabel (EFormElement.DETAILS_LINE_UNIT.getLabelText (), null);
+    final Label unitLabel = FormElementCreator.getStandardLabel (EFormElement.DETAILS_LINE_UNIT.getLabelText (), null);
     unitComboBox = FormElementCreator.getInvoiceLineUnitComboBox (EFormElement.DETAILS_LINE_UNIT.getID ());
     unitComboBox.getSelectionModel ().select (Data.DEFAULT_UNIT);
     // unitComboBox.hoverProperty ().addListener ( (observable) -> {
     // helpArea.show (EFormElement.DETAILS_LINE_UNIT.getID ());
     // });
-    unitComboBox.focusedProperty ().addListener (new ChangeListener <Boolean> ()
-    {
-      public void changed (ObservableValue <? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+    unitComboBox.focusedProperty ().addListener ((ChangeListener <Boolean>) (observable, oldValue, newValue) -> {
+      if (newValue)
       {
-        if (newValue)
-        {
-          helpArea.show (EFormElement.DETAILS_LINE_UNIT.getID ());
-        }
-        else
-        {
-          unit = unitComboBox.getSelectionModel ().selectedItemProperty ().get ();
-          listLineItem.getQuantity ().setUnit (unit);
-        }
+        helpArea.show (EFormElement.DETAILS_LINE_UNIT.getID ());
+      }
+      else
+      {
+        unit = unitComboBox.getSelectionModel ().selectedItemProperty ().get ();
+        listLineItem.getQuantity ().setUnit (unit);
       }
     });
 
@@ -356,45 +334,41 @@ public class InvoiceLine extends BasePane
     /*
      * Unit price
      */
-    EFormElement unitPriceElement = EFormElement.DETAILS_LINE_UNITPRICE;
-    String unitPriceID = unitPriceElement.getID ();
-    boolean unitPriceRequired = unitPriceElement.isRequired ();
+    final EFormElement unitPriceElement = EFormElement.DETAILS_LINE_UNITPRICE;
+    final String unitPriceID = unitPriceElement.getID ();
+    final boolean unitPriceRequired = unitPriceElement.isRequired ();
 
-    VBox unitPriceBox = new VBox ();
+    final VBox unitPriceBox = new VBox ();
 
-    Label unitPriceLabel = FormElementCreator.getStandardLabel (unitPriceElement.getLabelText (), null);
+    final Label unitPriceLabel = FormElementCreator.getStandardLabel (unitPriceElement.getLabelText (), null);
     unitPriceField = FormElementCreator.getStandardTextField (unitPriceID, unitPriceRequired);
 
     if (unitPriceRequired)
       RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), unitPriceID);
 
     unitPriceField.addEventHandler (KeyEvent.KEY_TYPED, onlyNumbersSemicolonMinusFourDecimalDigits);
-    unitPriceField.focusedProperty ().addListener (new ChangeListener <Boolean> ()
-    {
-      public void changed (ObservableValue <? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+    unitPriceField.focusedProperty ().addListener ((ChangeListener <Boolean>) (observable, oldValue, newValue) -> {
+      if (newValue)
       {
-        if (newValue)
+        helpArea.show (EFormElement.DETAILS_LINE_UNITPRICE.getID ());
+      }
+      else
+      {
+        if (!unitPriceField.getText ().isEmpty ())
         {
-          helpArea.show (EFormElement.DETAILS_LINE_UNITPRICE.getID ());
+          unitprice = TextFieldHelper.getDoubleFromString (unitPriceField.getText ());
+          unitPriceField.setText (TextFieldHelper.getFourDecimalsStringFromDouble (unitprice));
+          listLineItem.setUnitPrice (unitprice);
+
+          RequiredAndErrorHelper.removeRequiredFieldForLine (Integer.valueOf (lineNumber), unitPriceID);
         }
         else
         {
-          if (!unitPriceField.getText ().isEmpty ())
-          {
-            unitprice = TextFieldHelper.getDoubleFromString (unitPriceField.getText ());
-            unitPriceField.setText (TextFieldHelper.getFourDecimalsStringFromDouble (unitprice));
-            listLineItem.setUnitPrice (unitprice);
-
-            RequiredAndErrorHelper.removeRequiredFieldForLine (Integer.valueOf (lineNumber), unitPriceID);
-          }
-          else
-          {
-            unitprice = null;
-            listLineItem.setUnitPrice (null);
-          }
-
-          calculateLine ();
+          unitprice = null;
+          listLineItem.setUnitPrice (null);
         }
+
+        calculateLine ();
       }
     });
 
@@ -406,43 +380,39 @@ public class InvoiceLine extends BasePane
     /*
      * Description
      */
-    EFormElement descriptionElement = EFormElement.DETAILS_LINE_DESCRIPTION;
-    String descriptionID = descriptionElement.getID ();
-    boolean descriptionRequired = unitPriceElement.isRequired ();
+    final EFormElement descriptionElement = EFormElement.DETAILS_LINE_DESCRIPTION;
+    final String descriptionID = descriptionElement.getID ();
+    final boolean descriptionRequired = unitPriceElement.isRequired ();
 
-    VBox descriptionBox = new VBox ();
+    final VBox descriptionBox = new VBox ();
 
-    Label descriptionLabel = FormElementCreator.getStandardLabel (descriptionElement.getLabelText (), null);
+    final Label descriptionLabel = FormElementCreator.getStandardLabel (descriptionElement.getLabelText (), null);
     descriptionArea = FormElementCreator.getInvoiceLineTextArea (descriptionID, descriptionRequired);
 
     if (descriptionRequired)
       RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), descriptionID);
 
-    descriptionArea.focusedProperty ().addListener (new ChangeListener <Boolean> ()
-    {
-      public void changed (ObservableValue <? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+    descriptionArea.focusedProperty ().addListener ((ChangeListener <Boolean>) (observable, oldValue, newValue) -> {
+      if (newValue)
       {
-        if (newValue)
+        helpArea.show (EFormElement.DETAILS_LINE_DESCRIPTION.getID ());
+      }
+      else
+      {
+        if (!descriptionArea.getText ().isEmpty ())
         {
-          helpArea.show (EFormElement.DETAILS_LINE_DESCRIPTION.getID ());
+          description = descriptionArea.getText ();
+          listLineItem.setDescription (description);
+
+          RequiredAndErrorHelper.removeRequiredFieldForLine (Integer.valueOf (lineNumber), descriptionID);
         }
         else
         {
-          if (!descriptionArea.getText ().isEmpty ())
-          {
-            description = descriptionArea.getText ();
-            listLineItem.setDescription (description);
+          description = null;
+          listLineItem.setDescription (null);
 
-            RequiredAndErrorHelper.removeRequiredFieldForLine (Integer.valueOf (lineNumber), descriptionID);
-          }
-          else
-          {
-            description = null;
-            listLineItem.setDescription (null);
-
-            if (descriptionRequired)
-              RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), descriptionID);
-          }
+          if (descriptionRequired)
+            RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), descriptionID);
         }
       }
     });
@@ -455,21 +425,17 @@ public class InvoiceLine extends BasePane
     /*
      * Total Net Amount
      */
-    VBox totalNetBox = new VBox ();
+    final VBox totalNetBox = new VBox ();
 
-    Label totalNetLabel = FormElementCreator.getStandardLabel (EFormElement.DETAILS_LINE_TOTALNET.getLabelText (),
-                                                               null);
+    final Label totalNetLabel = FormElementCreator.getStandardLabel (EFormElement.DETAILS_LINE_TOTALNET.getLabelText (),
+                                                                     null);
     totalNetAmountField = FormElementCreator.getStandardTextField (EFormElement.DETAILS_LINE_TOTALNET.getID (),
                                                                    EFormElement.DETAILS_LINE_TOTALNET.isRequired ());
     totalNetAmountField.setEditable (false);
-    totalNetAmountField.focusedProperty ().addListener (new ChangeListener <Boolean> ()
-    {
-      public void changed (ObservableValue <? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+    totalNetAmountField.focusedProperty ().addListener ((ChangeListener <Boolean>) (observable, oldValue, newValue) -> {
+      if (newValue)
       {
-        if (newValue)
-        {
-          helpArea.show (EFormElement.DETAILS_LINE_TOTALNET.getID ());
-        }
+        helpArea.show (EFormElement.DETAILS_LINE_TOTALNET.getID ());
       }
     });
 
@@ -481,46 +447,42 @@ public class InvoiceLine extends BasePane
     /*
      * Surcharge
      */
-    VBox surchargeBox = new VBox ();
+    final VBox surchargeBox = new VBox ();
 
-    Label surchargeLabel = FormElementCreator.getStandardLabel (EFormElement.DETAILS_LINE_SURCHARGE.getLabelText (),
-                                                                null);
+    final Label surchargeLabel = FormElementCreator.getStandardLabel (EFormElement.DETAILS_LINE_SURCHARGE.getLabelText (),
+                                                                      null);
     surchargeField = FormElementCreator.getStandardTextField (EFormElement.DETAILS_LINE_SURCHARGE.getID (),
                                                               EFormElement.DETAILS_LINE_SURCHARGE.isRequired ());
     surchargeField.addEventHandler (KeyEvent.KEY_TYPED, onlyNumbersSemicolonMinusTwoDecimalDigits);
-    surchargeField.focusedProperty ().addListener (new ChangeListener <Boolean> ()
-    {
-      public void changed (ObservableValue <? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+    surchargeField.focusedProperty ().addListener ((ChangeListener <Boolean>) (observable, oldValue, newValue) -> {
+      if (newValue)
       {
-        if (newValue)
+        helpArea.show (EFormElement.DETAILS_LINE_SURCHARGE.getID ());
+      }
+      else
+      {
+        if (!surchargeField.getText ().isEmpty ())
         {
-          helpArea.show (EFormElement.DETAILS_LINE_SURCHARGE.getID ());
+          surcharge = TextFieldHelper.getDoubleFromString (surchargeField.getText ());
+          surchargeField.setText (TextFieldHelper.getTwoDecimalsStringFromDouble (surcharge));
+          listLineItem.addSurcharge (totalNetAmount, surcharge);
+
+          FormElementCreator.enableTextField (surchargeCommentField,
+                                              EFormElement.getFromIDOrNull (surchargeCommentField.getId ()));
+          surchargeCommentField.requestFocus ();
         }
         else
         {
-          if (!surchargeField.getText ().isEmpty ())
-          {
-            surcharge = TextFieldHelper.getDoubleFromString (surchargeField.getText ());
-            surchargeField.setText (TextFieldHelper.getTwoDecimalsStringFromDouble (surcharge));
-            listLineItem.addSurcharge (totalNetAmount, surcharge);
+          surcharge = null;
+          comment = null;
+          listLineItem.removeSurchare ();
 
-            FormElementCreator.enableTextField (surchargeCommentField,
-                                                EFormElement.getFromIDOrNull (surchargeCommentField.getId ()));
-            surchargeCommentField.requestFocus ();
-          }
-          else
-          {
-            surcharge = null;
-            comment = null;
-            listLineItem.removeSurchare ();
-
-            FormElementCreator.disableTextField (surchargeCommentField,
-                                                 EFormElement.getFromIDOrNull (surchargeCommentField.getId ()));
-          }
+          FormElementCreator.disableTextField (surchargeCommentField,
+                                               EFormElement.getFromIDOrNull (surchargeCommentField.getId ()));
         }
-
-        calculateLine ();
       }
+
+      calculateLine ();
     });
 
     surchargeBox.getChildren ().addAll (surchargeLabel, surchargeField);
@@ -531,36 +493,33 @@ public class InvoiceLine extends BasePane
     /*
      * Surcharge comment
      */
-    VBox surchargeCommentBox = new VBox ();
+    final VBox surchargeCommentBox = new VBox ();
 
-    Label surchargeCommentLabel = FormElementCreator.getStandardLabel (EFormElement.DETAILS_LINE_SURCHARGE_DESCRIPTION.getLabelText (),
-                                                                       null);
+    final Label surchargeCommentLabel = FormElementCreator.getStandardLabel (EFormElement.DETAILS_LINE_SURCHARGE_DESCRIPTION.getLabelText (),
+                                                                             null);
     surchargeCommentField = FormElementCreator.getStandardTextField (EFormElement.DETAILS_LINE_SURCHARGE_DESCRIPTION.getID (),
                                                                      EFormElement.DETAILS_LINE_SURCHARGE_DESCRIPTION.isRequired ());
     FormElementCreator.disableTextField (surchargeCommentField,
                                          EFormElement.getFromIDOrNull (surchargeCommentField.getId ()));
-    surchargeCommentField.focusedProperty ().addListener (new ChangeListener <Boolean> ()
-    {
-      public void changed (ObservableValue <? extends Boolean> observable, Boolean oldValue, Boolean newValue)
-      {
-        if (newValue)
-        {
-          helpArea.show (EFormElement.DETAILS_LINE_SURCHARGE.getID ());
-        }
-        else
-        {
-          if (!surchargeCommentField.getText ().isEmpty ())
-          {
-            comment = surchargeCommentField.getText ();
-            listLineItem.addSurchargeComment (comment);
-          }
-          else
-          {
-            comment = null;
-          }
-        }
-      }
-    });
+    surchargeCommentField.focusedProperty ()
+                         .addListener ((ChangeListener <Boolean>) (observable, oldValue, newValue) -> {
+                           if (newValue)
+                           {
+                             helpArea.show (EFormElement.DETAILS_LINE_SURCHARGE.getID ());
+                           }
+                           else
+                           {
+                             if (!surchargeCommentField.getText ().isEmpty ())
+                             {
+                               comment = surchargeCommentField.getText ();
+                               listLineItem.addSurchargeComment (comment);
+                             }
+                             else
+                             {
+                               comment = null;
+                             }
+                           }
+                         });
 
     surchargeCommentBox.getChildren ().addAll (surchargeCommentLabel, surchargeCommentField);
 
@@ -570,7 +529,7 @@ public class InvoiceLine extends BasePane
     /*
      * VAT rate
      */
-    VBox vatRateBox = new VBox ();
+    final VBox vatRateBox = new VBox ();
 
     vatRateLabel = FormElementCreator.getStandardLabel (EFormElement.DETAILS_LINE_VAT.getLabelText () + "*", null);
     vatComboBox = FormElementCreator.getVatRateComboBox (EFormElement.DETAILS_LINE_VAT.getID ());
@@ -581,14 +540,10 @@ public class InvoiceLine extends BasePane
 
       calculateLine ();
     });
-    vatComboBox.focusedProperty ().addListener (new ChangeListener <Boolean> ()
-    {
-      public void changed (ObservableValue <? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+    vatComboBox.focusedProperty ().addListener ((ChangeListener <Boolean>) (observable, oldValue, newValue) -> {
+      if (newValue)
       {
-        if (newValue)
-        {
-          helpArea.show (EFormElement.DETAILS_LINE_VAT.getID ());
-        }
+        helpArea.show (EFormElement.DETAILS_LINE_VAT.getID ());
       }
     });
 
@@ -600,9 +555,9 @@ public class InvoiceLine extends BasePane
     /*
      * Tax exemption
      */
-    VBox taxExemptionBox = new VBox ();
+    final VBox taxExemptionBox = new VBox ();
 
-    Label taxExemptionLabel = FormElementCreator.getStandardLabel ("", null);
+    final Label taxExemptionLabel = FormElementCreator.getStandardLabel ("", null);
     taxExemptionCheckBox = new CheckBox (EFormElement.DETAILS_LINE_TAXEXEMPTION_CHECK.getLabelText ());
     taxExemptionCheckBox.hoverProperty ().addListener ( (observable) -> {
       helpArea.show (EFormElement.DETAILS_LINE_TAXEXEMPTION_CHECK.getID ());
@@ -625,27 +580,24 @@ public class InvoiceLine extends BasePane
     /*
      * Tax exemption description
      */
-    VBox taxExemptionReasonBox = new VBox ();
+    final VBox taxExemptionReasonBox = new VBox ();
 
     taxExemptionReasonLabel = FormElementCreator.getDisabledLookingLabel (EFormElement.DETAILS_LINE_TAXEXEMPTION_REASON.getLabelText (),
                                                                           null);
     taxExemptionReasonField = FormElementCreator.getDisabledTextField (EFormElement.DETAILS_LINE_TAXEXEMPTION_REASON.getID (),
                                                                        EFormElement.DETAILS_LINE_TAXEXEMPTION_REASON.isRequired ());
-    taxExemptionReasonField.focusedProperty ().addListener (new ChangeListener <Boolean> ()
-    {
-      public void changed (ObservableValue <? extends Boolean> observable, Boolean oldValue, Boolean newValue)
-      {
-        if (newValue)
-        {
-          helpArea.show (EFormElement.DETAILS_LINE_TAXEXEMPTION_REASON.getID ());
-        }
-        else
-        {
-          taxexemptionreason = taxExemptionReasonField.getText ();
-          listLineItem.setTaxExemptionReasonInternal (taxexemptionreason);
-        }
-      }
-    });
+    taxExemptionReasonField.focusedProperty ()
+                           .addListener ((ChangeListener <Boolean>) (observable, oldValue, newValue) -> {
+                             if (newValue)
+                             {
+                               helpArea.show (EFormElement.DETAILS_LINE_TAXEXEMPTION_REASON.getID ());
+                             }
+                             else
+                             {
+                               taxexemptionreason = taxExemptionReasonField.getText ();
+                               listLineItem.setTaxExemptionReasonInternal (taxexemptionreason);
+                             }
+                           });
 
     taxExemptionReasonBox.getChildren ().addAll (taxExemptionReasonLabel, taxExemptionReasonField);
 
@@ -655,23 +607,20 @@ public class InvoiceLine extends BasePane
     /*
      * Total Gross Amount
      */
-    VBox totalGrosBox = new VBox ();
+    final VBox totalGrosBox = new VBox ();
 
-    Label totalGrossAmountLabel = FormElementCreator.getStandardLabel (EFormElement.DETAILS_LINE_TOTALGROSS.getLabelText (),
-                                                                       null);
+    final Label totalGrossAmountLabel = FormElementCreator.getStandardLabel (EFormElement.DETAILS_LINE_TOTALGROSS.getLabelText (),
+                                                                             null);
     totalGrossAmountField = FormElementCreator.getStandardTextField (EFormElement.DETAILS_LINE_TOTALGROSS.getID (),
                                                                      EFormElement.DETAILS_LINE_TOTALGROSS.isRequired ());
     totalGrossAmountField.setEditable (false);
-    totalGrossAmountField.focusedProperty ().addListener (new ChangeListener <Boolean> ()
-    {
-      public void changed (ObservableValue <? extends Boolean> observable, Boolean oldValue, Boolean newValue)
-      {
-        if (newValue)
-        {
-          helpArea.show (EFormElement.DETAILS_LINE_TOTALGROSS.getID ());
-        }
-      }
-    });
+    totalGrossAmountField.focusedProperty ()
+                         .addListener ((ChangeListener <Boolean>) (observable, oldValue, newValue) -> {
+                           if (newValue)
+                           {
+                             helpArea.show (EFormElement.DETAILS_LINE_TOTALGROSS.getID ());
+                           }
+                         });
 
     totalGrosBox.getChildren ().addAll (totalGrossAmountLabel, totalGrossAmountField);
 
@@ -687,12 +636,9 @@ public class InvoiceLine extends BasePane
       helpArea.show (EFormElement.DETAILS_LINE_REMOVE.getID ());
     });
     removeThisLine.setOnAction (e -> {
-      System.out.println ("listLineItem in dieser InvoiceLine = " + listLineItem.toString ());
-      listLineItem.showListLineItem ();
-      System.out.println ("Alle eingetragenen ListLineItems:");
-      for (ListLineItem l : rm.getInvoiceData ().getDetails ().getListLineItems ())
-        System.out.println (" " + l.toString ());
-      System.out.println ("Zeilennummer: " + getInvoiceLineNumber ());
+      invoiceLineArea.removeInvoiceLine (this);
+
+      RequiredAndErrorHelper.removeLineFromLineRequiredMap (Integer.valueOf (lineNumber));
     });
 
     grid.add (removeThisLine, 5, 4);
@@ -700,8 +646,8 @@ public class InvoiceLine extends BasePane
     /*
      * Invoice line number
      */
-    Label invoiceLineNumber = FormElementCreator.getStandardLabel (String.valueOf (lineNumber),
-                                                                   new Insets (5, 15, 5, 15));
+    final Label invoiceLineNumber = FormElementCreator.getStandardLabel (String.valueOf (lineNumber),
+                                                                         new Insets (5, 15, 5, 15));
     invoiceLineNumber.setFont (Font.font (invoiceLineNumber.getFont ().getFamily (), FontWeight.BOLD, 12));
     grid.add (invoiceLineNumber, 5, 0);
 
@@ -731,7 +677,7 @@ public class InvoiceLine extends BasePane
 
   public void setOrderPositionNumberStatus (final boolean status)
   {
-    EFormElement opnElement = EFormElement.DETAILS_LINE_ORDERPOSITIONNUMER;
+    final EFormElement opnElement = EFormElement.DETAILS_LINE_ORDERPOSITIONNUMER;
 
     if (status)
     {
@@ -756,7 +702,7 @@ public class InvoiceLine extends BasePane
   private void _enableTaxExemption ()
   {
     // Enable tax exemption
-    EFormElement t = EFormElement.DETAILS_LINE_TAXEXEMPTION_REASON;
+    final EFormElement t = EFormElement.DETAILS_LINE_TAXEXEMPTION_REASON;
     t.setIsRequired (true);
 
     FormElementCreator.showLabelAsEnabled (taxExemptionReasonLabel, t);
@@ -765,7 +711,7 @@ public class InvoiceLine extends BasePane
     RequiredAndErrorHelper.addRequiredFieldForLine (Integer.valueOf (lineNumber), t.getID ());
 
     // Disable vat rate
-    EFormElement v = EFormElement.DETAILS_LINE_VAT;
+    final EFormElement v = EFormElement.DETAILS_LINE_VAT;
     v.setIsRequired (false);
 
     FormElementCreator.showLabelAsDisabled (vatRateLabel, v);
@@ -782,7 +728,7 @@ public class InvoiceLine extends BasePane
   private void _enableVatRate ()
   {
     // Disable tax exemption
-    EFormElement t = EFormElement.DETAILS_LINE_TAXEXEMPTION_REASON;
+    final EFormElement t = EFormElement.DETAILS_LINE_TAXEXEMPTION_REASON;
     t.setIsRequired (false);
 
     FormElementCreator.showLabelAsDisabled (taxExemptionReasonLabel, t);
@@ -794,13 +740,13 @@ public class InvoiceLine extends BasePane
     listLineItem.setTaxExemption (taxexemptionreason);
 
     // Enable vat rate
-    EFormElement v = EFormElement.DETAILS_LINE_VAT;
+    final EFormElement v = EFormElement.DETAILS_LINE_VAT;
     v.setIsRequired (true);
 
     FormElementCreator.showLabelAsEnabled (vatRateLabel, v);
     FormElementCreator.enableComboBox (vatComboBox);
 
-    String selectedVat = vatComboBox.getSelectionModel ().getSelectedItem ();
+    final String selectedVat = vatComboBox.getSelectionModel ().getSelectedItem ();
     vatRate = EVATRate.getFromIDOrNull (selectedVat).getVatRateInteger ();
     listLineItem.setVatRate (vatRate);
 
@@ -841,9 +787,9 @@ public class InvoiceLine extends BasePane
    */
   public void _calculateTotalGrossAmount ()
   {
-    double rate = vatRate == null ? 0 : 1 + ((double) vatRate / 100);
+    final double rate = vatRate == null ? 0 : 1 + ((double) vatRate / 100);
 
-    Double lineItemAmount = totalNetAmountWithSurcharge;
+    final Double lineItemAmount = totalNetAmountWithSurcharge;
 
     totalGrossAmount = lineItemAmount.doubleValue () * (rate == 0 ? 1 : rate);
 
@@ -871,7 +817,7 @@ public class InvoiceLine extends BasePane
   /*
    * Get grid to run through elements to fill them with data
    */
-  public GridPane getGrid ()
+  public GridPane getGridPane ()
   {
     return grid;
   }
@@ -884,7 +830,7 @@ public class InvoiceLine extends BasePane
     return orderPositionNumber;
   }
 
-  public void setOrderPositionNumber (Integer orderPositionNumber)
+  public void setOrderPositionNumber (final Integer orderPositionNumber)
   {
     this.orderPositionNumber = orderPositionNumber;
   }
@@ -894,7 +840,7 @@ public class InvoiceLine extends BasePane
     return quantity;
   }
 
-  public void setQuantity (Double quantity)
+  public void setQuantity (final Double quantity)
   {
     this.quantity = quantity;
   }
@@ -904,7 +850,7 @@ public class InvoiceLine extends BasePane
     return unit;
   }
 
-  public void setUnit (String unit)
+  public void setUnit (final String unit)
   {
     this.unit = unit;
   }
@@ -914,7 +860,7 @@ public class InvoiceLine extends BasePane
     return unitprice;
   }
 
-  public void setUnitprice (Double unitprice)
+  public void setUnitprice (final Double unitprice)
   {
     this.unitprice = unitprice;
   }
@@ -924,7 +870,7 @@ public class InvoiceLine extends BasePane
     return description;
   }
 
-  public void setDescription (String description)
+  public void setDescription (final String description)
   {
     this.description = description;
   }
@@ -934,7 +880,7 @@ public class InvoiceLine extends BasePane
     return totalNetAmount;
   }
 
-  public void setTotalNetAmount (Double totalNetAmount)
+  public void setTotalNetAmount (final Double totalNetAmount)
   {
     this.totalNetAmount = totalNetAmount;
   }
@@ -944,7 +890,7 @@ public class InvoiceLine extends BasePane
     return totalNetAmountWithSurcharge;
   }
 
-  public void setTotalNetAmountWithSurcharge (Double totalNetAmountWithSurcharge)
+  public void setTotalNetAmountWithSurcharge (final Double totalNetAmountWithSurcharge)
   {
     this.totalNetAmountWithSurcharge = totalNetAmountWithSurcharge;
   }
@@ -954,7 +900,7 @@ public class InvoiceLine extends BasePane
     return surcharge;
   }
 
-  public void setSurcharge (Double surcharge)
+  public void setSurcharge (final Double surcharge)
   {
     this.surcharge = surcharge;
   }
@@ -974,7 +920,7 @@ public class InvoiceLine extends BasePane
     this.comment = comment;
   }
 
-  public void setVatRate (Integer vatRate)
+  public void setVatRate (final Integer vatRate)
   {
     this.vatRate = vatRate;
   }
@@ -984,7 +930,7 @@ public class InvoiceLine extends BasePane
     return taxexemptionreason;
   }
 
-  public void setTaxexemptionreason (String taxexemptionreason)
+  public void setTaxexemptionreason (final String taxexemptionreason)
   {
     this.taxexemptionreason = taxexemptionreason;
   }
@@ -994,7 +940,7 @@ public class InvoiceLine extends BasePane
     return totalGrossAmount;
   }
 
-  public void setTotalGrossAmount (Double totalGrossAmount)
+  public void setTotalGrossAmount (final Double totalGrossAmount)
   {
     this.totalGrossAmount = totalGrossAmount;
   }

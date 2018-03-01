@@ -5,22 +5,21 @@ import javax.xml.bind.annotation.XmlType;
 
 import at.mareg.ebi43creator.display.resources.Data;
 
-@XmlType (propOrder = { "taxedAmount", "vatRate", "amount" })
+@XmlType (propOrder = { "taxedAmount", "vatRate", "taxExemption", "amount" })
 public class VATItem
 {
-
   private Double taxedAmount;
   private Integer vatRate;
+  private String taxExemption;
   private Double amount;
 
   protected VATItem ()
   {}
 
-  public VATItem (final Integer vr)
+  public VATItem (final Integer vr, final String te)
   {
-
     vatRate = vr;
-
+    taxExemption = te;
   }
 
   @XmlElement (name = "TaxedAmount", namespace = Data.DEFAULT_NAMESPACE)
@@ -41,10 +40,21 @@ public class VATItem
     return vatRate;
   }
 
-  @SuppressWarnings ("hiding")
   public void setVatRate (final Integer vatRate)
   {
     this.vatRate = vatRate;
+  }
+
+  @XmlElement (name = "TaxExemption", namespace = Data.DEFAULT_NAMESPACE)
+  public String getTaxExemption ()
+  {
+    return taxExemption;
+  }
+
+  @SuppressWarnings ("hiding")
+  public void setTaxExemption (final String taxExemption)
+  {
+    this.taxExemption = taxExemption;
   }
 
   @XmlElement (name = "Amount", namespace = Data.DEFAULT_NAMESPACE)
@@ -59,9 +69,12 @@ public class VATItem
     this.amount = amount;
   }
 
-  public Double calculateVat ()
+  public void calculateVatInternal ()
   {
-    return Double.valueOf ((taxedAmount.doubleValue () / 100) * vatRate.doubleValue ());
+    if (vatRate != null)
+      amount = (taxedAmount.doubleValue () / 100) * vatRate.doubleValue ();
+    else
+      amount = Double.valueOf (0d);
   }
 
 }

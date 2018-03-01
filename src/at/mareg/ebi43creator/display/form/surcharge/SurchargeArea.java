@@ -6,6 +6,7 @@ import java.util.List;
 import at.mareg.ebi43creator.display.form.BasePane;
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
+import at.mareg.ebi43creator.display.utilities.SurchargeLineFiller;
 import at.mareg.ebi43creator.invoicedata.reductionandsurcharge.Surcharge;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -17,7 +18,7 @@ public class SurchargeArea extends BasePane
   /**
    * Class to add surcharge lines to the current document (negative surcharge is
    * an reduction)
-   * 
+   *
    * @author Martin Regitnig
    */
 
@@ -69,6 +70,8 @@ public class SurchargeArea extends BasePane
       grid.add (sl, 0, areaRow);
       areaRow++;
     }
+
+    rm.getSurchargeDiscountPane ().refreshTotalNetandTotalGross ();
   }
 
   /*
@@ -76,7 +79,7 @@ public class SurchargeArea extends BasePane
    */
   private void _refreshArea ()
   {
-    ObservableList <Node> nodes = grid.getChildren ();
+    final ObservableList <Node> nodes = grid.getChildren ();
     grid.getChildren ().removeAll (nodes);
 
     _buildArea ();
@@ -114,16 +117,26 @@ public class SurchargeArea extends BasePane
    */
   public void createSurchargeLineAfterLoading ()
   {
+    if (surchargeLineList == null)
+      surchargeLineList = new ArrayList <> ();
+
     for (final Surcharge s : rm.getInvoiceData ().getSurchargeList ())
     {
-      SurchargeLine sl = new SurchargeLine (rm, s);
+      final SurchargeLine sl = new SurchargeLine (rm, s);
 
-      // InvoiceLineFiller.fillLineWithLoadedData (il);
+      SurchargeLineFiller.fillLineWithLoadedData (sl);
 
       surchargeLineList.add (sl);
     }
 
     _refreshArea ();
+
+    rm.getSurchargeDiscountPane ().refreshTotalNetandTotalGross ();
+
+    for (final SurchargeLine sl : surchargeLineList)
+      System.out.println (sl.getSurcharge ());
+    for (final Surcharge s : rm.getInvoiceData ().getSurchargeList ())
+      System.out.println (s.toString ());
   }
 
   /*
