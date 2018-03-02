@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.2.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
-  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+<class-diagram version="1.2.2" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="at.mareg.ebi43creator.invoicedata.InvoiceData" project="WIFI-project" 
     file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/InvoiceData.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="136" y="292"/>    
@@ -13,7 +13,7 @@
   <class id="2" language="java" name="at.mareg.ebi43creator.invoicedata.delivery.Delivery" project="WIFI-project" 
     file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/delivery/Delivery.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="422" y="-76"/>    
+    <position height="-1" width="-1" x="463" y="-121"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -23,7 +23,7 @@
   <class id="3" language="java" name="at.mareg.ebi43creator.invoicedata.delivery.DeliveryPeriod" project="WIFI-project" 
     file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/delivery/DeliveryPeriod.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="422" y="289"/>    
+    <position height="-1" width="-1" x="462" y="285"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -32,7 +32,7 @@
   </class>  
   <class id="4" language="java" name="at.mareg.ebi43creator.invoicedata.address.Address" project="WIFI-project" 
     file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/address/Address.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="763" y="40"/>    
+    <position height="-1" width="-1" x="800" y="-31"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -40,13 +40,12 @@
     </display>  
   </class>  
   <association id="5">    
-    <bendpoint x="270" y="149"/>    
     <end type="SOURCE" refId="1" navigable="false">      
       <attribute id="6" name="delivery">        
-        <position height="18" width="46" x="301" y="106"/>      
+        <position height="18" width="46" x="323" y="62"/>      
       </attribute>      
       <multiplicity id="7" minimum="0" maximum="1">        
-        <position height="16" width="23" x="348" y="106"/>      
+        <position height="16" width="23" x="370" y="62"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
@@ -56,10 +55,10 @@
     <bendpoint x="541" y="110"/>    
     <end type="SOURCE" refId="2" navigable="false">      
       <attribute id="9" name="address">        
-        <position height="18" width="48" x="507" y="114"/>      
+        <position height="18" width="48" x="539" y="58"/>      
       </attribute>      
       <multiplicity id="10" minimum="0" maximum="1">        
-        <position height="16" width="23" x="557" y="115"/>      
+        <position height="16" width="23" x="544" y="75"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
@@ -67,8 +66,12 @@
   </association>  
   <association id="11">    
     <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="12" name="deliveryPeriod"/>      
-      <multiplicity id="13" minimum="0" maximum="1"/>    
+      <attribute id="12" name="deliveryPeriod">        
+        <position height="0" width="0" x="40" y="-4"/>      
+      </attribute>      
+      <multiplicity id="13" minimum="0" maximum="1">        
+        <position height="0" width="0" x="40" y="-4"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  

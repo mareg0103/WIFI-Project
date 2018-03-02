@@ -88,6 +88,7 @@ public class Tax
      * Delete vat items, total gross an payable amount and recalculate
      */
     vatItems.clear ();
+    System.out.println(vatItems.size());
     id.setTotalGrossAmount (null);
     id.setPayableAmount (null);
 
@@ -98,6 +99,8 @@ public class Tax
     {
       final Integer vatRate = lli.getVatRate ();
       final String taxExemption = lli.getTaxExemption ();
+      
+      System.out.println(lli + ";  " + vatRate + "; " + taxExemption);
 
       if (vatRate != null)
         addEmptyVatItemWithVatRate (vatRate);

@@ -75,8 +75,11 @@ public final class FormFiller
     rm.getSurchargeDiscountPane ().getSurchargeArea ().createSurchargeLineAfterLoading ();
 
     /*
-     * Delete payment conditions
+     * Delete delivery, invoice number and payment conditions
      */
+    invoiceData.getDelivery().setDeliveryDate(null);
+    invoiceData.getDelivery().setDeliveryPeriod(null);
+    invoiceData.setInvoiceNumber(null);
     invoiceData.setPaymentContitions (null);
   }
 
@@ -134,7 +137,7 @@ public final class FormFiller
   }
 
   /*
-   * Run through pane an fill elements
+   * Run through delivery gird an fill elements
    */
   private void gridWorkerDelivery (final GridPane g)
   {

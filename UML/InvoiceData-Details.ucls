@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="at.mareg.ebi43creator.invoicedata.details.Details" project="WIFI-project" 
     file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/details/Details.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="435" y="88"/>    
+    <position height="-1" width="-1" x="463" y="43"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -22,7 +22,7 @@
   <class id="3" language="java" name="at.mareg.ebi43creator.invoicedata.details.ListLineItem" project="WIFI-project" 
     file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/details/ListLineItem.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="434" y="658"/>    
+    <position height="-1" width="-1" x="466" y="571"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -32,7 +32,7 @@
   <class id="4" language="java" name="at.mareg.ebi43creator.invoicedata.details.Quantity" project="WIFI-project" 
     file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/details/Quantity.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="695" y="80"/>    
+    <position height="-1" width="-1" x="732" y="366"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -42,7 +42,7 @@
   <class id="5" language="java" name="at.mareg.ebi43creator.invoicedata.details.SurchargeListLineItem" 
     project="WIFI-project" file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/details/SurchargeListLineItem.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="701" y="803"/>    
+    <position height="-1" width="-1" x="735" y="751"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -53,50 +53,50 @@
     <bendpoint x="287" y="220"/>    
     <end type="SOURCE" refId="1" navigable="false">      
       <attribute id="7" name="details">        
-        <position height="18" width="39" x="315" y="198"/>      
+        <position height="18" width="39" x="304" y="142"/>      
       </attribute>      
       <multiplicity id="8" minimum="0" maximum="1">        
-        <position height="16" width="23" x="360" y="198"/>      
+        <position height="16" width="23" x="307" y="159"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="9">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="10" name="listLineItems">        
-        <position height="18" width="66" x="362" y="318"/>      
+    <bendpoint x="617" y="657"/>    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="10" name="surcharge">        
+        <position height="18" width="58" x="668" y="606"/>      
       </attribute>      
       <multiplicity id="11" minimum="0" maximum="2147483647">        
-        <position height="16" width="21" x="434" y="320"/>      
+        <position height="16" width="21" x="732" y="608"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
+    <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="12">    
     <end type="SOURCE" refId="3" navigable="false">      
       <attribute id="13" name="quantity">        
-        <position height="18" width="46" x="645" y="-34"/>      
+        <position height="18" width="46" x="682" y="252"/>      
       </attribute>      
       <multiplicity id="14" minimum="0" maximum="1">        
-        <position height="16" width="23" x="697" y="-32"/>      
+        <position height="16" width="23" x="734" y="254"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="15">    
-    <bendpoint x="617" y="657"/>    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="16" name="surcharge">        
-        <position height="18" width="58" x="634" y="658"/>      
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="16" name="listLineItems">        
+        <position height="18" width="66" x="394" y="231"/>      
       </attribute>      
       <multiplicity id="17" minimum="0" maximum="2147483647">        
-        <position height="16" width="21" x="698" y="660"/>      
+        <position height="16" width="21" x="466" y="233"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
+    <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

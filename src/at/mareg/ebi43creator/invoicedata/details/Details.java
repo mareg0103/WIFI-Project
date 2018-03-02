@@ -58,20 +58,4 @@ public class Details
       rm.getDetailsPane ().getInvoiceLineArea ().addEmptyInvoiceLine (l);
     }
   }
-
-  // Temporary methods
-  public void setTempData ()
-  {
-    this.addEmptyListLineItem ();
-    final ListLineItem lli = listLineItems.get (0);
-    lli.setDescription ("Testartikel");
-    lli.setUnitPrice (Double.valueOf (123.25));
-    lli.getQuantity ().setQuantity (Double.valueOf (2));
-    lli.getQuantity ().setUnit ("Stück");
-    lli.addSurcharge (246.50, -6.5);
-
-    lli.setVatRate (EVATRate.VAT_TWENTY.getVatRateInteger ());
-    lli.setLineItemAmount (Double.valueOf (240));
-  }
-
 }

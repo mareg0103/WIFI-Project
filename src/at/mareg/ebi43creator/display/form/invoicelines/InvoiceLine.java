@@ -115,8 +115,6 @@ public class InvoiceLine extends BasePane
     listLineItem = li;
     invoiceLineArea = rm.getDetailsPane ().getInvoiceLineArea ();
 
-    // quantity = Double.valueOf (0);
-    // unitprice = Double.valueOf (0);
     vatRate = Integer.valueOf (20);
 
     helpArea = resman.getHelpArea ();
@@ -564,7 +562,7 @@ public class InvoiceLine extends BasePane
       rm.getInvoiceData ().getDelivery ().enableDeliveryAddress (newValue);
 
       if (newValue)
-        _enableTaxExemption ();
+        enableTaxExemption ();
       else
         _enableVatRate ();
 
@@ -594,6 +592,9 @@ public class InvoiceLine extends BasePane
                              {
                                taxexemptionreason = taxExemptionReasonField.getText ();
                                listLineItem.setTaxExemptionReasonInternal (taxexemptionreason);
+                               
+                               if (!taxexemptionreason.isEmpty())
+                            	   RequiredAndErrorHelper.removeRequiredFieldForLine(Integer.valueOf (getInvoiceLineNumber()), taxExemptionReasonField.getId());
                              }
                            });
 
@@ -697,7 +698,7 @@ public class InvoiceLine extends BasePane
   /*
    * Activates tax exemption
    */
-  private void _enableTaxExemption ()
+  public void enableTaxExemption ()
   {
     // Enable tax exemption
     final EFormElement t = EFormElement.DETAILS_LINE_TAXEXEMPTION_REASON;
@@ -716,6 +717,7 @@ public class InvoiceLine extends BasePane
     FormElementCreator.disableComboBox (vatComboBox);
 
     this.vatRate = null;
+    listLineItem.setVatRate(null);
 
     calculateLine ();
   }
@@ -818,6 +820,15 @@ public class InvoiceLine extends BasePane
   public GridPane getGridPane ()
   {
     return grid;
+  }
+  
+  /*
+   * Set tax examption check box to enable if in a loaded XML a tax exemption 
+   * is entered in a line
+   */
+  public void setTaxExemptionCheckBoxToSelected ()
+  {
+	  taxExemptionCheckBox.selectedProperty().set(true);
   }
 
   /*

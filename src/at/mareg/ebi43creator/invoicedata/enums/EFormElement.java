@@ -90,8 +90,8 @@ public enum EFormElement
   DETAILS_RIGHT_ADDINVOICELINE_BUTTON ("addinvoiceline", "Rechnungszeile\nhinzufügen", Data.ELEMENTTYPE_BUTTON, false, Data.DETAILS_RIGHT_AREA),
   DETAILS_RIGHT_TOTALNETAMOUND ("detailsrighttotalnetamount", "Gesamtnetto\ninkl. Auf-/Abschläge", Data.ELEMENTTYPE_TEXTFIELD, false, Data.DETAILS_RIGHT_AREA),
   DETAILS_RIGHT_TOTALGROSSAMOUND ("detailsrighttotalgrossamount", "Gesamtbrutto", Data.ELEMENTTYPE_TEXTFIELD, false, Data.DETAILS_RIGHT_AREA),
-  DETAILS_RIGHT_VATID_BILLER ("billervatid", "UID Rechnungssteller", Data.ELEMENTTYPE_TEXTFIELD, false, Data.DETAILS_RIGHT_AREA),
-  DETAILS_RIGHT_VATID_INVOICERECIPIENT ("invoicerecipientvatid", "UID Rechnungsempfänger", Data.ELEMENTTYPE_TEXTFIELD, false, Data.DETAILS_RIGHT_AREA),
+  DETAILS_RIGHT_VATID_BILLER ("billervatid", "UID Rechnungssteller", Data.ELEMENTTYPE_TEXTFIELD, true, Data.DETAILS_RIGHT_AREA),
+  DETAILS_RIGHT_VATID_INVOICERECIPIENT ("invoicerecipientvatid", "UID Rechnungsempfänger", Data.ELEMENTTYPE_TEXTFIELD, true, Data.DETAILS_RIGHT_AREA),
 
   /*
    * Details Pane - invoice lines

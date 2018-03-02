@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.2.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
-  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+<class-diagram version="1.2.2" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="at.mareg.ebi43creator.invoicedata.InvoiceData" project="WIFI-project" 
     file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/InvoiceData.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="135" y="546"/>    
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="at.mareg.ebi43creator.invoicedata.address.Address" project="WIFI-project" 
     file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/address/Address.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="757" y="295"/>    
+    <position height="-1" width="-1" x="874" y="223"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -23,7 +23,7 @@
     project="WIFI-project" 
     file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/invoicerecipient/InvoiceRecipient.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="424" y="132"/>    
+    <position height="-1" width="-1" x="501" y="97"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -33,7 +33,7 @@
   <class id="4" language="java" name="at.mareg.ebi43creator.invoicedata.orderreference.OrderReference" 
     project="WIFI-project" file="/WIFI-project/src/at/mareg/ebi43creator/invoicedata/orderreference/OrderReference.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="424" y="526"/>    
+    <position height="-1" width="-1" x="500" y="508"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -43,9 +43,11 @@
   <association id="5">    
     <bendpoint x="339" y="325"/>    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="6" name="invoiceRecipient"/>      
+      <attribute id="6" name="invoiceRecipient">        
+        <position height="18" width="86" x="300" y="249"/>      
+      </attribute>      
       <multiplicity id="7" minimum="0" maximum="1">        
-        <position height="16" width="23" x="323" y="292"/>      
+        <position height="16" width="23" x="338" y="265"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
@@ -53,8 +55,12 @@
   </association>  
   <association id="8">    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="9" name="orderReference"/>      
-      <multiplicity id="10" minimum="0" maximum="1"/>    
+      <attribute id="9" name="orderReference">        
+        <position height="0" width="0" x="76" y="-18"/>      
+      </attribute>      
+      <multiplicity id="10" minimum="0" maximum="1">        
+        <position height="0" width="0" x="76" y="-18"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
@@ -63,9 +69,11 @@
     <bendpoint x="534" y="277"/>    
     <end type="SOURCE" refId="3" navigable="false">      
       <attribute id="12" name="address">        
-        <position height="18" width="48" x="497" y="281"/>      
+        <position height="18" width="48" x="626" y="267"/>      
       </attribute>      
-      <multiplicity id="13" minimum="0" maximum="1"/>    
+      <multiplicity id="13" minimum="0" maximum="1">        
+        <position height="16" width="23" x="677" y="267"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  

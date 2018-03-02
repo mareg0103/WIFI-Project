@@ -194,26 +194,4 @@ public class ListLineItem
   {
     this.lineItemAmount = lineItemAmount;
   }
-
-  // Temporary method
-  public void showListLineItem ()
-  {
-    System.out.println ("  OrderPosNumber: " + orderPositionNumber);
-    System.out.println ("  Description: " + description);
-    // private Quantity quantity;
-    System.out.println ("  Quantity : " + getQuantity ().getQuantity ());
-    System.out.println ("  Unit : " + getQuantity ().getUnit ());
-    System.out.println ("  UnitPrice: " + unitPrice);
-    // private List<SurchargeListLineItem> surcharge;
-    if (surcharge != null)
-    {
-      System.out.println ("  BaseAmount: " + surcharge.get (0).getBaseAmount ());
-      System.out.println ("  Amount: " + surcharge.get (0).getAmount ());
-      System.out.println ("  Comment: " + surcharge.get (0).getComment ());
-    }
-    System.out.println ("  VATRate: " + vatRate);
-    System.out.println ("  TaxExemption: " + taxExemption);
-    System.out.println ("  LineItemAmount: " + lineItemAmount);
-
-  }
 }

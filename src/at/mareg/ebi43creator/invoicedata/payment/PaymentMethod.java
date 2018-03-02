@@ -32,14 +32,4 @@ public class PaymentMethod
     this.universalBankTransaction = universalBankTransaction;
 
   }
-
-  public void setTempData ()
-  {
-
-    this.getUniversalBankTransaction ().getBeneficiaryAccount ().setBic ("BKAUATWW");
-    this.getUniversalBankTransaction ().getBeneficiaryAccount ().setIban ("AT611904300234573201");
-    this.getUniversalBankTransaction ().getBeneficiaryAccount ().setBankAccountOwner ("Max Mustermann");
-
-  }
-
 }

@@ -21,8 +21,8 @@ public class VATItem
     vatRate = vr;
     taxExemption = te;
   }
-
-  @XmlElement (name = "TaxedAmount", namespace = Data.DEFAULT_NAMESPACE)
+  
+   @XmlElement (name = "TaxedAmount", namespace = Data.DEFAULT_NAMESPACE)
   public Double getTaxedAmount ()
   {
     return taxedAmount;

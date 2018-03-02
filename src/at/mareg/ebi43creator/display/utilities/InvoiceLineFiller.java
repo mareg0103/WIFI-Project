@@ -100,6 +100,18 @@ public final class InvoiceLineFiller
                   break;
 
                 case DETAILS_LINE_TAXEXEMPTION_REASON:
+                	final String tr = lli.getTaxExemption();
+                	if (tr == null)
+                		value = "";
+                	else
+                	{
+                		value = tr;
+                		
+                		il.setTaxExemptionCheckBoxToSelected();
+                		il.enableTaxExemption();
+                		
+                		RequiredAndErrorHelper.removeRequiredFieldForLine(Integer.valueOf (il.getInvoiceLineNumber()), elementID);
+                	}
                   value = lli.getTaxExemption ();
                   break;
 

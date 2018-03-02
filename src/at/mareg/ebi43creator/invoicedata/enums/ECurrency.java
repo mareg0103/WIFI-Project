@@ -27,11 +27,11 @@ public enum ECurrency
     return invoiceCurrencyShort;
   }
 
-  public static ECurrency getFromIDOrNull (final String sID)
+  public static ECurrency getFromInvoiceCurrencyOrNull (final String currency)
   {
-    if (sID != null)
+    if (currency != null)
       for (final ECurrency e : values ())
-        if (e.invoiceCurrency.equals (sID))
+        if (e.invoiceCurrency.equals (currency))
           return e;
 
     return null;

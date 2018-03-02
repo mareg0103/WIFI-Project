@@ -3,6 +3,7 @@ package at.mareg.ebi43creator.display.utilities;
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.invoicedata.InputChecker;
 import at.mareg.ebi43creator.invoicedata.InvoiceData;
+import at.mareg.ebi43creator.invoicedata.enums.ECurrency;
 import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
 
 /**
@@ -69,7 +70,9 @@ public final class SaveMethodMapper
         break;
 
       case INVOICE_CURRENCY:
-        invoiceData.setInvoiceCurrency (value);
+    	ECurrency e =  ECurrency.getFromInvoiceCurrencyOrNull(value);
+    	 
+        invoiceData.setInvoiceCurrency (e.getInvoiceCurrencyShort());
         break;
 
       case FROM_DATE:

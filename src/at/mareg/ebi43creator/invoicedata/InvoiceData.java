@@ -103,6 +103,7 @@ public class InvoiceData
     details = new Details ();
 
     tax = new Tax ();
+    tax.setResourceManagerInternal(resman);
 
     paymentMethod = new PaymentMethod ();
   }

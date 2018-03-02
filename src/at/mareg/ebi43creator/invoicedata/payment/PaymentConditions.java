@@ -86,15 +86,4 @@ public class PaymentConditions
     if (discounts.size () == 0)
       discounts = null;
   }
-
-  public void setTempData ()
-  {
-
-    dueDate = LocalDate.now ().plusDays (20).toString ();
-    this.addEmptyDiscount ();
-    discounts.get (0).setPaymentDate (LocalDate.now ().plusDays (10).toString ());
-    discounts.get (0).setPercentage (Double.valueOf (5d));
-
-  }
-
 }
