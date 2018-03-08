@@ -11,6 +11,7 @@ import at.mareg.ebi43creator.invoicedata.enums.ECurrency;
 import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
@@ -21,7 +22,7 @@ public class OrderPane extends BasePane
   /**
    * Pane to enter order specific informations like order id, supplier id,
    * invoice number, etc.
-   * 
+   *
    * @author Martin Regitnig
    */
 
@@ -74,7 +75,7 @@ public class OrderPane extends BasePane
           v = new VBox ();
 
           v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
-          TextField t = FormElementCreator.getStandardTextField (elementID, isRequired);
+          final TextField t = FormElementCreator.getStandardTextField (elementID, isRequired);
           v.getChildren ().add (t);
 
           if (eb.getName ().equals ("INVOICE_CURRENCY"))
@@ -95,7 +96,10 @@ public class OrderPane extends BasePane
           v = new VBox ();
 
           v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
-          v.getChildren ().add (FormElementCreator.getStandardTextArea (elementID, isRequired));
+
+          final TextArea ta = FormElementCreator.getStandardTextArea (elementID, isRequired);
+          ta.setWrapText (true);
+          v.getChildren ().add (ta);
 
           while (col != 0)
             incrementCol ();

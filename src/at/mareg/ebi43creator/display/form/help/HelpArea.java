@@ -26,8 +26,16 @@ public class HelpArea extends TextArea
   {
     helpTexts = new TreeMap <> ();
 
-    initMap ();
+    initHelpTexts ();
 
+    init ();
+  }
+
+  /*
+   * Initialize help text area
+   */
+  private void init ()
+  {
     this.setEditable (false);
     this.setBackground (new Background (new BackgroundFill (Data.HELPTEXTAREA_BACKGROUNDCOLOR, null, null)));
     this.setStyle ("-fx-text-fill: " + Data.HELPTEXTAREA_FOREGROUNDCOLORASHEX);
@@ -39,9 +47,9 @@ public class HelpArea extends TextArea
   }
 
   /*
-   * Initialize help text map
+   * Initialize help texts
    */
-  private void initMap ()
+  private void initHelpTexts ()
   {
     /*
      * Order pane
@@ -294,6 +302,13 @@ public class HelpArea extends TextArea
      */
     helpTexts.put (EFormElement.DUE_DATE.getID (),
                    "Hier können Sie das Fälligkeitsdatum netto eingeben. Dieses Feld wird zum Pflichtfeld, wenn Skontoeinträge vorhanden sind.");
+
+    /*
+     * Summary pane - right area
+     */
+    helpTexts.put (EFormElement.SUMMARY_SAVENAME_TEXTFIELD.getID (),
+                   "Bitte geben Sie hier den Name an unter dem die Rechnung gespeichert werden soll.\n\nDie Rechnungen werden im Verzeichnis " +
+                                                                     "'Programmpfad\\Gespeicherte_Rechungen' gespeichert");
   }
 
   /*

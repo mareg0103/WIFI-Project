@@ -41,13 +41,13 @@ public class DetailsPane extends BorderPane
   private TextField vatidBillerField;
   private Label vatidInvoiceRecipientLabel;
   private TextField vatidInvoiceRecipientField;
-  private int rightAreaRow;
 
   /*
    * Pane variables
    */
   private Double totalNet;
   private Double totalGross;
+  private int rightAreaRow;
 
   public DetailsPane (final ResourceManager resman)
   {
@@ -80,7 +80,7 @@ public class DetailsPane extends BorderPane
     {
       if (eb.getTiteldPaneID ().equals (Data.DETAILS_RIGHT_AREA))
       {
-    	final boolean isRequired = eb.isRequired();
+        final boolean isRequired = eb.isRequired ();
         final String elementID = eb.getID ();
         final String labelText = eb.getLabelText ();
 
@@ -121,7 +121,8 @@ public class DetailsPane extends BorderPane
 
           if (elementID.equals (EFormElement.DETAILS_RIGHT_VATID_BILLER.getID ()))
           {
-            vatidBillerLabel = FormElementCreator.getStandardLabel (labelText + (isRequired ? "*" : ""), new Insets (20, 0, 0, 0));
+            vatidBillerLabel = FormElementCreator.getStandardLabel (labelText + (isRequired ? "*" : ""),
+                                                                    new Insets (20, 0, 0, 0));
             v.getChildren ().add (vatidBillerLabel);
 
             vatidBillerField = t;
@@ -129,14 +130,15 @@ public class DetailsPane extends BorderPane
 
           if (elementID.equals (EFormElement.DETAILS_RIGHT_VATID_INVOICERECIPIENT.getID ()))
           {
-            vatidInvoiceRecipientLabel = FormElementCreator.getStandardLabel (labelText + (isRequired ? "*" : ""), new Insets (20, 0, 0, 0));
+            vatidInvoiceRecipientLabel = FormElementCreator.getStandardLabel (labelText + (isRequired ? "*" : ""),
+                                                                              new Insets (20, 0, 0, 0));
             v.getChildren ().add (vatidInvoiceRecipientLabel);
 
             vatidInvoiceRecipientField = t;
           }
-          
-          if (eb.isRequired())
-        	  RequiredAndErrorHelper.addRequiredField(eb.getTiteldPaneID(), elementID);
+
+          if (eb.isRequired ())
+            RequiredAndErrorHelper.addRequiredField (eb.getTiteldPaneID (), elementID);
 
           v.getChildren ().add (t);
           grid.add (v, 0, rightAreaRow);
@@ -167,16 +169,22 @@ public class DetailsPane extends BorderPane
         totalGross = Double.valueOf (totalGross.doubleValue () + il.getTotalGrossAmount ());
       }
 
-//    final EFormElement vatidBiller = EFormElement.DETAILS_RIGHT_VATID_BILLER;
-//    final EFormElement vatidInvoiceRecipient = EFormElement.DETAILS_RIGHT_VATID_INVOICERECIPIENT;
-//
-//    vatidBiller.setIsRequired (totalGross.doubleValue () >= 400 ? true : false);
-//    vatidInvoiceRecipient.setIsRequired (totalGross.doubleValue () >= 10000 ? true : false);
-//
-//    FormElementCreator.setVisibleLabelStatus (vatidBillerLabel, vatidBiller);
-//    FormElementCreator.setVisibleTextFieldStatus (vatidBillerField, vatidBiller);
-//    FormElementCreator.setVisibleLabelStatus (vatidInvoiceRecipientLabel, vatidInvoiceRecipient);
-//    FormElementCreator.setVisibleTextFieldStatus (vatidInvoiceRecipientField, vatidInvoiceRecipient);
+    // final EFormElement vatidBiller = EFormElement.DETAILS_RIGHT_VATID_BILLER;
+    // final EFormElement vatidInvoiceRecipient =
+    // EFormElement.DETAILS_RIGHT_VATID_INVOICERECIPIENT;
+    //
+    // vatidBiller.setIsRequired (totalGross.doubleValue () >= 400 ? true :
+    // false);
+    // vatidInvoiceRecipient.setIsRequired (totalGross.doubleValue () >= 10000 ?
+    // true : false);
+    //
+    // FormElementCreator.setVisibleLabelStatus (vatidBillerLabel, vatidBiller);
+    // FormElementCreator.setVisibleTextFieldStatus (vatidBillerField,
+    // vatidBiller);
+    // FormElementCreator.setVisibleLabelStatus (vatidInvoiceRecipientLabel,
+    // vatidInvoiceRecipient);
+    // FormElementCreator.setVisibleTextFieldStatus (vatidInvoiceRecipientField,
+    // vatidInvoiceRecipient);
 
     totalNetField.setText (TextFieldHelper.getTwoDecimalsStringFromDouble (totalNet));
     totalGrossField.setText (TextFieldHelper.getTwoDecimalsStringFromDouble (totalGross));
@@ -201,42 +209,44 @@ public class DetailsPane extends BorderPane
   {
     return totalGross;
   }
+
   public GridPane getRightAreaGrid ()
   {
-	  return grid;
+    return grid;
   }
-  
+
   public void setVatIdBillerFieldText (final String text)
   {
-	  if (text == null)
-		  vatidBillerField.setText ("");
-	  else
-		  vatidBillerField.setText (text);
-	  
-	  if (text != null)
-	  {
-		  EFormElement e = EFormElement.getFromIDOrNull(vatidBillerField.getId());
-		  String eid = e.getID();
-		  RequiredAndErrorHelper.removeRequiredField(e.getTiteldPaneID(), eid);
-	  }
+    if (text == null)
+      vatidBillerField.setText ("");
+    else
+      vatidBillerField.setText (text);
 
-	  FormElementCreator.setVisibleTextFieldStatus(vatidBillerField, EFormElement.DETAILS_RIGHT_VATID_BILLER);
+    if (text != null)
+    {
+      final EFormElement e = EFormElement.getFromIDOrNull (vatidBillerField.getId ());
+      final String eid = e.getID ();
+      RequiredAndErrorHelper.removeRequiredField (e.getTiteldPaneID (), eid);
+    }
+
+    FormElementCreator.setVisibleTextFieldStatus (vatidBillerField, EFormElement.DETAILS_RIGHT_VATID_BILLER);
   }
-  
+
   public void setVatIdInvoiceRecipientFieldText (final String text)
   {
-	  if (text == null)
-		  vatidInvoiceRecipientField.setText ("");
-	  else
-		  vatidInvoiceRecipientField.setText (text);
-	  
-	  if (text != null)
-	  {
-		  EFormElement e = EFormElement.getFromIDOrNull(vatidInvoiceRecipientField.getId());
-		  String eid = e.getID();
-		  RequiredAndErrorHelper.removeRequiredField(e.getTiteldPaneID(), eid);
-	  }
+    if (text == null)
+      vatidInvoiceRecipientField.setText ("");
+    else
+      vatidInvoiceRecipientField.setText (text);
 
-	  FormElementCreator.setVisibleTextFieldStatus(vatidInvoiceRecipientField, EFormElement.DETAILS_RIGHT_VATID_INVOICERECIPIENT);
+    if (text != null)
+    {
+      final EFormElement e = EFormElement.getFromIDOrNull (vatidInvoiceRecipientField.getId ());
+      final String eid = e.getID ();
+      RequiredAndErrorHelper.removeRequiredField (e.getTiteldPaneID (), eid);
+    }
+
+    FormElementCreator.setVisibleTextFieldStatus (vatidInvoiceRecipientField,
+                                                  EFormElement.DETAILS_RIGHT_VATID_INVOICERECIPIENT);
   }
 }

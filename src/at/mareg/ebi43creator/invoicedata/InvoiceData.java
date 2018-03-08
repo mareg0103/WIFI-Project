@@ -21,6 +21,7 @@ import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.invoicedata.biller.Biller;
 import at.mareg.ebi43creator.invoicedata.delivery.Delivery;
 import at.mareg.ebi43creator.invoicedata.details.Details;
+import at.mareg.ebi43creator.invoicedata.enums.ECurrency;
 import at.mareg.ebi43creator.invoicedata.invoicerecipient.InvoiceRecipient;
 import at.mareg.ebi43creator.invoicedata.payment.PaymentConditions;
 import at.mareg.ebi43creator.invoicedata.payment.PaymentMethod;
@@ -87,10 +88,10 @@ public class InvoiceData
 
     documentType = docType;
     generatingSystem = Data.GENERATING_SYSTEM;
-    invoiceCurrency = null;
+    invoiceCurrency = ECurrency.EURO.getInvoiceCurrencyShort ();
     language = Data.INVOICE_LANGUAGE;
     invoiceNumber = null;
-    invoiceDate = null;
+    invoiceDate = idm.getCurrentDateAsString ();
 
     delivery = new Delivery ();
     delivery.setInvoiceDateManager (idm);
@@ -103,7 +104,7 @@ public class InvoiceData
     details = new Details ();
 
     tax = new Tax ();
-    tax.setResourceManagerInternal(resman);
+    tax.setResourceManagerInternal (resman);
 
     paymentMethod = new PaymentMethod ();
   }
@@ -338,14 +339,14 @@ public class InvoiceData
     invoiceRecipient.setResourceManagerInOrderReferenceInternal (resman);
     tax.setResourceManagerInternal (resman);
   }
-  
+
   /*
    * Set invoice date manager after loading an XML
    */
   public void setInvoiceDateManagerInternal (final InvoiceDateManager invdatman)
   {
-	  idm = invdatman;
-	  delivery.setInvoiceDateManager (invdatman);
+    idm = invdatman;
+    delivery.setInvoiceDateManager (invdatman);
   }
 
   /*

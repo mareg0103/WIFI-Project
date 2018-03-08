@@ -55,13 +55,10 @@ public class EBI43CreatorMain extends Application
      */
     documentType = Data.DEFAULT_DOCUMENTTYPE;
 
-    // Set loadPath temporary
-    loadPath = "H:\\test.xml";
-
     /*
      * Show start dialog
      */
-    final Optional <ButtonType> result = (new StartDialog (this).showAndWait ());
+    final Optional <ButtonType> result = (new StartDialog (this, primaryStage).showAndWait ());
 
     if (result.isPresent ())
       if (result.get () == ButtonType.OK)
@@ -303,7 +300,9 @@ public class EBI43CreatorMain extends Application
     }
   }
 
-  // Setter
+  /*
+   * Getter / Setter
+   */
   public void setLoadPath (final String lp)
   {
     loadPath = lp;

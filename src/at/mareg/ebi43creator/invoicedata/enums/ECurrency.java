@@ -37,4 +37,13 @@ public enum ECurrency
     return null;
   }
 
+  public static ECurrency getFromInvoiceCurrencyShortOrNull (final String currencyShort)
+  {
+    if (currencyShort != null)
+      for (final ECurrency e : values ())
+        if (e.invoiceCurrencyShort.equals (currencyShort))
+          return e;
+
+    return null;
+  }
 }

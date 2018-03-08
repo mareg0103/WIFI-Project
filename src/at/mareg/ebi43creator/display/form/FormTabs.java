@@ -14,14 +14,14 @@ public class FormTabs extends BorderPane
 {
   /**
    * Main class for form
-   * 
+   *
    * @author Martin Regitnig
    */
 
   /*
    * Instance of ResourceManager because this pane doesn't extend BasePane
    */
-  private ResourceManager rm;
+  private final ResourceManager rm;
 
   /*
    * Pane elements
@@ -129,6 +129,15 @@ public class FormTabs extends BorderPane
      */
     final Tab tabSummary = new Tab (Data.TAB_SUMMARY_DATA);
     tabSummary.closableProperty ().set (false);
+    tabSummary.setOnSelectionChanged (t -> {
+      if (tabSummary.isSelected ())
+      {
+        final SummaryPane sp = rm.getSummaryPane ();
+
+        sp.getSummaryArea ().createSummary ();
+        sp.setButtonSaveFileStatus ();
+      }
+    });
     tabSummary.setContent (summaryPane);
     tabSummary.setId ("summarytab");
 

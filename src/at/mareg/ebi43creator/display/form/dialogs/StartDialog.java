@@ -1,10 +1,12 @@
 package at.mareg.ebi43creator.display.form.dialogs;
 
+import java.io.File;
+
 import at.mareg.ebi43creator.display.main.EBI43CreatorMain;
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.invoicedata.enums.EDocumentType;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
@@ -15,14 +17,18 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class StartDialog extends Dialog <ButtonType>
 {
-  private EBI43CreatorMain main;
+  private final EBI43CreatorMain main;
+  private final Stage primaryStage;
 
-  public StartDialog (final EBI43CreatorMain m)
+  public StartDialog (final EBI43CreatorMain m, final Stage s)
   {
     main = m;
+    primaryStage = s;
 
     _showDialog ();
   }
@@ -34,16 +40,16 @@ public class StartDialog extends Dialog <ButtonType>
   {
     this.setTitle ("Neues Dokument");
 
-    GridPane grid = new GridPane ();
+    final GridPane grid = new GridPane ();
 
     /*
      * New empty document
      */
-    VBox newDocumentBox = new VBox ();
+    final VBox newDocumentBox = new VBox ();
     newDocumentBox.setPrefWidth (Data.STARTDIALOG_VBOX_WIDTH);
-    ToggleGroup tg = new ToggleGroup ();
+    final ToggleGroup tg = new ToggleGroup ();
 
-    Label newDocumentLabel = new Label ("Neues leeres Dokument");
+    final Label newDocumentLabel = new Label ("Neues leeres Dokument");
     newDocumentLabel.setFont (Font.font ("Arial", FontWeight.BOLD, 12));
     newDocumentLabel.setPadding (Data.STARTDIALOG_LABEL_NEW_PADDING);
     newDocumentBox.getChildren ().add (newDocumentLabel);
@@ -54,7 +60,7 @@ public class StartDialog extends Dialog <ButtonType>
      */
     for (final EDocumentType e : EDocumentType.values ())
     {
-      RadioButton r = new RadioButton (e.getElementText ());
+      final RadioButton r = new RadioButton (e.getElementText ());
       final String documentType = e.getElementID ();
 
       r.setId (documentType);
@@ -71,35 +77,68 @@ public class StartDialog extends Dialog <ButtonType>
     /*
      * Add change listener to toggle group
      */
-    tg.selectedToggleProperty ().addListener (new ChangeListener <Toggle> ()
-    {
-      public void changed (ObservableValue <? extends Toggle> observable, Toggle oldValue, Toggle newValue)
-      {
-        /*
-         * Set new document type
-         */
-        main.setDocumentType (((RadioButton) newValue).getId ());
-      }
-    });
+    tg.selectedToggleProperty ()
+      .addListener ((ChangeListener <Toggle>) (observable,
+                                               oldValue,
+                                               newValue) -> main.setDocumentType (((RadioButton) newValue).getId ()));
 
     grid.add (newDocumentBox, 0, 0);
 
     /*
      * Load document
      */
-    VBox loadDocumentBox = new VBox ();
+    final VBox loadDocumentBox = new VBox ();
     loadDocumentBox.setPrefWidth (Data.STARTDIALOG_VBOX_WIDTH);
 
-    Label loadDocumentLabel = new Label ("Dokument laden");
+    final Label loadDocumentLabel = new Label ("Dokument laden");
     loadDocumentLabel.setFont (Font.font ("Arial", FontWeight.BOLD, 12));
     loadDocumentLabel.setPadding (Data.STARTDIALOG_LABEL_LOAD_PADDING);
     loadDocumentBox.getChildren ().add (loadDocumentLabel);
+
+    final GridPane loadGrid = new GridPane ();
+    loadGrid.setVgap (15d);
+    loadGrid.setHgap (loadGrid.getVgap ());
+
+    final Button loadDocumentButton = new Button ("Durchsuchen...");
+    loadGrid.add (loadDocumentButton, 0, 0);
+
+    final Label showSelectedFileDescription = new Label ("Keine Datei ausgewählt");
+    loadGrid.add (showSelectedFileDescription, 1, 0);
+
+    loadDocumentBox.getChildren ().add (loadGrid);
+
+    /*
+     * Add action listener to load button
+     */
+    loadDocumentButton.setOnAction (e -> {
+      final FileChooser fileChooser = new FileChooser ();
+      fileChooser.setTitle ("Vorlage laden...");
+      fileChooser.setInitialDirectory (new File (Data.DEFAULT_SAVE_DIRECTORY));
+
+      final File file = fileChooser.showOpenDialog (primaryStage);
+
+      if (file == null)
+      {
+        showSelectedFileDescription.setText ("Keine Datei ausgewählt");
+        main.setLoadPath (null);
+      }
+      else
+      {
+        showSelectedFileDescription.setText (file.getName ());
+
+        main.setLoadPath (file.getAbsolutePath ());
+      }
+    });
+
     grid.add (loadDocumentBox, 0, 1);
 
+    /*
+     * Set this content
+     */
     this.getDialogPane ().setContent (grid);
 
-    ButtonType ok = ButtonType.OK;
-    ButtonType cancel = ButtonType.CANCEL;
+    final ButtonType ok = ButtonType.OK;
+    final ButtonType cancel = ButtonType.CANCEL;
     this.getDialogPane ().getButtonTypes ().addAll (ok, cancel);
   }
 }

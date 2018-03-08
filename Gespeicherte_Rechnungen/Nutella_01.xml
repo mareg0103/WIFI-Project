@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ebi:Invoice xmlns:ebi="http://www.ebinterface.at/schema/4p3/" ebi:DocumentType="Invoice" ebi:GeneratingSystem="Mareg ebi4.3 document creator" ebi:InvoiceCurrency="EUR" ebi:Language="ger">
+    <ebi:InvoiceNumber>2018/123</ebi:InvoiceNumber>
+    <ebi:InvoiceDate>2018-03-08</ebi:InvoiceDate>
+    <ebi:Delivery>
+        <ebi:Date>2018-02-19</ebi:Date>
+    </ebi:Delivery>
+    <ebi:Biller>
+        <ebi:VATIdentificationNumber>ATU00000000</ebi:VATIdentificationNumber>
+        <ebi:Address>
+            <ebi:Name>Nutella GmbH</ebi:Name>
+            <ebi:Street>Musterstrasse 1</ebi:Street>
+            <ebi:Town>Wien</ebi:Town>
+            <ebi:ZIP>1210</ebi:ZIP>
+            <ebi:Country>Österreich</ebi:Country>
+            <ebi:Email>steller@firma-eins.at</ebi:Email>
+            <ebi:Contact>Stellerkontakt</ebi:Contact>
+        </ebi:Address>
+        <ebi:InvoiceRecipientsBillerID>123456</ebi:InvoiceRecipientsBillerID>
+    </ebi:Biller>
+    <ebi:InvoiceRecipient>
+        <ebi:VATIdentificationNumber>ATU00000000</ebi:VATIdentificationNumber>
+        <ebi:OrderReference>
+            <ebi:OrderID>OEBB/460</ebi:OrderID>
+            <ebi:ReferenceDate>2018-02-08</ebi:ReferenceDate>
+            <ebi:Description>Bestellung von Herrn Sudara</ebi:Description>
+        </ebi:OrderReference>
+        <ebi:Address>
+            <ebi:Name>BM für starken Verkehr</ebi:Name>
+            <ebi:Street>Ministeriumsstraße 2</ebi:Street>
+            <ebi:Town>Mödling</ebi:Town>
+            <ebi:ZIP>2340</ebi:ZIP>
+            <ebi:Country>Österreich</ebi:Country>
+            <ebi:Phone>02234 / 123</ebi:Phone>
+        </ebi:Address>
+    </ebi:InvoiceRecipient>
+    <ebi:Details>
+        <ebi:ItemList>
+            <ebi:ListLineItem>
+                <ebi:Description>Nutella Gläser mit Spezial Verschluss</ebi:Description>
+                <ebi:Quantity ebi:Unit="Stück">123.0</ebi:Quantity>
+                <ebi:UnitPrice>12.5</ebi:UnitPrice>
+                <ebi:VATRate>20</ebi:VATRate>
+                <ebi:LineItemAmount>1537.5</ebi:LineItemAmount>
+            </ebi:ListLineItem>
+        </ebi:ItemList>
+    </ebi:Details>
+    <ebi:ReductionAndSurchargeDetails>
+        <ebi:Surcharge>
+            <ebi:BaseAmount>1537.5</ebi:BaseAmount>
+            <ebi:Amount>50.0</ebi:Amount>
+            <ebi:Comment>Verpackung und Versand</ebi:Comment>
+            <ebi:VATRate>20</ebi:VATRate>
+        </ebi:Surcharge>
+        <ebi:Surcharge>
+            <ebi:BaseAmount>1537.5</ebi:BaseAmount>
+            <ebi:Amount>-20.0</ebi:Amount>
+            <ebi:Comment>Stammkundenrabatt</ebi:Comment>
+            <ebi:VATRate>20</ebi:VATRate>
+        </ebi:Surcharge>
+    </ebi:ReductionAndSurchargeDetails>
+    <ebi:Tax>
+        <ebi:VAT>
+            <ebi:VATItem>
+                <ebi:TaxedAmount>1567.5</ebi:TaxedAmount>
+                <ebi:VATRate>20</ebi:VATRate>
+                <ebi:Amount>313.5</ebi:Amount>
+            </ebi:VATItem>
+        </ebi:VAT>
+    </ebi:Tax>
+    <ebi:TotalGrossAmount>1881.0</ebi:TotalGrossAmount>
+    <ebi:PayableAmount>1881.0</ebi:PayableAmount>
+    <ebi:PaymentMethod>
+        <ebi:UniversalBankTransaction>
+            <ebi:BeneficiaryAccount>
+                <ebi:BIC>BAWAATWW</ebi:BIC>
+                <ebi:IBAN>AT611904300234573201</ebi:IBAN>
+                <ebi:BankAccountOwner>Franz Schoko</ebi:BankAccountOwner>
+            </ebi:BeneficiaryAccount>
+        </ebi:UniversalBankTransaction>
+    </ebi:PaymentMethod>
+    <ebi:Comment>Diese Rechnung bitte genau kontrollieren</ebi:Comment>
+</ebi:Invoice>

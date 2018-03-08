@@ -31,14 +31,12 @@ public final class Data
   /*
    * Default save directory for XML files
    */
-  public static final String DEFAULT_SAVE_DIRECTORY = "Gespeicherte_Rechnungen/";
+  public static final String DEFAULT_SAVE_DIRECTORY = "Gespeicherte_Rechnungen\\";
 
-  //
-  // Temporary at this place as long as the necessary part is not created
-  //
-  public static final String FURTERIDENTIFICATION_TYPE_FN = "FN";
-  public static final String FURTERIDENTIFICATION_TYPE_FS = "FS";
-  public static final String FURTERIDENTIFICATION_TYPE_FBG = "FBG";
+  /*
+   * Default country
+   */
+  public static final String DEFAULT_COUNTRY = "Österreich";
 
   /*
    * Check data message
@@ -94,8 +92,14 @@ public final class Data
   /*
    * ScrollPane (in SurchargeArea) settings
    */
-  public static final double SURCHARGE_SCROLLPANE_WIDTH = 800d;
+  public static final double SURCHARGE_SCROLLPANE_WIDTH = DETAILS_SCROLLPANE_WIDTH;
   public static final double SURCHARGE_SCROLLPANE_HEIGHT = 600d;
+
+  /*
+   * ScrollPane (in SummaryArea) settings
+   */
+  public static final double SUMMARY_SCROLLPANE_WIDTH = DETAILS_SCROLLPANE_WIDTH;
+  public static final double SUMMARY_SCROLLPANE_HEIGHT = DETAILS_SCROLLPANE_HEIGHT;
 
   /*
    * BasePane settings
@@ -159,6 +163,7 @@ public final class Data
   public static final String TITLEDPANE_SURCHARGE_NAME = "Aufschlag/Abzug";
   public static final String TITLEDPANE_DISCOUNT_NAME = "Skonto";
   public static final String TITLEDPANE_DUEDATE_NAME = "Netto-Fälligkeit";
+  public static final String TITLEDPANE_SUMMARY_NAME = "Zusammenfassung";
 
   /*
    * Details - right area
@@ -185,4 +190,10 @@ public final class Data
   public static final double SURCHARGE_RIGHT_AREA_COMPONENT_WIDTH = DETAILS_RIGHT_AREA_COMPONENT_WIDTH;
 
   public static final int MAX_ALLOWED_DISCOUNTS = 2;
+
+  /*
+   * Summary - right Area
+   */
+  public static final double SUMMARY_RIGHT_AREA_COMPONENT_WIDTH = DETAILS_RIGHT_AREA_COMPONENT_WIDTH;
+
 }

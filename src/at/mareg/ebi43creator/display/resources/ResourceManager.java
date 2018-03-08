@@ -16,7 +16,7 @@ import at.mareg.ebi43creator.invoicedata.InvoiceData;
 
 /**
  * Starts and manages all necessary resources
- * 
+ *
  * @author Martin Regitnig
  */
 public class ResourceManager
@@ -159,6 +159,11 @@ public class ResourceManager
   public SurchargeDiscountPane getSurchargeDiscountPane ()
   {
     return surchargeDiscountPane;
+  }
+
+  public SummaryPane getSummaryPane ()
+  {
+    return summaryPane;
   }
 
   public HelpArea getHelpArea ()

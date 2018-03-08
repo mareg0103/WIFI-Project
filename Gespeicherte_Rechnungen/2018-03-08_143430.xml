@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ebi:Invoice xmlns:ebi="http://www.ebinterface.at/schema/4p3/" ebi:DocumentType="Invoice" ebi:GeneratingSystem="Mareg ebi4.3 document creator" ebi:InvoiceCurrency="EUR" ebi:Language="ger">
+    <ebi:InvoiceNumber>1234</ebi:InvoiceNumber>
+    <ebi:InvoiceDate>2018-03-08</ebi:InvoiceDate>
+    <ebi:Delivery>
+        <ebi:Period>
+            <ebi:FromDate>2018-02-26</ebi:FromDate>
+            <ebi:ToDate>2018-03-02</ebi:ToDate>
+        </ebi:Period>
+        <ebi:Address>
+            <ebi:Name>Kaputte Sanitäranlagen</ebi:Name>
+            <ebi:Street>Str 3</ebi:Street>
+            <ebi:Town>Wien</ebi:Town>
+            <ebi:ZIP>1230</ebi:ZIP>
+            <ebi:Country>Österreich</ebi:Country>
+            <ebi:Email>kaputt@firma-drei.com</ebi:Email>
+        </ebi:Address>
+    </ebi:Delivery>
+    <ebi:Biller>
+        <ebi:VATIdentificationNumber>ATU00000000</ebi:VATIdentificationNumber>
+        <ebi:Address>
+            <ebi:Name>Spül's runter AG</ebi:Name>
+            <ebi:Street>Str 1</ebi:Street>
+            <ebi:Town>Wien</ebi:Town>
+            <ebi:ZIP>1210</ebi:ZIP>
+            <ebi:Country>Österreich</ebi:Country>
+            <ebi:Email>steller@firma-eins.at</ebi:Email>
+            <ebi:Contact>Herr Fabian</ebi:Contact>
+        </ebi:Address>
+        <ebi:InvoiceRecipientsBillerID>0050012345</ebi:InvoiceRecipientsBillerID>
+    </ebi:Biller>
+    <ebi:InvoiceRecipient>
+        <ebi:VATIdentificationNumber>ATU00000000</ebi:VATIdentificationNumber>
+        <ebi:OrderReference>
+            <ebi:OrderID>Z01</ebi:OrderID>
+            <ebi:ReferenceDate>2018-02-19</ebi:ReferenceDate>
+        </ebi:OrderReference>
+        <ebi:Address>
+            <ebi:Name>Rechnungsempfänger</ebi:Name>
+            <ebi:Street>Str 2</ebi:Street>
+            <ebi:Town>Wien</ebi:Town>
+            <ebi:ZIP>1220</ebi:ZIP>
+            <ebi:Country>Österreich</ebi:Country>
+        </ebi:Address>
+    </ebi:InvoiceRecipient>
+    <ebi:Details>
+        <ebi:ItemList>
+            <ebi:ListLineItem>
+                <ebi:Description>Arbeitsstunden Installateure</ebi:Description>
+                <ebi:Quantity ebi:Unit="Stunden">80.0</ebi:Quantity>
+                <ebi:UnitPrice>54.0</ebi:UnitPrice>
+                <ebi:VATRate>20</ebi:VATRate>
+                <ebi:LineItemAmount>4320.0</ebi:LineItemAmount>
+            </ebi:ListLineItem>
+        </ebi:ItemList>
+    </ebi:Details>
+    <ebi:ReductionAndSurchargeDetails>
+        <ebi:Surcharge>
+            <ebi:BaseAmount>4320.0</ebi:BaseAmount>
+            <ebi:Amount>200.0</ebi:Amount>
+            <ebi:Comment>Anfahrt (5x)</ebi:Comment>
+            <ebi:VATRate>20</ebi:VATRate>
+        </ebi:Surcharge>
+    </ebi:ReductionAndSurchargeDetails>
+    <ebi:Tax>
+        <ebi:VAT>
+            <ebi:VATItem>
+                <ebi:TaxedAmount>4520.0</ebi:TaxedAmount>
+                <ebi:VATRate>20</ebi:VATRate>
+                <ebi:Amount>904.0</ebi:Amount>
+            </ebi:VATItem>
+        </ebi:VAT>
+    </ebi:Tax>
+    <ebi:TotalGrossAmount>5424.0</ebi:TotalGrossAmount>
+    <ebi:PayableAmount>5424.0</ebi:PayableAmount>
+    <ebi:PaymentMethod>
+        <ebi:UniversalBankTransaction>
+            <ebi:BeneficiaryAccount>
+                <ebi:IBAN>AT611904300234573201</ebi:IBAN>
+                <ebi:BankAccountOwner>Max Muster</ebi:BankAccountOwner>
+            </ebi:BeneficiaryAccount>
+        </ebi:UniversalBankTransaction>
+    </ebi:PaymentMethod>
+    <ebi:Comment>Eine Woche Arbeit an den Klospülungen (Verstopfung, Bruch, etc.)</ebi:Comment>
+</ebi:Invoice>

@@ -136,7 +136,15 @@ public enum EFormElement
   /*
    * Due date element
    */
-  DUE_DATE ("duedate", "Fälligkeitsdatum netto", Data.ELEMENTTYPE_DATEPICKER, false, Data.TITLEDPANE_DUEDATE_NAME);
+  DUE_DATE ("duedate", "Fälligkeitsdatum netto", Data.ELEMENTTYPE_DATEPICKER, false, Data.TITLEDPANE_DUEDATE_NAME),
+
+  /*
+   * Summary - right area
+   */
+  SUMMARY_SHOW_REQUIRED_FIELDSBUTTON ("showrequiredfields", "Zeige fehlende\nPflichtfelder", Data.ELEMENTTYPE_BUTTON, false, Data.TITLEDPANE_SUMMARY_NAME),
+  SUMMARY_SHOW_ERRONEOUS_FIELDSBUTTON ("showerroneousfields", "Zeige fehler-\nhafte Felder", Data.ELEMENTTYPE_BUTTON, false, Data.TITLEDPANE_SUMMARY_NAME),
+  SUMMARY_SAVENAME_TEXTFIELD ("savename", "Dateinamen angeben", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_SUMMARY_NAME),
+  SUMMARY_SAVE_INVOICE_AND_CLOSEBUTTON ("saveinvoiceandclose", "Rechnung speichern\n und Beenden", Data.ELEMENTTYPE_BUTTON, false, Data.TITLEDPANE_SUMMARY_NAME);
 
   /*
    * Variables and methods

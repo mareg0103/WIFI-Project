@@ -28,6 +28,9 @@ public class Delivery
     address = null;
   }
 
+  /*
+   * Getter / Setter
+   */
   @XmlElement (name = "DeliveryID", namespace = Data.DEFAULT_NAMESPACE)
   public String getDeliveryID ()
   {

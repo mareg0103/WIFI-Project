@@ -228,7 +228,7 @@ public class ContactPane extends BasePane
     Label l = null;
 
     /*
-     * Enable address in delivery
+     * disable address in delivery
      */
     rm.getInvoiceData ().getDelivery ().enableDeliveryAddress (false);
 

@@ -235,4 +235,9 @@ public class SurchargeDiscountPane extends BorderPane
   {
     return overallTotalNet;
   }
+
+  public Double getOverAllTotalGross ()
+  {
+    return overallTotalGross;
+  }
 }

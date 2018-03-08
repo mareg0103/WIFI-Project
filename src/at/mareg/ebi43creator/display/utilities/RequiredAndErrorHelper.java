@@ -42,6 +42,7 @@ public final class RequiredAndErrorHelper
      */
     translatorMap.put (EFormElement.ORDER_ID.getID (), "Tab " + Data.TAB_ORDER_DATA + ", Feld Autragsreferenz");
     translatorMap.put (EFormElement.SUPPLIER_ID.getID (), "Tab " + Data.TAB_ORDER_DATA + ", Feld Lieferantennummer");
+    translatorMap.put (EFormElement.INVOICE_NUMBER.getID (), "Tab " + Data.TAB_ORDER_DATA + ", Feld Rechnungsnummer");
     translatorMap.put (EFormElement.FROM_DATE.getID (),
                        "Tab " + Data.TAB_ORDER_DATA + ", Feld Lieferdatum / Leistungszeitraum von:");
 
@@ -49,41 +50,17 @@ public final class RequiredAndErrorHelper
      * Contact data - biller
      */
     translatorMap.put (EFormElement.BILLER_NAME.getID (),
-                       "Tab " +
-                                                          Data.TAB_CONTACT_DATA +
-                                                          ", Abschnitt " +
-                                                          Data.TITLEDPANE_BILLER_NAME +
-                                                          ",\n   Feld Name");
+                       "Tab " + Data.TAB_CONTACT_DATA + ", Abschnitt " + Data.TITLEDPANE_BILLER_NAME + ", Feld Name");
     translatorMap.put (EFormElement.BILLER_STREET.getID (),
-                       "Tab " +
-                                                            Data.TAB_CONTACT_DATA +
-                                                            ", Abschnitt " +
-                                                            Data.TITLEDPANE_BILLER_NAME +
-                                                            ",\n   Feld Straße");
+                       "Tab " + Data.TAB_CONTACT_DATA + ", Abschnitt " + Data.TITLEDPANE_BILLER_NAME + ", Feld Straße");
     translatorMap.put (EFormElement.BILLER_ZIP.getID (),
-                       "Tab " +
-                                                         Data.TAB_CONTACT_DATA +
-                                                         ", Abschnitt " +
-                                                         Data.TITLEDPANE_BILLER_NAME +
-                                                         ",\n   Feld PLZ");
+                       "Tab " + Data.TAB_CONTACT_DATA + ", Abschnitt " + Data.TITLEDPANE_BILLER_NAME + ", Feld PLZ");
     translatorMap.put (EFormElement.BILLER_TOWN.getID (),
-                       "Tab " +
-                                                          Data.TAB_CONTACT_DATA +
-                                                          ", Abschnitt " +
-                                                          Data.TITLEDPANE_BILLER_NAME +
-                                                          ",\n   Feld Stadt");
+                       "Tab " + Data.TAB_CONTACT_DATA + ", Abschnitt " + Data.TITLEDPANE_BILLER_NAME + ", Feld Stadt");
     translatorMap.put (EFormElement.BILLER_COUNTRY.getID (),
-                       "Tab " +
-                                                             Data.TAB_CONTACT_DATA +
-                                                             ", Abschnitt " +
-                                                             Data.TITLEDPANE_BILLER_NAME +
-                                                             ",\n   Feld Land");
+                       "Tab " + Data.TAB_CONTACT_DATA + ", Abschnitt " + Data.TITLEDPANE_BILLER_NAME + ", Feld Land");
     translatorMap.put (EFormElement.BILLER_EMAIL.getID (),
-                       "Tab " +
-                                                           Data.TAB_CONTACT_DATA +
-                                                           ", Abschnitt " +
-                                                           Data.TITLEDPANE_BILLER_NAME +
-                                                           ",\n   Feld E-Mail");
+                       "Tab " + Data.TAB_CONTACT_DATA + ", Abschnitt " + Data.TITLEDPANE_BILLER_NAME + ", Feld E-Mail");
 
     /*
      * Contact data - invoice recipient
@@ -93,36 +70,79 @@ public final class RequiredAndErrorHelper
                                                                     Data.TAB_CONTACT_DATA +
                                                                     ", Abschnitt " +
                                                                     Data.TITLEDPANE_INVOICERECIPIENT_NAME +
-                                                                    ",\n   Feld Name");
+                                                                    ", Feld Name");
     translatorMap.put (EFormElement.INVOICERECIPIENT_STREET.getID (),
                        "Tab " +
                                                                       Data.TAB_CONTACT_DATA +
                                                                       ", Abschnitt " +
                                                                       Data.TITLEDPANE_INVOICERECIPIENT_NAME +
-                                                                      ",\n   Feld Straße");
+                                                                      ", Feld Straße");
     translatorMap.put (EFormElement.INVOICERECIPIENT_ZIP.getID (),
                        "Tab " +
                                                                    Data.TAB_CONTACT_DATA +
                                                                    ", Abschnitt " +
                                                                    Data.TITLEDPANE_INVOICERECIPIENT_NAME +
-                                                                   ",\n   Feld PLZ");
+                                                                   ", Feld PLZ");
     translatorMap.put (EFormElement.INVOICERECIPIENT_TOWN.getID (),
                        "Tab " +
                                                                     Data.TAB_CONTACT_DATA +
                                                                     ", Abschnitt " +
                                                                     Data.TITLEDPANE_INVOICERECIPIENT_NAME +
-                                                                    ",\n   Feld Stadt");
+                                                                    ", Feld Stadt");
     translatorMap.put (EFormElement.INVOICERECIPIENT_COUNTRY.getID (),
                        "Tab " +
                                                                        Data.TAB_CONTACT_DATA +
                                                                        ", Abschnitt " +
                                                                        Data.TITLEDPANE_INVOICERECIPIENT_NAME +
-                                                                       ",\n   Feld Land");
+                                                                       ", Feld Land");
+
+    /*
+     * Contact data - delivery address
+     */
+    translatorMap.put (EFormElement.DELIVERY_NAME.getID (),
+                       "Tab " + Data.TAB_CONTACT_DATA + ", Abschnitt " + Data.TITLEDPANE_DELIVERY_NAME + ", Feld Name");
+    translatorMap.put (EFormElement.DELIVERY_STREET.getID (),
+                       "Tab " +
+                                                              Data.TAB_CONTACT_DATA +
+                                                              ", Abschnitt " +
+                                                              Data.TITLEDPANE_DELIVERY_NAME +
+                                                              ", Feld Straße");
+    translatorMap.put (EFormElement.DELIVERY_ZIP.getID (),
+                       "Tab " + Data.TAB_CONTACT_DATA + ", Abschnitt " + Data.TITLEDPANE_DELIVERY_NAME + ", Feld PLZ");
+    translatorMap.put (EFormElement.DELIVERY_TOWN.getID (),
+                       "Tab " +
+                                                            Data.TAB_CONTACT_DATA +
+                                                            ", Abschnitt " +
+                                                            Data.TITLEDPANE_DELIVERY_NAME +
+                                                            ", Feld Stadt");
+    translatorMap.put (EFormElement.DELIVERY_COUNTRY.getID (),
+                       "Tab " + Data.TAB_CONTACT_DATA + ", Abschnitt " + Data.TITLEDPANE_DELIVERY_NAME + ", Feld Land");
 
     /*
      * Payment data
      */
     translatorMap.put (EFormElement.PAYMENT_IBAN.getID (), "Tab " + Data.TAB_PAYMENT_DATA + ", Feld IBAN");
+
+    /*
+     * Details data - invoice line
+     */
+    translatorMap.put (EFormElement.DETAILS_LINE_QUANTITY.getID (), "Menge");
+    translatorMap.put (EFormElement.DETAILS_LINE_UNITPRICE.getID (), "Einzelpreis netto");
+    translatorMap.put (EFormElement.DETAILS_LINE_DESCRIPTION.getID (), "Beschreibung");
+
+    /*
+     * Details data - right area
+     */
+    translatorMap.put (EFormElement.DETAILS_RIGHT_VATID_BILLER.getID (),
+                       "Tab " + Data.TAB_DETAILS_DATA + "-rechter Bereich, Feld UID Rechnungssteller");
+    translatorMap.put (EFormElement.DETAILS_RIGHT_VATID_INVOICERECIPIENT.getID (),
+                       "Tab " + Data.TAB_DETAILS_DATA + "-rechter Bereich, Feld UID Rechnungsempfänger");
+
+    /*
+     * Summary - right area
+     */
+    translatorMap.put (EFormElement.SUMMARY_SAVENAME_TEXTFIELD.getID (),
+                       "Tab " + Data.TAB_SUMMARY_DATA + "-rechter Bereich, Feld Dateiname angeben");
   }
 
   /*
@@ -133,7 +153,10 @@ public final class RequiredAndErrorHelper
     if (translatorMap == null)
       _initTranslatorMap ();
 
-    return translatorMap.get (id);
+    if (translatorMap.get (id) != null)
+      return translatorMap.get (id);
+    else
+      return id;
   }
 
   /*
@@ -187,6 +210,14 @@ public final class RequiredAndErrorHelper
   }
 
   /*
+   * Get requiredMap
+   */
+  public static Map <String, List <String>> getRequiredMap ()
+  {
+    return requiredMap;
+  }
+
+  /*
    * Show requiredMap size
    */
   public static int getRequiredMapSize ()
@@ -228,6 +259,14 @@ public final class RequiredAndErrorHelper
       if (al.size () == 0)
         errorMap.remove (tabID);
     }
+  }
+
+  /*
+   * Get errorMap
+   */
+  public static Map <String, List <String>> getErrorMap ()
+  {
+    return errorMap;
   }
 
   /*
@@ -299,6 +338,14 @@ public final class RequiredAndErrorHelper
   }
 
   /*
+   * Get lineRequiredMap
+   */
+  public static Map <Integer, List <String>> getLineRequiredMap ()
+  {
+    return lineRequiredMap;
+  }
+
+  /*
    * Shows current requiredMap entries
    */
   public static void showLineReqMap ()
@@ -363,6 +410,14 @@ public final class RequiredAndErrorHelper
   {
     if (surchargeLineRequiredMap.containsKey (lineID))
       surchargeLineRequiredMap.remove (lineID);
+  }
+
+  /*
+   * Get suchargeLineRequiredField map
+   */
+  public static Map <String, List <String>> getSurchargeLineRequiredMap ()
+  {
+    return surchargeLineRequiredMap;
   }
 
   /*
@@ -433,6 +488,14 @@ public final class RequiredAndErrorHelper
   }
 
   /*
+   * Get discountLineRequiredMap
+   */
+  public static Map <String, List <String>> getDiscountLineRequiredMap ()
+  {
+    return discountLineRequiredMap;
+  }
+
+  /*
    * Shows current discountLineRequiredMap entries
    */
   public static void showDiscountLineReqMap ()
@@ -461,6 +524,17 @@ public final class RequiredAndErrorHelper
   {
     return requiredMap.size () == 0 &&
            errorMap.size () == 0 &&
+           lineRequiredMap.size () == 0 &&
+           discountLineRequiredMap.size () == 0 &&
+           surchargeLineRequiredMap.size () == 0;
+  }
+
+  /*
+   * Return if all required maps are empty
+   */
+  public static boolean allRequiredFieldsAreFilled ()
+  {
+    return requiredMap.size () == 0 &&
            lineRequiredMap.size () == 0 &&
            discountLineRequiredMap.size () == 0 &&
            surchargeLineRequiredMap.size () == 0;
