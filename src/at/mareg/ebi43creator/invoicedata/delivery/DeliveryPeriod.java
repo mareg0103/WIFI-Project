@@ -9,9 +9,20 @@ import at.mareg.ebi43creator.display.resources.InvoiceDateManager;
 @XmlType (propOrder = { "fromDate", "toDate" })
 public class DeliveryPeriod
 {
+  /**
+   * Class to save a delivery period
+   *
+   * @author Martin Regitnig
+   */
 
-  private InvoiceDateManager idm;
+  /*
+   * Invoice date manager instance
+   */
+  private final InvoiceDateManager idm;
 
+  /*
+   * Data variables
+   */
   private String fromDate;
   private String toDate;
 
@@ -27,6 +38,9 @@ public class DeliveryPeriod
     toDate = idm.getLocalDateStringFromGermanFormattedDateString (to);
   }
 
+  /*
+   * Getter / Setter
+   */
   @XmlElement (name = "FromDate", namespace = Data.DEFAULT_NAMESPACE)
   public String getFromDate ()
   {

@@ -111,13 +111,6 @@ public class EBI43CreatorMain extends Application
      * Show application
      */
     primaryStage.show ();
-
-    // Temporary show required list
-    // delete before deployment
-    // System.out.println ("Call from Mainclass.init ()");
-    // RequiredAndErrorHelper.showReqMap ();
-    // System.out.println ("Größe RequiredMap: " +
-    // RequiredAndErrorHelper.getRequiredMapSize () + " Einträge");
   }
 
   /*

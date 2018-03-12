@@ -2,6 +2,15 @@ package at.mareg.ebi43creator.display.utilities;
 
 public final class TextFieldHelper
 {
+  /**
+   * Helper class for text fields with numeric input
+   *
+   * @author Martin Regitnig
+   */
+
+  /*
+   * No instantiation, only static methods
+   */
   private TextFieldHelper ()
   {}
 

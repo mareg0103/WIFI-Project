@@ -35,6 +35,14 @@ import javafx.scene.paint.Color;
 
 public class DiscountLine extends BasePane
 {
+  /**
+   * This is the discount line; it saves the percentage value and a date; if
+   * invoice is paid before the entered date the invoice recipient can subtract
+   * the percentage value from the total gross amount
+   *
+   * @author Martin Regitnig
+   */
+
   /*
    * Save discount item this line belongs to
    */
@@ -100,7 +108,8 @@ public class DiscountLine extends BasePane
 
       final int indexOfSemicolon = text.indexOf (",");
       if (indexOfSemicolon != -1)
-        if (text.substring (indexOfSemicolon + 1).length () == 2 && ((TextField) event.getTarget ()).getCaretPosition () > indexOfSemicolon)
+        if (text.substring (indexOfSemicolon + 1).length () == 2 &&
+            ((TextField) event.getTarget ()).getCaretPosition () > indexOfSemicolon)
           event.consume ();
     };
   }

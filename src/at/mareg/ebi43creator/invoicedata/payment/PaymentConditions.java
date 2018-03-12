@@ -1,6 +1,5 @@
 package at.mareg.ebi43creator.invoicedata.payment;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,15 +12,12 @@ import at.mareg.ebi43creator.display.resources.ResourceManager;
 @XmlType (propOrder = { "dueDate", "discounts" })
 public class PaymentConditions
 {
-  // <eb:DueDate>2017-09-15</eb:DueDate>
-  // <eb:Discount>
-  // <eb:PaymentDate>2017-09-04</eb:PaymentDate>
-  // <eb:Percentage>10</eb:Percentage>
-  // </eb:Discount>
-  // <eb:Discount>
-  // <eb:PaymentDate>2017-09-07</eb:PaymentDate>
-  // <eb:Percentage>5</eb:Percentage>
-  // </eb:Discount>
+  /**
+   * Class to save payment conditions
+   *
+   * @author Martin Regitnig
+   */
+
   /*
    * ResourceManager instance
    */
@@ -38,6 +34,35 @@ public class PaymentConditions
     rm = resman;
   }
 
+  /*
+   * Add an empty discount to list and invoke method to create a new discount
+   * line
+   */
+  public void addEmptyDiscount ()
+  {
+    if (discounts == null)
+      discounts = new ArrayList <> ();
+
+    final Discount d = new Discount ();
+    discounts.add (d);
+    rm.getSurchargeDiscountPane ().getDiscountArea ().addEmptyDiscountLine (d);
+  }
+
+  /*
+   * Remove a discount
+   */
+  public void removeDiscount (final Discount discount)
+  {
+    if (discounts.indexOf (discount) >= 0)
+      discounts.remove (discount);
+
+    if (discounts.size () == 0)
+      discounts = null;
+  }
+
+  /*
+   * Getter / Setter
+   */
   @XmlElement (name = "DueDate", namespace = Data.DEFAULT_NAMESPACE)
   public String getDueDate ()
   {
@@ -66,24 +91,5 @@ public class PaymentConditions
 
     this.discounts = discounts;
 
-  }
-
-  public void addEmptyDiscount ()
-  {
-    if (discounts == null)
-      discounts = new ArrayList <> ();
-
-    Discount d = new Discount ();
-    discounts.add (d);
-    rm.getSurchargeDiscountPane ().getDiscountArea ().addEmptyDiscountLine (d);
-  }
-
-  public void removeDiscount (final Discount discount)
-  {
-    if (discounts.indexOf (discount) >= 0)
-      discounts.remove (discount);
-
-    if (discounts.size () == 0)
-      discounts = null;
   }
 }

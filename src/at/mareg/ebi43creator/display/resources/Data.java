@@ -8,7 +8,15 @@ import javafx.scene.paint.Color;
 
 public final class Data
 {
+  /**
+   * Storing data for using in the application
+   *
+   * @author Martin Regitnig
+   */
 
+  /*
+   * No instantiation, only static variables
+   */
   private Data ()
   {}
 

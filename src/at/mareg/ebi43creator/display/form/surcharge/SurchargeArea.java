@@ -16,8 +16,8 @@ import javafx.scene.layout.GridPane;
 public class SurchargeArea extends BasePane
 {
   /**
-   * Class to add surcharge lines to the current document (negative surcharge is
-   * an reduction)
+   * Surcharge line area to dynamically add or remove a surcharget line to the
+   * document (negative surcharge is an reduction)
    *
    * @author Martin Regitnig
    */
@@ -41,6 +41,9 @@ public class SurchargeArea extends BasePane
     init ();
   }
 
+  /*
+   * Initialize surcharge area
+   */
   @Override
   protected void init ()
   {
@@ -59,7 +62,7 @@ public class SurchargeArea extends BasePane
   }
 
   /*
-   * (Re) Build invoice line area
+   * (Re) Build surcharge line area
    */
   private void _buildArea ()
   {

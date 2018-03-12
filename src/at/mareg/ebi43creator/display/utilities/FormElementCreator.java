@@ -2,7 +2,6 @@ package at.mareg.ebi43creator.display.utilities;
 
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
-import at.mareg.ebi43creator.invoicedata.enums.ESurchargeType;
 import at.mareg.ebi43creator.invoicedata.enums.EUnit;
 import at.mareg.ebi43creator.invoicedata.enums.EVATRate;
 import javafx.geometry.Insets;
@@ -22,13 +21,15 @@ import javafx.scene.text.TextAlignment;
 /**
  * Creates standard and extended elements and provides methods for them (if
  * necessary)
- * 
+ *
  * @author Martin Regitnig
  */
 
 public final class FormElementCreator
 {
-
+  /*
+   * No instantiation, only static methods
+   */
   private FormElementCreator ()
   {}
 
@@ -37,7 +38,7 @@ public final class FormElementCreator
    */
   public static Label getStandardLabel (final String text, final Insets insets)
   {
-    Label l = new Label (text);
+    final Label l = new Label (text);
 
     if (insets != null)
       l.setPadding (insets);
@@ -45,9 +46,12 @@ public final class FormElementCreator
     return l;
   }
 
+  /*
+   * Returns a label in a disabled looking style
+   */
   public static Label getDisabledLookingLabel (final String text, final Insets insets)
   {
-    Label l = new Label (text);
+    final Label l = new Label (text);
 
     l.setTextFill (Color.DARKGRAY);
 
@@ -58,7 +62,7 @@ public final class FormElementCreator
   }
 
   /*
-   * Get text fields
+   * Returns a standard text field
    */
   public static TextField getStandardTextField (final String id, final boolean required)
   {
@@ -71,6 +75,9 @@ public final class FormElementCreator
     return t;
   }
 
+  /*
+   * Returns a disabled text field
+   */
   public static TextField getDisabledTextField (final String id, final boolean required)
   {
     final TextField t = new TextField ();
@@ -83,7 +90,9 @@ public final class FormElementCreator
     return t;
   }
 
-  // Invoice line text field
+  /*
+   * Returns a text field for an invoice line
+   */
   public static TextField getInvoiceLineTextField (final String id, final boolean required)
   {
     final TextField t = new TextField ();
@@ -95,7 +104,7 @@ public final class FormElementCreator
   }
 
   /*
-   * Get text areas
+   * Returns a standard text area
    */
   public static TextArea getStandardTextArea (final String id, final boolean required)
   {
@@ -108,7 +117,9 @@ public final class FormElementCreator
     return t;
   }
 
-  // Invoice line text Area
+  /*
+   * Returns a text area for an invoice line
+   */
   public static TextArea getInvoiceLineTextArea (final String id, final boolean required)
   {
     final TextArea t = new TextArea ();
@@ -121,7 +132,7 @@ public final class FormElementCreator
   }
 
   /*
-   * Get date pickers
+   * Returns a standard date picker
    */
   public static DatePicker getStandardDatePicker (final String id, final boolean required)
   {
@@ -162,7 +173,7 @@ public final class FormElementCreator
   }
 
   /*
-   * Get check boxes
+   * Returns a standar check box
    */
   public static CheckBox getStandardCheckBox (final String id, final boolean required, final String text)
   {
@@ -177,25 +188,11 @@ public final class FormElementCreator
   }
 
   /*
-   * Get combo boxes
+   * Returns a standard string combo box based on vat rate enum
    */
-  public static ComboBox <String> getSurchargeTypeComboBox (final String id)
-  {
-    ComboBox <String> cb = new ComboBox <> ();
-
-    for (final ESurchargeType e : ESurchargeType.values ())
-      cb.getItems ().add (e.getType ());
-
-    cb.getSelectionModel ().selectFirst ();
-    cb.setEditable (false);
-    cb.setId (id);
-
-    return cb;
-  }
-
   public static ComboBox <String> getVatRateComboBox (final String id)
   {
-    ComboBox <String> cb = new ComboBox <> ();
+    final ComboBox <String> cb = new ComboBox <> ();
 
     for (final EVATRate e : EVATRate.values ())
       cb.getItems ().add (e.getVatRateOutput ());
@@ -208,9 +205,12 @@ public final class FormElementCreator
     return cb;
   }
 
+  /*
+   * Returns a standard string combo box based on unit enum
+   */
   public static ComboBox <String> getInvoiceLineUnitComboBox (final String id)
   {
-    ComboBox <String> cb = new ComboBox <> ();
+    final ComboBox <String> cb = new ComboBox <> ();
 
     for (final EUnit e : EUnit.values ())
       cb.getItems ().add (e.getUnitDescription ());
@@ -224,11 +224,11 @@ public final class FormElementCreator
   }
 
   /*
-   * Get buttons
+   * Returns a standard button
    */
   public static Button getStandardButton (final String id, final String text)
   {
-    Button b = new Button (text);
+    final Button b = new Button (text);
 
     b.setId (id);
     b.textAlignmentProperty ().set (TextAlignment.CENTER);
@@ -240,7 +240,7 @@ public final class FormElementCreator
    */
 
   /*
-   * Show label as enable
+   * Sets the look of a disabled looking label to enable
    */
   public static void showLabelAsEnabled (final Label l, final EFormElement e)
   {
@@ -248,15 +248,14 @@ public final class FormElementCreator
 
     if (e.isRequired () && !l.getText ().endsWith ("*"))
       l.setText (l.getText () + "*");
-
   }
 
   /*
-   * Enable text field
+   * Enable a text field
    */
   public static void enableTextField (final TextField t, final EFormElement e)
   {
-    boolean isRequired = e.isRequired ();
+    final boolean isRequired = e.isRequired ();
 
     t.disableProperty ().set (false);
     t.setStyle ("-fx-control-inner-background: #" +
@@ -267,7 +266,7 @@ public final class FormElementCreator
   }
 
   /*
-   * Enable combo box
+   * Enable a combo box
    */
   public static void enableComboBox (final ComboBox <String> c)
   {
@@ -275,19 +274,19 @@ public final class FormElementCreator
   }
 
   /*
-   * Show label as disabled
+   * Sets the look of an enabled label to disabled
    */
   public static void showLabelAsDisabled (final Label l, final EFormElement e)
   {
     l.setTextFill (Color.DARKGRAY);
 
-    String labelText = l.getText ();
+    final String labelText = l.getText ();
     if (e != null && !e.isRequired () && labelText.endsWith ("*"))
       l.setText (labelText.substring (0, labelText.length () - 1));
   }
 
   /*
-   * Disable text field
+   * Disable a text field
    */
   public static void disableTextField (final TextField t, final EFormElement e)
   {
@@ -304,7 +303,7 @@ public final class FormElementCreator
   }
 
   /*
-   * Disable combo box
+   * Disable a combo box
    */
   public static void disableComboBox (final ComboBox <String> c)
   {
@@ -312,7 +311,7 @@ public final class FormElementCreator
   }
 
   /*
-   * Set text field status (required / not required)
+   * Sets a text field status (required / not required)
    */
   public static void setVisibleTextFieldStatus (final TextField t, final EFormElement e)
   {
@@ -324,6 +323,9 @@ public final class FormElementCreator
                                                                    : Data.BACKGROUND_HEX_OK));
   }
 
+  /*
+   * Sets the visible status of a date picker (required / not required)
+   */
   public static void setVisibleDatePickerStatus (final DatePicker dp, final EFormElement e)
   {
     if (e != null)
@@ -337,7 +339,7 @@ public final class FormElementCreator
    */
   public static void setVisibleLabelStatus (final Label l, final EFormElement e)
   {
-    String labelText = l.getText ();
+    final String labelText = l.getText ();
 
     if (e != null)
     {

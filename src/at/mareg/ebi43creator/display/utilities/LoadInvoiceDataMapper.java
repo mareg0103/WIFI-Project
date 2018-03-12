@@ -8,9 +8,21 @@ import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
 
 public final class LoadInvoiceDataMapper
 {
+  /**
+   * Sets the form fields to the values of a loaded XML file
+   *
+   * @author Martin Regitnig
+   */
+
+  /*
+   * No instantiation, only static methods
+   */
   private LoadInvoiceDataMapper ()
   {}
 
+  /*
+   * Writes the values from an list line item to the invoice line in the form
+   */
   public static String callMethodFor (final EFormElement element, final ListLineItem lli)
   {
     String value;
@@ -18,7 +30,7 @@ public final class LoadInvoiceDataMapper
     switch (element)
     {
       case DETAILS_LINE_ORDERPOSITIONNUMER:
-        Integer s = lli.getOrderPositionNumber ();
+        final Integer s = lli.getOrderPositionNumber ();
         value = s == null ? null : s.toString ();
         break;
 
@@ -39,7 +51,7 @@ public final class LoadInvoiceDataMapper
         break;
 
       case DETAILS_LINE_SURCHARGE:
-        List <SurchargeListLineItem> l = lli.getSurcharge ();
+        final List <SurchargeListLineItem> l = lli.getSurcharge ();
 
         if (l == null)
           value = null;

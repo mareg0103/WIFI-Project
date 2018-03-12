@@ -14,8 +14,15 @@ import javafx.scene.layout.GridPane;
 
 public class DiscountArea extends BasePane
 {
+  /**
+   * Discount line area to dynamically add or remove a discount line to the
+   * document (max. 2 allowed)
+   *
+   * @author Martin Regitnig
+   */
+
   /*
-   * Discount lines
+   * Discount line list
    */
   private List <DiscountLine> discountLineList;
 
@@ -32,6 +39,9 @@ public class DiscountArea extends BasePane
     init ();
   }
 
+  /*
+   * Initialize discount area
+   */
   @Override
   protected void init ()
   {
@@ -112,12 +122,21 @@ public class DiscountArea extends BasePane
   {
     final DueDatePane ddp = rm.getSurchargeDiscountPane ().getDueDatePane ();
 
+    /*
+     * if discount line list is null -> due date is optional
+     */
     if (discountLineList == null)
     {
       ddp.setDueDatePickerToOptional ();
     }
     else
     {
+      /*
+       * If discount line list size is 1 -> set due date to required with the
+       * possibility only to choose a date which is bigger than the date in the
+       * discount line, if the date in the discount line is null -> set due date
+       * to optional
+       */
       if (discountLineList.size () == 1)
       {
         final String value = discountLineList.get (0).getIfPaidUntil ();
@@ -130,6 +149,10 @@ public class DiscountArea extends BasePane
             .setDueDatePickerAsRequired (discountLineList.get (0).getIfPaidUntil ());
       }
 
+      /*
+       * If discount line list size is 2 -> compare dates in discount lines and
+       * set due date to either optional or required with the right date
+       */
       if (discountLineList.size () == 2)
       {
         final String dateValueLineOne = discountLineList.get (0).getIfPaidUntil ();

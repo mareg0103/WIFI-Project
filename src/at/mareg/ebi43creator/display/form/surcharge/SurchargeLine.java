@@ -32,6 +32,11 @@ import javafx.scene.paint.Color;
 
 public class SurchargeLine extends BasePane
 {
+  /**
+   * This is a global surcharge line; it saves the value, the vat rate and an
+   * optional comment to this surcharge
+   **/
+
   /*
    * Save list line item this line belongs to
    */
@@ -101,7 +106,8 @@ public class SurchargeLine extends BasePane
 
       final int indexOfSemicolon = text.indexOf (",");
       if (indexOfSemicolon != -1)
-        if (text.substring (indexOfSemicolon + 1).length () == 2 && ((TextField) event.getTarget ()).getCaretPosition () > indexOfSemicolon)
+        if (text.substring (indexOfSemicolon + 1).length () == 2 &&
+            ((TextField) event.getTarget ()).getCaretPosition () > indexOfSemicolon)
           event.consume ();
     };
   }
@@ -177,7 +183,7 @@ public class SurchargeLine extends BasePane
     grid.add (surchargeBox, 0, 0);
 
     /*
-     * VAT rate combo box
+     * Surcharge vat rate
      */
     final EFormElement vatRateElement = EFormElement.SURCHARGE_VAT;
 
@@ -228,8 +234,6 @@ public class SurchargeLine extends BasePane
       {
         comment = commentField.getText ();
         surchargeItem.setComment (comment);
-
-        // calculateLine ();
       }
     });
 
@@ -255,7 +259,7 @@ public class SurchargeLine extends BasePane
     grid.add (deleteThisLine, 4, 0);
 
     /*
-     * Add grid to line
+     * Set border and add grid to this
      */
     this.setBorder (new Border (new BorderStroke (Color.BLACK,
                                                   Color.BLACK,

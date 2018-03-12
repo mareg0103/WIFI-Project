@@ -1,7 +1,6 @@
 package at.mareg.ebi43creator.invoicedata.details;
 
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -20,8 +19,14 @@ import at.mareg.ebi43creator.display.resources.Data;
                         "lineItemAmount" })
 public class ListLineItem
 {
+  /**
+   * Class to save invoice line values
+   *
+   * @author Martin Regitnig
+   */
+
   /*
-   * Internal variables for saving an calculating values
+   * Data variables for saving an calculating values
    */
   private Integer orderPositionNumber;
   private String description;
@@ -31,13 +36,6 @@ public class ListLineItem
   private Integer vatRate;
   private String taxExemption;
   private Double lineItemAmount;
-
-  /*
-   * String formatter for field quantity, unit price, total net amount and total
-   * gross amount
-   */
-  private Formatter twoDigitsAfterComma;
-  private Formatter fourDigitsAfterComma;
 
   public ListLineItem ()
   {
@@ -69,7 +67,7 @@ public class ListLineItem
   {
     this.surcharge = new ArrayList <> ();
 
-    SurchargeListLineItem s = new SurchargeListLineItem ();
+    final SurchargeListLineItem s = new SurchargeListLineItem ();
     s.setBaseAmount (totalNetAmount);
     s.setAmount (surcharge);
 
@@ -166,7 +164,7 @@ public class ListLineItem
   }
 
   @SuppressWarnings ("hiding")
-  public void setSurcharge (List <SurchargeListLineItem> surcharge)
+  public void setSurcharge (final List <SurchargeListLineItem> surcharge)
   {
     this.surcharge = surcharge;
   }
@@ -178,7 +176,7 @@ public class ListLineItem
   }
 
   @SuppressWarnings ("hiding")
-  public void setTaxExemption (String taxExemption)
+  public void setTaxExemption (final String taxExemption)
   {
     this.taxExemption = taxExemption;
   }

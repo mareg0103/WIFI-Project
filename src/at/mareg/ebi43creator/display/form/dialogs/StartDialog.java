@@ -22,6 +22,13 @@ import javafx.stage.Stage;
 
 public class StartDialog extends Dialog <ButtonType>
 {
+  /**
+   * This is the start dialog to choose whether you want to start with an empty
+   * form or if you want to load a XML file
+   *
+   * @author Martin Regitnig
+   */
+
   private final EBI43CreatorMain main;
   private final Stage primaryStage;
 
@@ -99,9 +106,15 @@ public class StartDialog extends Dialog <ButtonType>
     loadGrid.setVgap (15d);
     loadGrid.setHgap (loadGrid.getVgap ());
 
+    /*
+     * Add load button to dialog
+     */
     final Button loadDocumentButton = new Button ("Durchsuchen...");
     loadGrid.add (loadDocumentButton, 0, 0);
 
+    /*
+     * Add label to show the selected files name
+     */
     final Label showSelectedFileDescription = new Label ("Keine Datei ausgewählt");
     loadGrid.add (showSelectedFileDescription, 1, 0);
 

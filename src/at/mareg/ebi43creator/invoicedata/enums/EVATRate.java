@@ -2,8 +2,14 @@ package at.mareg.ebi43creator.invoicedata.enums;
 
 public enum EVATRate
 {
-  /*
+  /**
    * VAT rate entries for multiple ComboBoxes
+   *
+   * @author Martin Regitnig
+   */
+
+  /*
+   * Values
    */
   VAT_ZERO ("0%", 0),
   VAT_SEVEN ("7%", 7),
@@ -15,7 +21,7 @@ public enum EVATRate
   VAT_TWENTY ("20%", 20);
 
   /*
-   * Variables and methods
+   * Data variables
    */
   final String vatRateOutput;
   final Integer vatRateInteger;
@@ -26,16 +32,9 @@ public enum EVATRate
     vatRateInteger = i;
   }
 
-  public String getVatRateOutput ()
-  {
-    return vatRateOutput;
-  }
-
-  public Integer getVatRateInteger ()
-  {
-    return vatRateInteger;
-  }
-
+  /*
+   * Returns an element or null based on a given vat rate output
+   */
   public static EVATRate getFromIDOrNull (final String vatRate)
   {
     if (vatRate != null)
@@ -44,5 +43,18 @@ public enum EVATRate
           return e;
 
     return null;
+  }
+
+  /*
+   * Getter / Setter
+   */
+  public String getVatRateOutput ()
+  {
+    return vatRateOutput;
+  }
+
+  public Integer getVatRateInteger ()
+  {
+    return vatRateInteger;
   }
 }

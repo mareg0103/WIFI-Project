@@ -3,7 +3,6 @@ package at.mareg.ebi43creator.display.form.dialogs;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.invoicedata.enums.EDocumentType;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.RadioButton;
@@ -14,18 +13,21 @@ import javafx.scene.layout.VBox;
 public class ChangeDocumentTypeDialog extends Dialog <ButtonType>
 {
   /**
-   * With this pane you can change the type of an document, invoked from
+   * With this dialog you can change the type of an document, invoked from
    * DocumentTypePane
-   * 
+   *
    * @author Martin Regitnig
    */
 
   /*
    * Instance of ResourceManager because this pane doesn't extend BasePane
    */
-  private ResourceManager rm;
+  private final ResourceManager rm;
 
-  private String currentType;
+  /*
+   * Internal variable to store the current document type
+   */
+  private final String currentType;
 
   public ChangeDocumentTypeDialog (final String current, final ResourceManager resman)
   {
@@ -44,8 +46,8 @@ public class ChangeDocumentTypeDialog extends Dialog <ButtonType>
   {
     this.setTitle ("Dokumententyp ändern");
 
-    VBox v = new VBox ();
-    ToggleGroup tg = new ToggleGroup ();
+    final VBox v = new VBox ();
+    final ToggleGroup tg = new ToggleGroup ();
 
     /*
      * Search all document types and create radio buttons for each one, set
@@ -53,7 +55,7 @@ public class ChangeDocumentTypeDialog extends Dialog <ButtonType>
      */
     for (final EDocumentType e : EDocumentType.values ())
     {
-      RadioButton r = new RadioButton (e.getElementText ());
+      final RadioButton r = new RadioButton (e.getElementText ());
 
       r.setId (e.getElementID ());
       r.disableProperty ().set (currentType.equalsIgnoreCase (r.getId ()) ? true : false);
@@ -63,21 +65,16 @@ public class ChangeDocumentTypeDialog extends Dialog <ButtonType>
       v.getChildren ().add (r);
     }
 
-    tg.selectedToggleProperty ().addListener (new ChangeListener <Toggle> ()
-    {
-      public void changed (ObservableValue <? extends Toggle> observable, Toggle oldValue, Toggle newValue)
-      {
-        /*
-         * Set new document type
-         */
-        rm.getInvoiceData ().setDocumentType (((RadioButton) newValue).getId ());
-      }
-    });
+    tg.selectedToggleProperty ()
+      .addListener ((ChangeListener <Toggle>) (observable,
+                                               oldValue,
+                                               newValue) -> rm.getInvoiceData ()
+                                                              .setDocumentType (((RadioButton) newValue).getId ()));
 
     this.getDialogPane ().setContent (v);
 
-    ButtonType ok = ButtonType.OK;
-    ButtonType cancel = ButtonType.CANCEL;
+    final ButtonType ok = ButtonType.OK;
+    final ButtonType cancel = ButtonType.CANCEL;
     this.getDialogPane ().getButtonTypes ().addAll (ok, cancel);
   }
 }

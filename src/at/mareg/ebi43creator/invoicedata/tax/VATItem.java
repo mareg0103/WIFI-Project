@@ -8,6 +8,15 @@ import at.mareg.ebi43creator.display.resources.Data;
 @XmlType (propOrder = { "taxedAmount", "vatRate", "taxExemption", "amount" })
 public class VATItem
 {
+  /**
+   * Class to save a vat item
+   *
+   * @author Martin Regitnig
+   */
+
+  /*
+   * Data variables
+   */
   private Double taxedAmount;
   private Integer vatRate;
   private String taxExemption;
@@ -21,8 +30,22 @@ public class VATItem
     vatRate = vr;
     taxExemption = te;
   }
-  
-   @XmlElement (name = "TaxedAmount", namespace = Data.DEFAULT_NAMESPACE)
+
+  /*
+   * Calculate the vat amount
+   */
+  public void calculateVatInternal ()
+  {
+    if (vatRate != null)
+      amount = (taxedAmount.doubleValue () / 100) * vatRate.doubleValue ();
+    else
+      amount = Double.valueOf (0d);
+  }
+
+  /*
+   * Getter / Setter
+   */
+  @XmlElement (name = "TaxedAmount", namespace = Data.DEFAULT_NAMESPACE)
   public Double getTaxedAmount ()
   {
     return taxedAmount;
@@ -68,13 +91,4 @@ public class VATItem
   {
     this.amount = amount;
   }
-
-  public void calculateVatInternal ()
-  {
-    if (vatRate != null)
-      amount = (taxedAmount.doubleValue () / 100) * vatRate.doubleValue ();
-    else
-      amount = Double.valueOf (0d);
-  }
-
 }

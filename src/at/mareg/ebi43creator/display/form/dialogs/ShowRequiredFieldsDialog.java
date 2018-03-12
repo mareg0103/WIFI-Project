@@ -10,6 +10,13 @@ import javafx.scene.control.TextArea;
 
 public class ShowRequiredFieldsDialog extends Dialog <ButtonType>
 {
+  /**
+   * With this dialog you can show the missing required fields in the form (if
+   * present)
+   *
+   * @author Martin Regitnig
+   */
+
   public ShowRequiredFieldsDialog ()
   {
     init ();
@@ -25,6 +32,10 @@ public class ShowRequiredFieldsDialog extends Dialog <ButtonType>
     final TextArea showMissingRequiredArea = new TextArea ();
     final StringBuilder sb = new StringBuilder ();
 
+    /*
+     * If required fields map size > 0 -> read map and create output for this
+     * dialog
+     */
     if (RequiredAndErrorHelper.getRequiredMapSize () > 0)
     {
       sb.append ("Folgende Pflichtfelder sind noch nicht befüllt:\n");
@@ -38,6 +49,10 @@ public class ShowRequiredFieldsDialog extends Dialog <ButtonType>
       }
     }
 
+    /*
+     * If line required fields map size > 0 -> read map and append the output
+     * for this dialog
+     */
     if (RequiredAndErrorHelper.getLineRequiredMapSize () > 0)
     {
       sb.append ("\nEs fehlen folgende Pflichtfelder in Rechnungszeilen:\n");
@@ -52,6 +67,10 @@ public class ShowRequiredFieldsDialog extends Dialog <ButtonType>
       }
     }
 
+    /*
+     * If surcharge line required fields map size > 0 -> read map and append the
+     * output for this dialog
+     */
     if (RequiredAndErrorHelper.getSurchargeLineRequiredMapSize () > 0)
     {
       sb.append ("\nEs fehlen folgende Pflichtfelder in den Auf-Abschlags-Einträgen:\n");
@@ -62,6 +81,10 @@ public class ShowRequiredFieldsDialog extends Dialog <ButtonType>
       sb.append (System.getProperty ("line.separator"));
     }
 
+    /*
+     * If discount line required fields map size > 0 -> read map and append the
+     * output for this dialog
+     */
     if (RequiredAndErrorHelper.getDiscountLineRequiredMapSize () > 0)
     {
       sb.append ("\nEs fehlen folgende Pflichtfelder in den Skontoeinträgen:\n");
@@ -72,6 +95,9 @@ public class ShowRequiredFieldsDialog extends Dialog <ButtonType>
       sb.append (System.getProperty ("line.separator"));
     }
 
+    /*
+     * Write to text area and show
+     */
     if (sb.toString ().isEmpty ())
       showMissingRequiredArea.setText ("Alle Pflichtfelder befüllt");
     else

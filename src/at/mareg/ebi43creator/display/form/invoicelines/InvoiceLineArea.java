@@ -16,7 +16,8 @@ import javafx.scene.layout.GridPane;
 public class InvoiceLineArea extends BasePane
 {
   /**
-   * Class to add invoice lines to the current document
+   * Invoice line area to dynamically add or remove a invoice line to the
+   * document
    *
    * @author Martin Regitnig
    */

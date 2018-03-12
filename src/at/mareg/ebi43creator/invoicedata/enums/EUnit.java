@@ -2,8 +2,14 @@ package at.mareg.ebi43creator.invoicedata.enums;
 
 public enum EUnit
 {
-  /*
+  /**
    * Unit name entries for invoice line combo box
+   *
+   * @author Martin Regitnig
+   */
+
+  /*
+   * Values
    */
   UNIT_01 ("Eins/Mal"),
   UNIT_02 ("Pauschal"),
@@ -11,7 +17,7 @@ public enum EUnit
   UNTI_04 ("Stunden");
 
   /*
-   * Variables and methods
+   * Data variables
    */
   final String unitDescription;
 
@@ -20,11 +26,9 @@ public enum EUnit
     unitDescription = desc;
   }
 
-  public String getUnitDescription ()
-  {
-    return unitDescription;
-  }
-
+  /*
+   * Returns an element or null based on a given ID
+   */
   public static EUnit getFromIDOrNull (final String desc)
   {
     if (desc != null)
@@ -33,5 +37,13 @@ public enum EUnit
           return e;
 
     return null;
+  }
+
+  /*
+   * Getter / Setter
+   */
+  public String getUnitDescription ()
+  {
+    return unitDescription;
   }
 }

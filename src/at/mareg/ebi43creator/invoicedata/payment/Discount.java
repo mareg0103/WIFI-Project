@@ -8,7 +8,15 @@ import at.mareg.ebi43creator.display.resources.Data;
 @XmlType (propOrder = { "paymentDate", "percentage" })
 public class Discount
 {
+  /**
+   * Class to save discount line values
+   *
+   * @author Martin Regitnig
+   */
 
+  /*
+   * Data variables
+   */
   private String paymentDate;
   private Double percentage;
 
@@ -17,6 +25,9 @@ public class Discount
 
   }
 
+  /*
+   * Getter / Setter
+   */
   @XmlElement (name = "PaymentDate", namespace = Data.DEFAULT_NAMESPACE)
   public String getPaymentDate ()
   {

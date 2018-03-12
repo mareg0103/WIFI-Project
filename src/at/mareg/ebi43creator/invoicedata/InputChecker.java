@@ -9,13 +9,15 @@ import at.mareg.ebi43creator.display.resources.ResourceManager;
  * <li>Order reference</li>
  * <li>Supplier ID</li>
  * </ul>
- * 
+ *
  * @author Martin Regitnig
  */
 
 public final class InputChecker
 {
-
+  /*
+   * Resource manager instance
+   */
   private static ResourceManager rm;
 
   private InputChecker ()
@@ -30,7 +32,9 @@ public final class InputChecker
 
     if (orderReference != null)
     {
-      // OEBB
+      /*
+       * OEBB
+       */
       if (orderReference.toLowerCase ().startsWith ("oebb/"))
       {
         final String otherReference = orderReference.substring (5);
@@ -45,7 +49,9 @@ public final class InputChecker
         if (!_isNumeric (otherReference))
           ret = "Die Referenz nach \'OEBB/\' ist nicht rein numerisch";
       }
-      // BRZ
+      /*
+       * BRZ
+       */
       else
         if (orderReference.toLowerCase ().startsWith ("brz/"))
         {
@@ -61,7 +67,9 @@ public final class InputChecker
           if (!_isNumeric (otherReference))
             ret = "Die Referenz nach \'BRZ/\' ist nicht rein numerisch";
         }
-        // All others
+        /*
+         * All others
+         */
         else
         {
           if (orderReference.isEmpty () || (orderReference.length () < 3 || orderReference.length () > 50))
@@ -178,7 +186,7 @@ public final class InputChecker
   }
 
   /*
-   * Check if string is numeric
+   * Check if a string is numeric
    */
   private static boolean _isNumeric (final String number)
   {

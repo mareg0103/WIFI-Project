@@ -8,13 +8,15 @@ import at.mareg.ebi43creator.display.resources.Data;
 @XmlType (propOrder = { "bic", "iban", "bankAccountOwner" })
 public class BeneficiaryAccount
 {
+  /**
+   * Class to save payment data
+   *
+   * @author Martin Regitnig
+   */
 
-  // <eb:BeneficiaryAccount>
-  // <eb:BIC>BKAUATWW</eb:BIC>
-  // <eb:IBAN>AT611904300234573201</eb:IBAN>
-  // <eb:BankAccountOwner>Max Mustermann</eb:BankAccountOwner>
-  // </eb:BeneficiaryAccount>
-
+  /*
+   * Data variables
+   */
   private String bic;
   private String iban;
   private String bankAccountOwner;
@@ -22,6 +24,9 @@ public class BeneficiaryAccount
   public BeneficiaryAccount ()
   {}
 
+  /*
+   * Getter / Setter
+   */
   @XmlElement (name = "BIC", namespace = Data.DEFAULT_NAMESPACE)
   public String getBic ()
   {
@@ -30,7 +35,7 @@ public class BeneficiaryAccount
 
   }
 
-  public void setBic (String bic)
+  public void setBic (final String bic)
   {
 
     this.bic = bic;
@@ -45,7 +50,7 @@ public class BeneficiaryAccount
 
   }
 
-  public void setIban (String iban)
+  public void setIban (final String iban)
   {
     this.iban = iban;
   }
@@ -58,7 +63,7 @@ public class BeneficiaryAccount
 
   }
 
-  public void setBankAccountOwner (String bankAccountOwner)
+  public void setBankAccountOwner (final String bankAccountOwner)
   {
     this.bankAccountOwner = bankAccountOwner;
   }

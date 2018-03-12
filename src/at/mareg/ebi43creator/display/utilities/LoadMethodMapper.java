@@ -13,13 +13,21 @@ public final class LoadMethodMapper
    * <li>Invoice number</li>
    * <li>Delivery date / period</li>
    * <li>Delivery id</li>
+   * <li>Discounts</li>
+   * <li>Due date</li>
    * </ul>
-   * 
+   *
    * @author Martin Regitnig
    */
 
+  /*
+   * Invoice data instance
+   */
   private static InvoiceData invoiceData;
 
+  /*
+   * No instantiation, only static methods
+   */
   private LoadMethodMapper ()
   {}
 
@@ -51,12 +59,16 @@ public final class LoadMethodMapper
         value = invoiceData.getBiller ().getSupplierID ();
         break;
 
-      // Special case invoice number, set to null
+      /*
+       * Special case invoice number, set to null
+       */
       case INVOICE_NUMBER:
         invoiceData.setInvoiceNumber (null);
         break;
 
-      // Special case delivery date / delivery period, set them to null
+      /*
+       * Special case delivery date / delivery period, set them to null
+       */
       case FROM_DATE:
         invoiceData.getDelivery ().setDeliveryDate (null);
         invoiceData.getDelivery ().setDeliveryPeriod (null);
@@ -137,7 +149,9 @@ public final class LoadMethodMapper
       /*
        * Contact pane - delivery
        */
-      // Special case delivery id, set to null
+      /*
+       * Special case delivery id, set to null
+       */
       case DELIVERY_ID:
         invoiceData.getDelivery ().setDeliveryID (null);
         break;
@@ -190,7 +204,7 @@ public final class LoadMethodMapper
                            .getBeneficiaryAccount ()
                            .getBankAccountOwner ();
         break;
-        
+
       /*
        * Default return value
        */
@@ -201,6 +215,9 @@ public final class LoadMethodMapper
     return value;
   }
 
+  /*
+   * Set current invoice data instance
+   */
   public static void setInvoiceData (final InvoiceData id)
   {
     invoiceData = id;

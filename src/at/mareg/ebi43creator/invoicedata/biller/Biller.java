@@ -9,7 +9,15 @@ import at.mareg.ebi43creator.invoicedata.address.Address;
 @XmlType (propOrder = { "vatID", "address", "supplierID" })
 public class Biller
 {
+  /**
+   * Class to save biller data
+   *
+   * @author Martin Regitnig
+   */
 
+  /*
+   * Data variables
+   */
   private String vatID;
   private Address address;
   private String supplierID;
@@ -19,6 +27,9 @@ public class Biller
     address = new Address ();
   }
 
+  /*
+   * Getter / Setter
+   */
   @XmlElement (name = "VATIdentificationNumber", namespace = Data.DEFAULT_NAMESPACE)
   public String getVatID ()
   {

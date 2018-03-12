@@ -19,6 +19,7 @@ import at.mareg.ebi43creator.invoicedata.InvoiceData;
  *
  * @author Martin Regitnig
  */
+
 public class ResourceManager
 {
   /*
@@ -47,7 +48,7 @@ public class ResourceManager
   private final HelpArea helpArea;
 
   /*
-   * The form
+   * Form panes
    */
   private final FormTabs form;
   private final OrderPane orderPane;
@@ -108,7 +109,7 @@ public class ResourceManager
   }
 
   /*
-   * Data
+   * Getter
    */
   public InvoiceDateManager getInvoiceDateManager ()
   {
@@ -120,17 +121,11 @@ public class ResourceManager
     return invoiceData;
   }
 
-  /*
-   * Display management
-   */
   public EBI43CreatorMain getDisplay ()
   {
     return display;
   }
 
-  /*
-   * The form
-   */
   public FormTabs getForm ()
   {
     return form;

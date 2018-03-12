@@ -8,6 +8,13 @@ import at.mareg.ebi43creator.display.resources.Data;
 @XmlType (propOrder = { "baseAmount", "amount", "comment", "vatRate" })
 public class Surcharge
 {
+  /**
+   * Class to save a global surchare
+   */
+
+  /*
+   * Data variables
+   */
   private Double baseAmount;
   private Double amount;
   private Integer vatRate;
@@ -16,6 +23,9 @@ public class Surcharge
   public Surcharge ()
   {}
 
+  /*
+   * Getter / Setter
+   */
   @XmlElement (name = "BaseAmount", namespace = Data.DEFAULT_NAMESPACE)
   public Double getBaseAmount ()
   {

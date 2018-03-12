@@ -44,10 +44,26 @@ import at.mareg.ebi43creator.invoicedata.tax.Tax;
                         "comment" })
 public class InvoiceData
 {
+  /**
+   * Main data class to save document data and write to a XML file or read an
+   * XML file, this class is connected to all other data saving classes
+   *
+   * @author Martin Regitnig
+   */
+
+  /*
+   * Invoice date manager instance
+   */
   private InvoiceDateManager idm;
 
+  /*
+   * Resource manager instance
+   */
   private ResourceManager rm;
 
+  /*
+   * Data variables
+   */
   private String documentType;
   private String generatingSystem;
   private String invoiceCurrency;
@@ -109,6 +125,120 @@ public class InvoiceData
     paymentMethod = new PaymentMethod ();
   }
 
+  /*
+   * Set resource manager after loading an XML
+   */
+  public void setResourceManagerInternal (final ResourceManager resman)
+  {
+    rm = resman;
+    invoiceRecipient.setResourceManagerInOrderReferenceInternal (resman);
+    tax.setResourceManagerInternal (resman);
+  }
+
+  /*
+   * Set invoice date manager after loading an XML
+   */
+  public void setInvoiceDateManagerInternal (final InvoiceDateManager invdatman)
+  {
+    idm = invdatman;
+    delivery.setInvoiceDateManager (invdatman);
+  }
+
+  /*
+   * Add an empty sucharge item
+   */
+  public void addEmptySurchargeItem ()
+  {
+    if (surchargeList == null)
+      surchargeList = new ArrayList <> ();
+
+    final Surcharge s = new Surcharge ();
+    surchargeList.add (s);
+
+    rm.getSurchargeDiscountPane ().getSurchargeArea ().addEmptySurchargeLine (s);
+  }
+
+  /*
+   * Remove an surcharge item
+   */
+  public void removeSurchargeItem (final Surcharge surcharge)
+  {
+    if (surchargeList != null && surchargeList.contains (surcharge))
+    {
+      surchargeList.remove (surcharge);
+
+      if (surchargeList.size () == 0)
+        surchargeList = null;
+    }
+  }
+
+  /*
+   * Add a payment conditions element
+   */
+  public void addPaymentContitions ()
+  {
+    if (paymentConditions == null)
+      paymentConditions = new PaymentConditions (rm);
+  }
+
+  /*
+   * Remove the payment conditions element
+   */
+  public void removePaymentContitions ()
+  {
+    paymentConditions = null;
+  }
+
+  /*
+   * Write invoice data to xml file
+   */
+  public boolean serializeInvoiceAsXML (final String path)
+  {
+    try
+    {
+
+      final Marshaller m = JAXBContext.newInstance (InvoiceData.class).createMarshaller ();
+      m.setProperty (Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.valueOf (true));
+      m.setProperty (Marshaller.JAXB_ENCODING, "UTF-8");
+      m.setProperty ("com.sun.xml.bind.namespacePrefixMapper", new MyNamespaceMapper ());
+      m.marshal (this, new FileOutputStream (path));
+
+      return true;
+
+    }
+    catch (final Exception e)
+    {
+      System.out.println ("Fehler beim Schreiben der Datei!");
+      e.printStackTrace ();
+
+      return false;
+    }
+  }
+
+  /*
+   * Read existing xml invoice file
+   */
+  public InvoiceData readXMLInvoice (final String path)
+  {
+    try (FileInputStream aIS = new FileInputStream (path))
+    {
+
+      final Unmarshaller um = JAXBContext.newInstance (InvoiceData.class).createUnmarshaller ();
+      return (InvoiceData) um.unmarshal (aIS);
+
+    }
+    catch (final Exception e)
+    {
+      System.out.println ("Fehler beim Lesen der Datei!");
+      e.printStackTrace ();
+    }
+
+    return null;
+  }
+
+  /*
+   * Getter / Setter
+   */
   @XmlAttribute (name = "DocumentType", namespace = Data.DEFAULT_NAMESPACE)
   public String getDocumentType ()
   {
@@ -328,116 +458,5 @@ public class InvoiceData
   {
     this.comment = comment;
     return true;
-  }
-
-  /*
-   * Set resource manager after loading an XML
-   */
-  public void setResourceManagerInternal (final ResourceManager resman)
-  {
-    rm = resman;
-    invoiceRecipient.setResourceManagerInOrderReferenceInternal (resman);
-    tax.setResourceManagerInternal (resman);
-  }
-
-  /*
-   * Set invoice date manager after loading an XML
-   */
-  public void setInvoiceDateManagerInternal (final InvoiceDateManager invdatman)
-  {
-    idm = invdatman;
-    delivery.setInvoiceDateManager (invdatman);
-  }
-
-  /*
-   * Add an empty sucharge item
-   */
-  public void addEmptySurchargeItem ()
-  {
-    if (surchargeList == null)
-      surchargeList = new ArrayList <> ();
-
-    final Surcharge s = new Surcharge ();
-    surchargeList.add (s);
-
-    rm.getSurchargeDiscountPane ().getSurchargeArea ().addEmptySurchargeLine (s);
-  }
-
-  /*
-   * Remove an surcharge item
-   */
-  public void removeSurchargeItem (final Surcharge surcharge)
-  {
-    if (surchargeList != null && surchargeList.contains (surcharge))
-    {
-      surchargeList.remove (surcharge);
-
-      if (surchargeList.size () == 0)
-        surchargeList = null;
-    }
-  }
-
-  /*
-   * Add a payment conditions element
-   */
-  public void addPaymentContitions ()
-  {
-    if (paymentConditions == null)
-      paymentConditions = new PaymentConditions (rm);
-  }
-
-  /*
-   * Remove the payment conditions element
-   */
-  public void removePaymentContitions ()
-  {
-    paymentConditions = null;
-  }
-
-  /*
-   * Write invoice data to xml file
-   */
-  public boolean serializeInvoiceAsXML (final String path)
-  {
-    try
-    {
-
-      final Marshaller m = JAXBContext.newInstance (InvoiceData.class).createMarshaller ();
-      m.setProperty (Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.valueOf (true));
-      m.setProperty (Marshaller.JAXB_ENCODING, "UTF-8");
-      m.setProperty ("com.sun.xml.bind.namespacePrefixMapper", new MyNamespaceMapper ());
-      m.marshal (this, new FileOutputStream (path));
-
-      return true;
-
-    }
-    catch (final Exception e)
-    {
-      System.out.println ("Fehler beim Schreiben der Datei!");
-      e.printStackTrace ();
-
-      return false;
-    }
-  }
-
-  /*
-   * Read existing xml invoice file
-   */
-  public InvoiceData readXMLInvoice (final String path)
-  {
-    try (FileInputStream aIS = new FileInputStream (path))
-    {
-
-      final Unmarshaller um = JAXBContext.newInstance (InvoiceData.class).createUnmarshaller ();
-      return (InvoiceData) um.unmarshal (aIS);
-
-    }
-    catch (final Exception e)
-    {
-      System.out.println ("Fehler beim Lesen der Datei!");
-      e.printStackTrace ();
-    }
-
-    return null;
   }
 }

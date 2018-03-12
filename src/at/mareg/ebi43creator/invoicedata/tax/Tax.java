@@ -14,6 +14,12 @@ import at.mareg.ebi43creator.invoicedata.reductionandsurcharge.Surcharge;
 
 public class Tax
 {
+  /**
+   * Class to save vat items and calculate the vats
+   *
+   * @author Martin Regitnig
+   */
+
   /*
    * ResourceManager instance
    */
@@ -47,7 +53,7 @@ public class Tax
     {
       final VATItem vi = new VATItem (vr, null);
       vi.setTaxedAmount (Double.valueOf (0d));
- 
+
       vatItems.add (vi);
     }
   }
@@ -83,12 +89,12 @@ public class Tax
   {
     final InvoiceData id = rm.getInvoiceData ();
     VATItem vi = null;
-    
+
     /*
      * Delete vat items, total gross an payable amount and recalculate
      */
     vatItems.clear ();
-    System.out.println(vatItems.size());
+    System.out.println (vatItems.size ());
     id.setTotalGrossAmount (null);
     id.setPayableAmount (null);
 
@@ -99,8 +105,8 @@ public class Tax
     {
       final Integer vatRate = lli.getVatRate ();
       final String taxExemption = lli.getTaxExemption ();
-      
-      System.out.println(lli + ";  " + vatRate + "; " + taxExemption);
+
+      System.out.println (lli + ";  " + vatRate + "; " + taxExemption);
 
       if (vatRate != null)
         addEmptyVatItemWithVatRate (vatRate);
@@ -169,7 +175,7 @@ public class Tax
     id.setPayableAmount (totalGrossAmount);
   }
 
-   /*
+  /*
    * Getters / Setters
    */
   @XmlElementWrapper (name = "VAT", namespace = Data.DEFAULT_NAMESPACE)

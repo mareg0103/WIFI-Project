@@ -10,6 +10,12 @@ import javafx.scene.control.TextArea;
 
 public class ShowErrorFieldsDialog extends Dialog <ButtonType>
 {
+  /**
+   * With this dialog you can show the erroneous fields in the form (if present)
+   *
+   * @author Martin Regitnig
+   */
+
   public ShowErrorFieldsDialog ()
   {
     init ();
@@ -25,6 +31,9 @@ public class ShowErrorFieldsDialog extends Dialog <ButtonType>
     final TextArea showErroneousArea = new TextArea ();
     final StringBuilder sb = new StringBuilder ();
 
+    /*
+     * If error map size > 0 -> read map and create output for this dialog
+     */
     if (RequiredAndErrorHelper.getErrorMapSize () > 0)
     {
       sb.append ("Folgende Felder sind fehlerhaft:\n");
@@ -38,6 +47,9 @@ public class ShowErrorFieldsDialog extends Dialog <ButtonType>
       }
     }
 
+    /*
+     * Write to text area and show
+     */
     if (sb.toString ().isEmpty ())
       showErroneousArea.setText ("Keine fehlerhaft befüllten Felder vorhanden");
     else

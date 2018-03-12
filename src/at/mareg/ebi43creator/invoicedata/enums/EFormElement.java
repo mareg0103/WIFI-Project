@@ -17,7 +17,6 @@ import at.mareg.ebi43creator.display.resources.Data;
 
 public enum EFormElement
 {
-
   // Procedure to add a new element to form
   //
   // Add new element to this enum
@@ -26,7 +25,7 @@ public enum EFormElement
   // Create a new entry in HelpArea
 
   /*
-   * Order data elements
+   * Values - Order data elements
    */
   ORDER_ID ("orderid", "Auftragsreferenz", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_ORDER_NAME),
   ORDER_REFERENCEDATE ("orderreferencedate", "Auftragsdatum", Data.ELEMENTTYPE_DATEPICKER, false, Data.TITLEDPANE_ORDER_NAME),
@@ -40,7 +39,7 @@ public enum EFormElement
   COMMENT ("comment", "Mitteilung", Data.ELEMENTTYPE_TEXTAREA, false, Data.TITLEDPANE_ORDER_NAME),
 
   /*
-   * Biller elements
+   * Values - Biller elements
    */
   BILLER_NAME ("billername", "Name", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_BILLER_NAME),
   BILLER_STREET ("billerstreet", "Strasse", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_BILLER_NAME),
@@ -52,7 +51,7 @@ public enum EFormElement
   BILLER_CONTACT ("billercontact", "Kontaktperson", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_BILLER_NAME),
 
   /*
-   * Invoice recipient elements
+   * Values - Invoice recipient elements
    */
   INVOICERECIPIENT_NAME ("invoicerecipientname", "Name", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_INVOICERECIPIENT_NAME),
   INVOICERECIPIENT_STREET ("invoicerecipienstreet", "Strasse", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_INVOICERECIPIENT_NAME),
@@ -64,7 +63,7 @@ public enum EFormElement
   INVOICERECIPIENT_CONTACT ("invoicerecipiencontact", "Kontaktperson", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_INVOICERECIPIENT_NAME),
 
   /*
-   * Delivery elements
+   * Values - Delivery elements
    */
   DELIVERY_ID ("deliveryid", "Lieferscheinnummer", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY_NAME),
   DELIVERY_USE ("deliveryuse", "Abweichende Lieferanschrift verwenden", Data.ELEMENTTYPE_CHECKBOX, false, Data.TITLEDPANE_DELIVERY_NAME),
@@ -78,14 +77,14 @@ public enum EFormElement
   DELIVERY_CONTACT ("dleiverycontact", "Kontaktperson", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DELIVERY_NAME),
 
   /*
-   * Payment elements
+   * Values - Payment elements
    */
   PAYMENT_BIC ("paymentbic", "BIC", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_PAYMENT_NAME),
   PAYMENT_IBAN ("paymentiban", "IBAN", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_PAYMENT_NAME),
   PAYMENT_ACCOUNTOWNER ("paymentaccountowner", "Kontoinhaber", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_PAYMENT_NAME),
 
   /*
-   * Details Pane - right area elements
+   * Values - Details Pane - right area elements
    */
   DETAILS_RIGHT_ADDINVOICELINE_BUTTON ("addinvoiceline", "Rechnungszeile\nhinzufügen", Data.ELEMENTTYPE_BUTTON, false, Data.DETAILS_RIGHT_AREA),
   DETAILS_RIGHT_TOTALNETAMOUND ("detailsrighttotalnetamount", "Gesamtnetto\ninkl. Auf-/Abschläge", Data.ELEMENTTYPE_TEXTFIELD, false, Data.DETAILS_RIGHT_AREA),
@@ -94,7 +93,7 @@ public enum EFormElement
   DETAILS_RIGHT_VATID_INVOICERECIPIENT ("invoicerecipientvatid", "UID Rechnungsempfänger", Data.ELEMENTTYPE_TEXTFIELD, true, Data.DETAILS_RIGHT_AREA),
 
   /*
-   * Details Pane - invoice lines
+   * Values - Details Pane - invoice lines
    */
   DETAILS_LINE_ORDERPOSITIONNUMER ("orderpositionnumber", "Pos.Nr. aus Bestellung", Data.ELEMENTTYPE_TEXTFIELD, false, Data.TITLEDPANE_DETAILS_NAME),
   DETAILS_LINE_QUANTITY ("quantity", "Menge", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DETAILS_NAME),
@@ -111,7 +110,7 @@ public enum EFormElement
   DETAILS_LINE_REMOVE ("deletethisline", "", Data.ELEMENTTYPE_BUTTON, false, Data.TITLEDPANE_DETAILS_NAME),
 
   /*
-   * Reduction/Surcharge/Discount - right area
+   * Values - Reduction/Surcharge/Discount - right area
    */
   SURCHARGE_DISCOUNT_RIGHT_ADDSURCHARGEBUTTON ("addsurcharge", "Auf-/Abschlag\nhinzufügen", Data.ELEMENTTYPE_BUTTON, false, Data.SURCHARGE_RIGHT_AREA),
   SURCHARGE_DISCOUNT_RIGHT_ADDDISCOUNTBUTTON ("adddiscount", "Skonto\nhinzufügen", Data.ELEMENTTYPE_BUTTON, false, Data.SURCHARGE_RIGHT_AREA),
@@ -119,7 +118,7 @@ public enum EFormElement
   SURCHARGE_DISCOUNT_RIGHT_TOTALGROSSAMOUNT ("surchargerighttotalgrossamount", "Gesamtbrutto", Data.ELEMENTTYPE_TEXTFIELD, false, Data.SURCHARGE_RIGHT_AREA),
 
   /*
-   * Reduction/Surcharge elements
+   * Values - Reduction/Surcharge elements
    */
   SURCHARGE_VALUE ("surchargevalue", "Wert", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_SURCHARGE_NAME),
   SURCHARGE_VAT ("surchargevat", "Steuersatz", Data.ELEMENTTYPE_COMBOBOX, true, Data.TITLEDPANE_SURCHARGE_NAME),
@@ -127,19 +126,19 @@ public enum EFormElement
   SURCHARGE_REMOVE ("deletethissurcharge", "", Data.ELEMENTTYPE_BUTTON, false, Data.TITLEDPANE_SURCHARGE_NAME),
 
   /*
-   * Discount elements
+   * Values - Discount elements
    */
   DISCOUNT_PERCENT ("discountpercent", "Prozent Skonto", Data.ELEMENTTYPE_TEXTFIELD, true, Data.TITLEDPANE_DISCOUNT_NAME),
   DISCOUNT_UNTIL_DATE ("discountuntildate", "bei Bezahlung bis", Data.ELEMENTTYPE_DATEPICKER, true, Data.TITLEDPANE_DISCOUNT_NAME),
   DISCOUNT_REMOVE ("deletethisdiscount", "", Data.ELEMENTTYPE_BUTTON, false, Data.TITLEDPANE_DISCOUNT_NAME),
 
   /*
-   * Due date element
+   * Values - Due date element
    */
   DUE_DATE ("duedate", "Fälligkeitsdatum netto", Data.ELEMENTTYPE_DATEPICKER, false, Data.TITLEDPANE_DUEDATE_NAME),
 
   /*
-   * Summary - right area
+   * Values - Summary - right area
    */
   SUMMARY_SHOW_REQUIRED_FIELDSBUTTON ("showrequiredfields", "Zeige fehlende\nPflichtfelder", Data.ELEMENTTYPE_BUTTON, false, Data.TITLEDPANE_SUMMARY_NAME),
   SUMMARY_SHOW_ERRONEOUS_FIELDSBUTTON ("showerroneousfields", "Zeige fehler-\nhafte Felder", Data.ELEMENTTYPE_BUTTON, false, Data.TITLEDPANE_SUMMARY_NAME),
@@ -147,7 +146,7 @@ public enum EFormElement
   SUMMARY_SAVE_INVOICE_AND_CLOSEBUTTON ("saveinvoiceandclose", "Rechnung speichern\n und Beenden", Data.ELEMENTTYPE_BUTTON, false, Data.TITLEDPANE_SUMMARY_NAME);
 
   /*
-   * Variables and methods
+   * Data variables
    */
   private final String sID;
   private final String sLabelText;
@@ -164,6 +163,22 @@ public enum EFormElement
     sTitledPaneID = tID;
   }
 
+  /*
+   * Returns an element or null based on a given ID
+   */
+  public static EFormElement getFromIDOrNull (final String sID)
+  {
+    if (sID != null)
+      for (final EFormElement e : values ())
+        if (e.sID.equals (sID))
+          return e;
+
+    return null;
+  }
+
+  /*
+   * Getter / Setter
+   */
   public String getName ()
   {
     return name ();
@@ -197,15 +212,5 @@ public enum EFormElement
   public String getTiteldPaneID ()
   {
     return sTitledPaneID;
-  }
-
-  public static EFormElement getFromIDOrNull (final String sID)
-  {
-    if (sID != null)
-      for (final EFormElement e : values ())
-        if (e.sID.equals (sID))
-          return e;
-
-    return null;
   }
 }

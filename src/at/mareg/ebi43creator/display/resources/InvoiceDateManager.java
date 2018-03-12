@@ -9,19 +9,32 @@ import javafx.util.Callback;
 
 public class InvoiceDateManager
 {
+  /**
+   * Date manager to create and calculate dates and day cell factories
+   *
+   * @author Martin Regitnig
+   */
 
-  // Formatter to parse a German formatted String to a LocalDate
+  /*
+   * Formatter to parse a German formatted String to a LocalDate
+   */
   private final String DATE_FORMATTER_PATTERN_DE = "dd.MM.yyyy";
 
-  // Necessary dates
+  /*
+   * Necessary dates
+   */
   private final LocalDate currentDate;
   private final LocalDate minInvoiceDate;
   private final LocalDate maxInvoiceDate;
 
-  // Day cell for limiting general date picker
+  /*
+   * Day cell for limiting general date picker
+   */
   private Callback <DatePicker, DateCell> dayCellFactory;
 
-  // Day cell for limiting order reference date date picker
+  /*
+   * Day cell for limiting order reference date date picker
+   */
   private Callback <DatePicker, DateCell> dayCellFactoryOrder;
 
   public InvoiceDateManager ()
@@ -35,9 +48,9 @@ public class InvoiceDateManager
 
   }
 
-  // Internal methods
-
-  // Initialize day cell factories
+  /*
+   * Initialize day cell factories
+   */
   private void initDayCellFactories ()
   {
     dayCellFactory = (final DatePicker dp) -> new DateCell ()
@@ -75,20 +88,10 @@ public class InvoiceDateManager
     };
   }
 
-  // External methods
-
-  // Disable the dates in DatePicker which are before the allowed minimum and
-  // after the allowed maximum invoice date
-  public Callback <DatePicker, DateCell> getDayCellFactoryForInvoiceDate ()
-  {
-    return dayCellFactory;
-  }
-
-  public Callback <DatePicker, DateCell> getDayCellFactoryOrder ()
-  {
-    return dayCellFactoryOrder;
-  }
-
+  /*
+   * Return a new day cell factory where all dates after a given date are
+   * disabled
+   */
   public Callback <DatePicker, DateCell> getDayCellFectoryDisableAfter (final LocalDate date)
   {
 
@@ -114,6 +117,10 @@ public class InvoiceDateManager
     return dcf;
   }
 
+  /*
+   * Return a new day cell factory where all dates before a given date are
+   * disabled
+   */
   public Callback <DatePicker, DateCell> getDayCellFectoryDisableBefore (final LocalDate date)
   {
 
@@ -139,7 +146,21 @@ public class InvoiceDateManager
     return dcf;
   }
 
-  // Just returning values as String or local date
+  /*
+   * Comparing two dates and return whether the first date is after the second
+   * one
+   */
+  public boolean isFromDateAfterToDate (final String from, final String to)
+  {
+    final LocalDate fromDate = LocalDate.parse (from);
+    final LocalDate toDate = LocalDate.parse (to);
+
+    return fromDate.isAfter (toDate);
+  }
+
+  /*
+   * Getter / Setter
+   */
   public String getCurrentDateAsString ()
   {
     return currentDate.toString ();
@@ -153,6 +174,16 @@ public class InvoiceDateManager
   public String getMaxInvoiceDateAsString ()
   {
     return maxInvoiceDate.toString ();
+  }
+
+  public Callback <DatePicker, DateCell> getDayCellFactoryForInvoiceDate ()
+  {
+    return dayCellFactory;
+  }
+
+  public Callback <DatePicker, DateCell> getDayCellFactoryOrder ()
+  {
+    return dayCellFactoryOrder;
   }
 
   public String getGermanFormatedDateFromLocalDateString (final String localDateAsString)
@@ -175,14 +206,5 @@ public class InvoiceDateManager
   public String getLocalDateStringFromGermanFormattedDateString (final String dateString)
   {
     return LocalDate.parse (dateString, DateTimeFormatter.ofPattern (DATE_FORMATTER_PATTERN_DE)).toString ();
-  }
-
-  // Comparing dates
-  public boolean isFromDateAfterToDate (final String from, final String to)
-  {
-    LocalDate fromDate = LocalDate.parse (from);
-    LocalDate toDate = LocalDate.parse (to);
-
-    return fromDate.isAfter (toDate);
   }
 }

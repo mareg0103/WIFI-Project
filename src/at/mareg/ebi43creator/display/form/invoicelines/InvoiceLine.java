@@ -36,6 +36,13 @@ import javafx.scene.text.FontWeight;
 
 public class InvoiceLine extends BasePane
 {
+  /**
+   * This is the invoice line; it saves and calculates all necessary values for
+   * an invoice line
+   *
+   * @author Martin Regitnig
+   */
+
   /*
    * Invoice line counter
    */
@@ -55,10 +62,6 @@ public class InvoiceLine extends BasePane
    * Help area instance
    */
   private final HelpArea helpArea;
-
-  /*
-   *
-   */
 
   /*
    * Pane elements
@@ -83,7 +86,8 @@ public class InvoiceLine extends BasePane
   private TextField totalGrossAmountField;
 
   /*
-   * Line variables
+   * Line variables to save the value for later use of this line (Calculation,
+   * Summary, ...)
    */
   private final int lineNumber;
   private Integer orderPositionNumber;
@@ -148,7 +152,8 @@ public class InvoiceLine extends BasePane
 
       final int indexOfSemicolon = text.indexOf (",");
       if (indexOfSemicolon != -1)
-        if (text.substring (indexOfSemicolon + 1).length () == 2 && ((TextField) event.getTarget ()).getCaretPosition () > indexOfSemicolon)
+        if (text.substring (indexOfSemicolon + 1).length () == 2 &&
+            ((TextField) event.getTarget ()).getCaretPosition () > indexOfSemicolon)
           event.consume ();
     };
 
@@ -168,7 +173,8 @@ public class InvoiceLine extends BasePane
       final int indexOfSemicolon = text.indexOf (",");
 
       if (indexOfSemicolon != -1)
-        if (text.substring (indexOfSemicolon + 1).length () == 4 && ((TextField) event.getTarget ()).getCaretPosition () > indexOfSemicolon)
+        if (text.substring (indexOfSemicolon + 1).length () == 4 &&
+            ((TextField) event.getTarget ()).getCaretPosition () > indexOfSemicolon)
           event.consume ();
     };
   }
@@ -181,8 +187,6 @@ public class InvoiceLine extends BasePane
    */
   protected void init ()
   {
-    // super.init ();
-
     grid = new GridPane ();
     for (int i = 0; i < 4; i++)
     {
@@ -192,7 +196,6 @@ public class InvoiceLine extends BasePane
     grid.setPadding (Data.LINE_PADDING);
     grid.setHgap (Data.LINE_HVGAP);
     grid.setVgap (grid.getHgap ());
-    // grid.setGridLinesVisible (true);
 
     /*
      * Order Position Number
@@ -307,9 +310,6 @@ public class InvoiceLine extends BasePane
     final Label unitLabel = FormElementCreator.getStandardLabel (EFormElement.DETAILS_LINE_UNIT.getLabelText (), null);
     unitComboBox = FormElementCreator.getInvoiceLineUnitComboBox (EFormElement.DETAILS_LINE_UNIT.getID ());
     unitComboBox.getSelectionModel ().select (Data.DEFAULT_UNIT);
-    // unitComboBox.hoverProperty ().addListener ( (observable) -> {
-    // helpArea.show (EFormElement.DETAILS_LINE_UNIT.getID ());
-    // });
     unitComboBox.focusedProperty ().addListener ((ChangeListener <Boolean>) (observable, oldValue, newValue) -> {
       if (newValue)
       {
@@ -592,9 +592,10 @@ public class InvoiceLine extends BasePane
                              {
                                taxexemptionreason = taxExemptionReasonField.getText ();
                                listLineItem.setTaxExemptionReasonInternal (taxexemptionreason);
-                               
-                               if (!taxexemptionreason.isEmpty())
-                            	   RequiredAndErrorHelper.removeRequiredFieldForLine(Integer.valueOf (getInvoiceLineNumber()), taxExemptionReasonField.getId());
+
+                               if (!taxexemptionreason.isEmpty ())
+                                 RequiredAndErrorHelper.removeRequiredFieldForLine (Integer.valueOf (getInvoiceLineNumber ()),
+                                                                                    taxExemptionReasonField.getId ());
                              }
                            });
 
@@ -674,6 +675,11 @@ public class InvoiceLine extends BasePane
     return lineNumber;
   }
 
+  /*
+   * Sets the status of field and label OrderPositionNumber; if order id is an
+   * order number of government -> set status required and enabled, otherwise
+   * set status optional and disabled
+   */
   public void setOrderPositionNumberStatus (final boolean status)
   {
     final EFormElement opnElement = EFormElement.DETAILS_LINE_ORDERPOSITIONNUMER;
@@ -717,7 +723,7 @@ public class InvoiceLine extends BasePane
     FormElementCreator.disableComboBox (vatComboBox);
 
     this.vatRate = null;
-    listLineItem.setVatRate(null);
+    listLineItem.setVatRate (null);
 
     calculateLine ();
   }
@@ -821,14 +827,14 @@ public class InvoiceLine extends BasePane
   {
     return grid;
   }
-  
+
   /*
-   * Set tax examption check box to enable if in a loaded XML a tax exemption 
-   * is entered in a line
+   * Set tax examption check box to enable if in a loaded XML a tax exemption is
+   * entered in a line
    */
   public void setTaxExemptionCheckBoxToSelected ()
   {
-	  taxExemptionCheckBox.selectedProperty().set(true);
+    taxExemptionCheckBox.selectedProperty ().set (true);
   }
 
   /*

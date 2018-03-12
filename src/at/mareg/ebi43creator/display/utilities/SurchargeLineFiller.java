@@ -2,7 +2,6 @@ package at.mareg.ebi43creator.display.utilities;
 
 import at.mareg.ebi43creator.display.form.surcharge.SurchargeLine;
 import at.mareg.ebi43creator.display.resources.Data;
-import at.mareg.ebi43creator.invoicedata.InvoiceData;
 import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
 import at.mareg.ebi43creator.invoicedata.reductionandsurcharge.Surcharge;
 import javafx.scene.Node;
@@ -14,13 +13,20 @@ import javafx.scene.layout.VBox;
 
 public final class SurchargeLineFiller
 {
-  private static InvoiceData invoiceData;
+  /**
+   * Fill the form with loaded data from XML file
+   *
+   * @author Martin Regitnig
+   */
 
+  /*
+   * No instantiation, only static methods
+   */
   private SurchargeLineFiller ()
   {}
 
   /*
-   * Fill invoice line with loaded data
+   * Fill surcharge line with loaded data
    */
   @SuppressWarnings ("unchecked")
   public static void fillLineWithLoadedData (final SurchargeLine sl)
@@ -100,10 +106,5 @@ public final class SurchargeLineFiller
     }
 
     sl.calculateLine ();
-  }
-
-  public static void setInvoiceData (final InvoiceData id)
-  {
-    invoiceData = id;
   }
 }

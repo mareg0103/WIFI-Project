@@ -10,9 +10,20 @@ import at.mareg.ebi43creator.invoicedata.address.Address;
 @XmlType (propOrder = { "deliveryID", "deliveryDate", "deliveryPeriod", "address" })
 public class Delivery
 {
+  /**
+   * Class to save delivery data
+   *
+   * @author Martin Regitnig
+   */
 
+  /*
+   * Invoice date manager instance
+   */
   private InvoiceDateManager idm;
 
+  /*
+   * Data variables
+   */
   private String deliveryID;
   private String deliveryDate;
   private DeliveryPeriod deliveryPeriod;
@@ -26,6 +37,65 @@ public class Delivery
     deliveryPeriod = null;
 
     address = null;
+  }
+
+  /*
+   * Set from date
+   */
+  public void setFromDateInternal (final String from)
+  {
+    if (deliveryPeriod == null)
+    {
+      deliveryDate = from;
+    }
+    else
+    {
+      final String to = deliveryPeriod.getToDate ();
+
+      if (idm.isFromDateAfterToDate (from, to))
+      {
+        deliveryDate = from;
+        deliveryPeriod = null;
+      }
+      else
+      {
+        deliveryPeriod.setFromDate (from);
+      }
+    }
+  }
+
+  /*
+   * Set to date
+   */
+  public void setToDateInternal (final String to)
+  {
+    if (deliveryPeriod == null)
+    {
+      deliveryPeriod = new DeliveryPeriod ();
+
+      deliveryPeriod.setFromDate (deliveryDate);
+      deliveryPeriod.setToDate (to);
+
+      deliveryDate = null;
+    }
+    else
+    {
+      deliveryPeriod.setToDate (to);
+    }
+  }
+
+  /*
+   * Enable / disable delivery address
+   */
+  public void enableDeliveryAddress (final boolean activate)
+  {
+    if (activate)
+    {
+      if (address == null)
+        address = new Address ();
+    }
+    else
+      address = null;
   }
 
   /*
@@ -85,56 +155,5 @@ public class Delivery
   public void setInvoiceDateManager (final InvoiceDateManager manager)
   {
     this.idm = manager;
-  }
-
-  // Internal working methods for saving invoice data
-  public void setFromDateInternal (final String from)
-  {
-    if (deliveryPeriod == null)
-    {
-      deliveryDate = from;
-    }
-    else
-    {
-      final String to = deliveryPeriod.getToDate ();
-
-      if (idm.isFromDateAfterToDate (from, to))
-      {
-        deliveryDate = from;
-        deliveryPeriod = null;
-      }
-      else
-      {
-        deliveryPeriod.setFromDate (from);
-      }
-    }
-  }
-
-  public void setToDateInternal (final String to)
-  {
-    if (deliveryPeriod == null)
-    {
-      deliveryPeriod = new DeliveryPeriod ();
-
-      deliveryPeriod.setFromDate (deliveryDate);
-      deliveryPeriod.setToDate (to);
-
-      deliveryDate = null;
-    }
-    else
-    {
-      deliveryPeriod.setToDate (to);
-    }
-  }
-
-  public void enableDeliveryAddress (final boolean activate)
-  {
-    if (activate)
-    {
-      if (address == null)
-        address = new Address ();
-    }
-    else
-      address = null;
   }
 }

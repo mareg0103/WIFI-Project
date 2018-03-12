@@ -11,7 +11,15 @@ import at.mareg.ebi43creator.invoicedata.orderreference.OrderReference;
 @XmlType (propOrder = { "vatID", "orderReference", "address", "billerID" })
 public class InvoiceRecipient
 {
+  /**
+   * Class to save invoice recipient data
+   *
+   * @author Martin Regitnig
+   */
 
+  /*
+   * Data variables
+   */
   private String vatID;
   private OrderReference orderReference;
   private Address address;
@@ -23,6 +31,17 @@ public class InvoiceRecipient
     address = new Address ();
   }
 
+  /*
+   * Set resource manager in order reference
+   */
+  public void setResourceManagerInOrderReferenceInternal (final ResourceManager resman)
+  {
+    orderReference.setResourceManagerInternal (resman);
+  }
+
+  /*
+   * Getter / Setter
+   */
   @XmlElement (name = "VATIdentificationNumber", namespace = Data.DEFAULT_NAMESPACE)
   public String getVatID ()
   {
@@ -69,10 +88,5 @@ public class InvoiceRecipient
   public void setBillerID (final String billerID)
   {
     this.billerID = billerID;
-  }
-
-  public void setResourceManagerInOrderReferenceInternal (final ResourceManager resman)
-  {
-    orderReference.setResourceManagerInternal (resman);
   }
 }

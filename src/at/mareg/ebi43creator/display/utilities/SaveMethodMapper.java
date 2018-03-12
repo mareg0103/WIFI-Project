@@ -9,15 +9,20 @@ import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
 /**
  * This class checks (if necessary) and saves data depending on the field which
  * triggers this class
- * 
+ *
  * @author Martin Regitnig
  */
 
 public final class SaveMethodMapper
 {
-
+  /*
+   * Invoice data instance
+   */
   private static InvoiceData invoiceData = null;
 
+  /*
+   * No instantiation, only static methods
+   */
   private SaveMethodMapper ()
   {}
 
@@ -70,9 +75,9 @@ public final class SaveMethodMapper
         break;
 
       case INVOICE_CURRENCY:
-    	ECurrency e =  ECurrency.getFromInvoiceCurrencyOrNull(value);
-    	 
-        invoiceData.setInvoiceCurrency (e.getInvoiceCurrencyShort());
+        final ECurrency e = ECurrency.getFromInvoiceCurrencyOrNull (value);
+
+        invoiceData.setInvoiceCurrency (e.getInvoiceCurrencyShort ());
         break;
 
       case FROM_DATE:
@@ -242,13 +247,10 @@ public final class SaveMethodMapper
         break;
 
       /*
-       * On error
+       * Set default return message
        */
       default:
         checkInputReturnMessage = Data.CHECKMESSAGE_SUCCESS;
-        // System.err.println (
-        // "Keine Methode für Feld '" + field + "' vorhanden, möglicherweise
-        // InvoiceLine-Element!");
     }
 
     return checkInputReturnMessage;
@@ -258,10 +260,4 @@ public final class SaveMethodMapper
   {
     invoiceData = data;
   }
-
-  public static InvoiceData getInvoiceData ()
-  {
-    return invoiceData;
-  }
-
 }

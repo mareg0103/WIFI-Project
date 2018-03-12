@@ -18,8 +18,20 @@ import javafx.scene.layout.VBox;
 
 public final class InvoiceLineFiller
 {
+  /**
+   * Fills the form with loaded invoice line data
+   *
+   * @author Martin Regitnig
+   */
+
+  /*
+   * Invoice data instance
+   */
   private static InvoiceData invoiceData;
 
+  /*
+   * No instantiation, only static methods
+   */
   private InvoiceLineFiller ()
   {}
 
@@ -100,18 +112,19 @@ public final class InvoiceLineFiller
                   break;
 
                 case DETAILS_LINE_TAXEXEMPTION_REASON:
-                	final String tr = lli.getTaxExemption();
-                	if (tr == null)
-                		value = "";
-                	else
-                	{
-                		value = tr;
-                		
-                		il.setTaxExemptionCheckBoxToSelected();
-                		il.enableTaxExemption();
-                		
-                		RequiredAndErrorHelper.removeRequiredFieldForLine(Integer.valueOf (il.getInvoiceLineNumber()), elementID);
-                	}
+                  final String tr = lli.getTaxExemption ();
+                  if (tr == null)
+                    value = "";
+                  else
+                  {
+                    value = tr;
+
+                    il.setTaxExemptionCheckBoxToSelected ();
+                    il.enableTaxExemption ();
+
+                    RequiredAndErrorHelper.removeRequiredFieldForLine (Integer.valueOf (il.getInvoiceLineNumber ()),
+                                                                       elementID);
+                  }
                   value = lli.getTaxExemption ();
                   break;
 
@@ -158,6 +171,9 @@ public final class InvoiceLineFiller
     il.calculateLine ();
   }
 
+  /*
+   * Set the current invoice data instance
+   */
   public static void setInvoiceData (final InvoiceData id)
   {
     invoiceData = id;

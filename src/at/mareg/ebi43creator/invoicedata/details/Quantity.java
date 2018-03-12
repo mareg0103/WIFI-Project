@@ -7,13 +7,24 @@ import at.mareg.ebi43creator.display.resources.Data;
 
 public class Quantity
 {
+  /**
+   * Class to save quantity and unit data
+   *
+   * @author Martin Regitnig
+   */
 
+  /*
+   * Data variables
+   */
   private String unit;
   private Double quantity;
 
   public Quantity ()
   {}
 
+  /*
+   * Getter / Setter
+   */
   @XmlAttribute (name = "Unit", namespace = Data.DEFAULT_NAMESPACE)
   public String getUnit ()
   {

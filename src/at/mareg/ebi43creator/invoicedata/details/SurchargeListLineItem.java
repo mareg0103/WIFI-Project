@@ -8,6 +8,15 @@ import at.mareg.ebi43creator.display.resources.Data;
 @XmlType (propOrder = { "baseAmount", "amount", "comment" })
 public class SurchargeListLineItem
 {
+  /**
+   * Class to save surcharge data of an invoice line (list line item)
+   *
+   * @author Martin Regitnig
+   */
+
+  /*
+   * Data variables
+   */
   private Double baseAmount;
   private Double amount;
   private String comment;
@@ -15,6 +24,9 @@ public class SurchargeListLineItem
   public SurchargeListLineItem ()
   {}
 
+  /*
+   * Getter / Setter
+   */
   @XmlElement (name = "BaseAmount", namespace = Data.DEFAULT_NAMESPACE)
   public Double getBaseAmount ()
   {
@@ -22,7 +34,7 @@ public class SurchargeListLineItem
   }
 
   @SuppressWarnings ("hiding")
-  public void setBaseAmount (Double baseAmount)
+  public void setBaseAmount (final Double baseAmount)
   {
     this.baseAmount = baseAmount;
   }
@@ -34,7 +46,7 @@ public class SurchargeListLineItem
   }
 
   @SuppressWarnings ("hiding")
-  public void setAmount (Double amount)
+  public void setAmount (final Double amount)
   {
     this.amount = amount;
   }

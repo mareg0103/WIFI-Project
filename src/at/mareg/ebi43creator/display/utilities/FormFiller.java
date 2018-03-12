@@ -16,7 +16,20 @@ import javafx.scene.layout.VBox;
 
 public final class FormFiller
 {
+  /**
+   * Fills the form with loaded data on an XML file
+   *
+   * @author Martin Regitnig
+   */
+
+  /*
+   * Invoice data instance
+   */
   private final InvoiceData invoiceData;
+
+  /*
+   * Resource manager instance
+   */
   private final ResourceManager rm;
 
   public FormFiller (final InvoiceData id, final ResourceManager resman)
@@ -64,7 +77,7 @@ public final class FormFiller
     /*
      * Fill details pane
      */
-    DetailsPane dp = rm.getDetailsPane ();
+    final DetailsPane dp = rm.getDetailsPane ();
     dp.getInvoiceLineArea ().createInvoiceLineAfterLoading ();
     dp.setVatIdBillerFieldText (invoiceData.getBiller ().getVatID ());
     dp.setVatIdInvoiceRecipientFieldText (invoiceData.getInvoiceRecipient ().getVatID ());
@@ -77,9 +90,9 @@ public final class FormFiller
     /*
      * Delete delivery, invoice number and payment conditions
      */
-    invoiceData.getDelivery().setDeliveryDate(null);
-    invoiceData.getDelivery().setDeliveryPeriod(null);
-    invoiceData.setInvoiceNumber(null);
+    invoiceData.getDelivery ().setDeliveryDate (null);
+    invoiceData.getDelivery ().setDeliveryPeriod (null);
+    invoiceData.setInvoiceNumber (null);
     invoiceData.setPaymentContitions (null);
   }
 
@@ -137,7 +150,7 @@ public final class FormFiller
   }
 
   /*
-   * Run through delivery gird an fill elements
+   * Run through delivery grid an fill elements
    */
   private void gridWorkerDelivery (final GridPane g)
   {

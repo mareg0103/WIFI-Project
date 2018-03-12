@@ -8,6 +8,16 @@ import at.mareg.ebi43creator.display.resources.Data;
 @XmlType (propOrder = { "name", "street", "town", "zip", "country", "phone", "email", "contact" })
 public class Address
 {
+  /**
+   * This class saves address data, is used in classes for invoice recipient
+   * (required), biller (required) and delivery (optional)
+   *
+   * @author Martin Regitnig
+   */
+
+  /*
+   * Address variables
+   */
   private String name;
   private String street;
   private String town;
@@ -41,6 +51,9 @@ public class Address
 
   }
 
+  /*
+   * Getter / Setter
+   */
   @XmlElement (name = "Name", namespace = Data.DEFAULT_NAMESPACE)
   public String getName ()
   {
@@ -136,5 +149,4 @@ public class Address
   {
     this.contact = contact;
   }
-
 }
