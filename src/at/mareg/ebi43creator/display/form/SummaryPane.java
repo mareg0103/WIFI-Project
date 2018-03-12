@@ -5,19 +5,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 import at.mareg.ebi43creator.display.form.dialogs.ShowErrorFieldsDialog;
 import at.mareg.ebi43creator.display.form.dialogs.ShowRequiredFieldsDialog;
-import at.mareg.ebi43creator.display.form.discount.DiscountLine;
 import at.mareg.ebi43creator.display.form.help.HelpArea;
 import at.mareg.ebi43creator.display.resources.Data;
 import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.display.utilities.FormElementCreator;
 import at.mareg.ebi43creator.display.utilities.RequiredAndErrorHelper;
-import at.mareg.ebi43creator.invoicedata.InvoiceData;
 import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
-import at.mareg.ebi43creator.invoicedata.payment.Discount;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -86,7 +82,7 @@ public class SummaryPane extends BorderPane
     summaryArea = new SummaryArea (rm);
 
     /*
-     * Rigth Area of BorderPane
+     * Right Area of BorderPane
      */
     grid = new GridPane ();
     grid.setPadding (Data.BASEPANE_PADDING);
@@ -198,89 +194,6 @@ public class SummaryPane extends BorderPane
         this.setCenter (summaryArea);
         this.setRight (grid);
       }
-    }
-  }
-
-  /*
-   * Test methods to show some invoice data, remove before deployment
-   */
-  private void showInvoiceData ()
-  {
-    final InvoiceData id = rm.getInvoiceData ();
-
-    System.out.println ("DocumentType: " + id.getDocumentType ());
-    System.out.println ("InvoiceNumber: " + id.getInvoiceNumber ());
-    System.out.println ("BillerName: " + id.getBiller ().getAddress ().getName ());
-    System.out.println ("Auftragsreferenz: " + id.getInvoiceRecipient ().getOrderReference ().getOrderId ());
-    System.out.println ("Lieferdatum: " + id.getDelivery ().getDeliveryDate ());
-    System.out.println ("Rechnungswährung: " + id.getInvoiceCurrency ());
-    System.out.println ("Auftragsreferenz ist Bundbestellnummer: " +
-                        id.getInvoiceRecipient ().getOrderReference ().isOrderIDGovernmentOrderNumber ());
-  }
-
-  private void showRequiredForLines ()
-  {
-    System.out.println ("Required Fields von Zeilen eingetragen:");
-    RequiredAndErrorHelper.showLineReqMap ();
-
-    System.out.println ();
-  }
-
-  private void showError ()
-  {
-    System.out.println ("Fehlerhafte Felder:");
-    RequiredAndErrorHelper.showErrorMap ();
-    System.out.println ();
-
-  }
-
-  private void showRequired ()
-  {
-    System.out.println ("Required Fields eingetragen:");
-    RequiredAndErrorHelper.showReqMap ();
-    System.out.println ();
-  }
-
-  private void showDiscountLineRequired ()
-  {
-    System.out.println ("Required discount Fields eingetragen:");
-    RequiredAndErrorHelper.showDiscountLineReqMap ();
-    System.out.println ();
-  }
-
-  private void showSurchargeLineRequired ()
-  {
-    System.out.println ("Required Surcharge Fields eingetragen:");
-    RequiredAndErrorHelper.showSurchargeLineReqMap ();
-    System.out.println ();
-  }
-
-  private void showDiscounts ()
-  {
-    if (rm.getInvoiceData ().getPaymentConditions () != null)
-    {
-      final List <Discount> dl = rm.getInvoiceData ().getPaymentConditions ().getDiscounts ();
-      final List <DiscountLine> dll = rm.getSurchargeDiscountPane ().getDiscountArea ().getDiscountLineList ();
-
-      if (dl != null)
-      {
-        System.out.println ("Eingetragene Discounts in InvoiceData/PaymentConditions/discountList:");
-        for (final Discount d : dl)
-        {
-          System.out.println ("  " + d);
-        }
-        System.out.println ();
-
-        if (dl != null)
-        {
-          System.out.println ("Eingetragene DiscountLines in SurchargeDiscountPane/DiscountArea/discountLineList:");
-          for (final DiscountLine d : dll)
-          {
-            System.out.println ("  " + d.toString ());
-          }
-        }
-      }
-
     }
   }
 

@@ -309,7 +309,6 @@ public class SummaryArea extends BasePane
     }
 
     final Address deliveryAddress = id.getDelivery ().getAddress ();
-    System.out.println ("DeliveryAdress: " + deliveryAddress);
     if (deliveryAddress != null)
     {
       final Label deliveryNameDescription = FormElementCreator.getStandardLabel ("Name:", standardInsets);
