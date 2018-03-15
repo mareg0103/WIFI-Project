@@ -49,7 +49,6 @@ public class SummaryPane extends BorderPane
   private GridPane grid;
   private Button showRequiredFieldsButton;
   private Button showErroneousFieldsButton;
-  private Label invoiceNameLabel;
   private TextField invoiceNameField;
   private Button saveInvoiceAndCloseButton;
 
@@ -167,7 +166,6 @@ public class SummaryPane extends BorderPane
           if (elementID.equals (EFormElement.SUMMARY_SAVENAME_TEXTFIELD.getID ()))
           {
             l = FormElementCreator.getStandardLabel (labelText + (isRequired ? "*" : ""), new Insets (20, 0, 0, 0));
-            invoiceNameLabel = l;
 
             t = FormElementCreator.getStandardTextField (elementID, isRequired);
             invoiceNameField = t;

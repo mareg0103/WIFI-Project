@@ -38,6 +38,7 @@ public final class FormFiller
     rm = resman;
 
     LoadMethodMapper.setInvoiceData (id);
+    LoadMethodMapper.setResourceManager (resman);
   }
 
   /*

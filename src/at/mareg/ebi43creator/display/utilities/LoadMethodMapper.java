@@ -1,5 +1,6 @@
 package at.mareg.ebi43creator.display.utilities;
 
+import at.mareg.ebi43creator.display.resources.ResourceManager;
 import at.mareg.ebi43creator.invoicedata.InvoiceData;
 import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
 
@@ -26,6 +27,11 @@ public final class LoadMethodMapper
   private static InvoiceData invoiceData;
 
   /*
+   * Resource manager instance
+   */
+  private static ResourceManager resourceManager;
+
+  /*
    * No instantiation, only static methods
    */
   private LoadMethodMapper ()
@@ -47,12 +53,18 @@ public final class LoadMethodMapper
         value = invoiceData.getInvoiceRecipient ().getOrderReference ().getOrderId ();
         break;
 
+      /*
+       * Special case order reference date, set to null
+       */
       case ORDER_REFERENCEDATE:
-        value = invoiceData.getInvoiceRecipient ().getOrderReference ().getReferenceDate ();
+        invoiceData.getInvoiceRecipient ().getOrderReference ().setReferenceDate (null);
         break;
 
+      /*
+       * Special case order reference description, set to null
+       */
       case ORDER_DESCRIPTION:
-        value = invoiceData.getInvoiceRecipient ().getOrderReference ().getDescription ();
+        invoiceData.getInvoiceRecipient ().getOrderReference ().setDescription (null);
         break;
 
       case SUPPLIER_ID:
@@ -64,6 +76,13 @@ public final class LoadMethodMapper
        */
       case INVOICE_NUMBER:
         invoiceData.setInvoiceNumber (null);
+        break;
+
+      /*
+       * Special case invoice date, set to current date
+       */
+      case INVOICE_DATE:
+        invoiceData.setInvoiceDate (resourceManager.getInvoiceDateManager ().getCurrentDateAsString ());
         break;
 
       /*
@@ -91,6 +110,7 @@ public final class LoadMethodMapper
 
       case BILLER_ZIP:
         value = invoiceData.getBiller ().getAddress ().getZip ();
+        break;
 
       case BILLER_TOWN:
         value = invoiceData.getBiller ().getAddress ().getTown ();
@@ -125,6 +145,7 @@ public final class LoadMethodMapper
 
       case INVOICERECIPIENT_ZIP:
         value = invoiceData.getInvoiceRecipient ().getAddress ().getZip ();
+        break;
 
       case INVOICERECIPIENT_TOWN:
         value = invoiceData.getInvoiceRecipient ().getAddress ().getTown ();
@@ -166,6 +187,7 @@ public final class LoadMethodMapper
 
       case DELIVERY_ZIP:
         value = invoiceData.getDelivery ().getAddress ().getZip ();
+        break;
 
       case DELIVERY_TOWN:
         value = invoiceData.getDelivery ().getAddress ().getTown ();
@@ -221,5 +243,13 @@ public final class LoadMethodMapper
   public static void setInvoiceData (final InvoiceData id)
   {
     invoiceData = id;
+  }
+
+  /*
+   * Set current resource manager instance
+   */
+  public static void setResourceManager (final ResourceManager rm)
+  {
+    resourceManager = rm;
   }
 }

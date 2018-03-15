@@ -808,8 +808,12 @@ public class SummaryArea extends BasePane
       {
         final StringBuilder sb = new StringBuilder ();
 
-        sb.append (TextFieldHelper.getTwoDecimalsStringFromString (dl.getDiscountPercent ().toString ()) +
-                   "% bei Bezahlung bis ");
+        final Double discountPercent = dl.getDiscountPercent ();
+        if (discountPercent != null)
+          sb.append (TextFieldHelper.getTwoDecimalsStringFromString (discountPercent.toString ()) +
+                     "% bei Bezahlung bis ");
+        else
+          sb.append ("(Keine Prozent angegeben)");
 
         final String ifPaidUntil = dl.getIfPaidUntil ();
         if (ifPaidUntil == null)
@@ -998,7 +1002,7 @@ public class SummaryArea extends BasePane
     grid.add (netPriceAmountLabel, gridCol, gridRow);
     _incrementGridCol (bound);
 
-    final String lineSurcharge = (line.getSurcharge () == null ? "" : line.getSurcharge ().toString ());
+    final String lineSurcharge = (line.getSurcharge () == null ? "" : TextFieldHelper.getTwoDecimalsStringFromDouble (line.getSurcharge ()));
     final Label surchargeLabel = FormElementCreator.getStandardLabel (lineSurcharge, lineSummaryInsets);
     grid.add (surchargeLabel, gridCol, gridRow);
     _incrementGridCol (bound);

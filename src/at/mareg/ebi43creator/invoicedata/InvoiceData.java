@@ -107,7 +107,7 @@ public class InvoiceData
     invoiceCurrency = ECurrency.EURO.getInvoiceCurrencyShort ();
     language = Data.INVOICE_LANGUAGE;
     invoiceNumber = null;
-    invoiceDate = idm.getCurrentDateAsString ();
+    invoiceDate = this.idm.getCurrentDateAsString ();
 
     delivery = new Delivery ();
     delivery.setInvoiceDateManager (idm);

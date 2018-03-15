@@ -139,6 +139,17 @@ public final class RequiredAndErrorHelper
                        "Tab " + Data.TAB_DETAILS_DATA + "-rechter Bereich, Feld UID Rechnungsempfänger");
 
     /*
+     * Surcharge data
+     */
+    translatorMap.put (EFormElement.SURCHARGE_VALUE.getID (), "Betrag des Auf-/Abschlags");
+
+    /*
+     * Discount data
+     */
+    translatorMap.put (EFormElement.DISCOUNT_PERCENT.getID (), "Skontoprozente");
+    translatorMap.put (EFormElement.DISCOUNT_UNTIL_DATE.getID (), "Skontodatum");
+
+    /*
      * Summary - right area
      */
     translatorMap.put (EFormElement.SUMMARY_SAVENAME_TEXTFIELD.getID (),

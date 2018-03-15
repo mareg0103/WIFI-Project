@@ -4,7 +4,6 @@ import java.util.List;
 
 import at.mareg.ebi43creator.display.form.invoicelines.InvoiceLine;
 import at.mareg.ebi43creator.display.resources.Data;
-import at.mareg.ebi43creator.invoicedata.InvoiceData;
 import at.mareg.ebi43creator.invoicedata.details.ListLineItem;
 import at.mareg.ebi43creator.invoicedata.details.SurchargeListLineItem;
 import at.mareg.ebi43creator.invoicedata.enums.EFormElement;
@@ -24,12 +23,7 @@ public final class InvoiceLineFiller
    * @author Martin Regitnig
    */
 
-  /*
-   * Invoice data instance
-   */
-  private static InvoiceData invoiceData;
-
-  /*
+   /*
    * No instantiation, only static methods
    */
   private InvoiceLineFiller ()
@@ -169,13 +163,5 @@ public final class InvoiceLineFiller
     }
 
     il.calculateLine ();
-  }
-
-  /*
-   * Set the current invoice data instance
-   */
-  public static void setInvoiceData (final InvoiceData id)
-  {
-    invoiceData = id;
   }
 }
