@@ -151,6 +151,7 @@ public class SurchargeDiscountPane extends BorderPane
             v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, new Insets (20, 0, 0, 0)));
 
             totalNetField = t;
+            totalNetField.setEditable(false);
           }
 
           if (elementID.equals (EFormElement.SURCHARGE_DISCOUNT_RIGHT_TOTALGROSSAMOUNT.getID ()))
@@ -158,6 +159,7 @@ public class SurchargeDiscountPane extends BorderPane
             v.getChildren ().add (FormElementCreator.getStandardLabel (labelText, null));
 
             totalGrossField = t;
+            totalGrossField.setEditable(false);
           }
 
           v.getChildren ().add (t);
